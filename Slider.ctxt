@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Slider
+comment1.params=min\ max\ length\ world\ type\ color\ mouseX
+comment1.target=Slider(float,\ float,\ int,\ greenfoot.World,\ java.lang.String,\ greenfoot.Color,\ int)
+comment2.params=world
+comment2.target=void\ addedToWorld(greenfoot.World)
+comment3.params=
+comment3.target=void\ act()
+comment4.params=
+comment4.target=void\ moveSlider()
+comment5.params=
+comment5.target=void\ updateButton()
+comment6.params=amount
+comment6.target=void\ setValue(int)
+comment7.params=
+comment7.target=void\ drawSlider()
+comment8.params=radius
+comment8.target=void\ makeCircle(int)
+comment9.params=
+comment9.target=void\ drawIncrementLines()
+numComments=10
