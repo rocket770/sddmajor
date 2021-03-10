@@ -13,6 +13,8 @@ public class Wall extends AdvancedActor {
         } else {
             setImage(new GreenfootImage(1, length));
         }
+        GreenfootImage img = side?new GreenfootImage(legnth,1):new GreenfootImage(1,length);
+        setImage(img);
         getImage().fill();
         this.cell = cell;
         this.index = arrayIndex;
