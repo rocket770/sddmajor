@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=Wall
+comment1.params=length\ side\ cell\ arrayIndex
+comment1.target=Wall(int,\ boolean,\ Cell,\ int)
+comment2.params=
+comment2.target=Cell\ getCell()
+comment3.params=
+comment3.target=int\ getIndex()
+comment4.params=
+comment4.target=void\ makeTransparnet()
+numComments=5
