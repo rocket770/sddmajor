@@ -24,6 +24,7 @@ public class LevelEditor extends MyWorld
         for(Wall wall: world.getObjects(Wall.class)){
             wall.makeTransparnet();
         }   
+        addObject(new Overlay(),getWidth()/2,getHeight()/2);
     }
 
     public void act(){

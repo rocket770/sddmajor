@@ -19,7 +19,7 @@ public class Pointer extends Actor
      */
     Pointer(){
         GreenfootImage img = new GreenfootImage(5,5);
-        img.fill();
+        //img.fill();
         setImage(img);
     }
 
@@ -33,7 +33,6 @@ public class Pointer extends Actor
         mouse = Greenfoot.getMouseInfo();
         followMouse();
         removeWall();
-
     }   
 
     private void followMouse(){
@@ -76,7 +75,7 @@ public class Pointer extends Actor
 
         // }
         world = (LevelEditor)getWorld();
-        if(mouse != null &&Greenfoot.mouseClicked(null) ){
+        if(mouse != null &&Greenfoot.mouseClicked(null)&& !world.settings.pause){
 
             for(Cell cell: world.grid){
                 int x = cell.x; // current cell's values

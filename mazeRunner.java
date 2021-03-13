@@ -106,7 +106,7 @@ public class mazeRunner extends AdvancedActor
         }
     }
     //moves the mazeRunner forceording to the brains directions
-    public void move() {
+    public void search() {
         if (brain.directions.length > brain.step) {//if there are still directions left then set the forceeleration as the next PVector in the direcitons array
             force = brain.directions[brain.step];
             brain.step++;
@@ -136,7 +136,7 @@ public class mazeRunner extends AdvancedActor
 
     public void checkDeath(){
         if (!dead && !reachedGoal) {
-            move();
+            search();
             if (location.x()< 2|| location.y()<2 || location.x()>width-2 || location.y()>height -2) {//if near the edges of the window then kill it 
                 dead = true;
             }

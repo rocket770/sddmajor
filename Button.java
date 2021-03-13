@@ -97,7 +97,7 @@ public class Button extends Actor
         updateSlider();
         reDraw();
     }
-    
+
     private void checkClick(){
         try{
             mouse = Greenfoot.getMouseInfo();
@@ -106,10 +106,8 @@ public class Button extends Actor
                 int my = mouse.getY();
                 if(world instanceof Menu) {         // call different methods depending on the world
                     clickOnMenu(mx,my);
-                } else if(world instanceof MyWorld){      
+                } else{      
                     clickOnGame(mx,my);
-                } else{  // this is wrong because level editors insance is myworld
-                    clickOnLevelEditor(mx,my);
                 }
             }
         }catch(Exception e){
@@ -155,48 +153,43 @@ public class Button extends Actor
         if(mx > x && mx< x+dimensions*3 && my > y && my < y+dimensions) {
             switch(text){
                 case "Info": 
-                out = ("Generation: " +runners.gen +"\nFit Sum: "+runners.fitnessSum+"\nDot Amount: "+runners.runners.length+"\nAvg Fit: "+(runners.fitnessSum/runners.runners.length)+"\nBest Fit: "+runners.bestFitness+"\nLowest Step: "+runners.lowest); 
+                if(world.getClass().equals(MyWorld.class)){
+                    out = ("Generation: " +runners.gen +"\nFit Sum: "+runners.fitnessSum+"\nDot Amount: "+runners.runners.length+"\nAvg Fit: "+(runners.fitnessSum/runners.runners.length)+"\nBest Fit: "+runners.bestFitness+"\nLowest Step: "+runners.lowest); 
+                }else{
+                    out = "Click on or near a line or edge to toggle that wall!\nSave the map when you're finished!";
+                }
                 world.showText(out,250,250);
                 break;
                 case "Save Map":
-                if(Greenfoot.mouseClicked(null)){
-                    thisWorld.saveMap();
-                    text = "Saved!";
-                    t.changeText(text);
-                }
+                save();
                 break;
                 case "Show":
                 if(Greenfoot.mouseClicked(null)) thisWorld.showingBest = !thisWorld.showingBest;
                 break;
                 case "Exit":
                 if(Greenfoot.mouseClicked(null)){
-                    if(world instanceof MyWorld){
+                    if(world.getClass().equals(MyWorld.class)){
                         thisWorld.network.colBox.stopThread();  // tell the thread to stop
                         waitForStop = true; // Wait for thread to finish
                         t.changeText("Exiting...");
                         world.showText("Waiting for threads to stop, force quitting \nmay cause corruption \nand require a restart.",350,250);
                     }
+                    else Greenfoot.setWorld(new Menu()); break;
                 }
                 break;
                 case "Settings":
-                if(Greenfoot.mouseClicked(null)){
-                    showSettings();
-                }
+
+                showSettings();
+
                 break;
             }
         } else if(text == "Info"){              //here if we call this from the save button object, that one will never be selected while the info button is, so we must on override the text from the info button class
             world.showText(null,250,250);
         }
         if(t.getText() == "Exiting...") onThreadStop();  // only call from 1 button
+        System.out.println(thisWorld.getObjects(Overlay.class).get(0));
     }
 
-    private void clickOnLevelEditor(int mx, int my){
-        if(mx > x && mx< x+dimensions*3 && my > y && my < y+dimensions && Greenfoot.mouseClicked(null)){
-            switch(text){
-                case "Exit": Greenfoot.setWorld(new Menu());
-            }
-        }
-    }
 
     public void reDraw(){
         world.getBackground().setColor(color);
@@ -246,13 +239,23 @@ public class Button extends Actor
         Greenfoot.setWorld(new Menu()); // switch world;
     }
 
-    private void showSettings(){
-        pause = true;
-        if(pause && Greenfoot.mouseClicked(null) && ++coolDown > 1) { // activatr on toggle clicks anywhere
-            pause = false;
-            coolDown = 0;
+    private void save(){
+        if(Greenfoot.mouseClicked(null)){
+            thisWorld.saveMap();
+            text = "Saved!";
+            t.changeText(text);
         }
-        thisWorld.getObjects(Overlay.class).get(0).changeImage();
+    }
+
+    private void showSettings(){
+        if(Greenfoot.mouseClicked(null)){
+            pause = true;
+            if(pause && Greenfoot.mouseClicked(null) && ++coolDown > 1) { // activatr on toggle clicks anywhere
+                pause = false;
+                coolDown = 0;
+            }
+            thisWorld.getObjects(Overlay.class).get(0).changeImage();
+        }
     }
 
     // Update our vairables

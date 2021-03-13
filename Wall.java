@@ -8,12 +8,7 @@ public class Wall extends AdvancedActor {
     int index;
     public Wall(int length, boolean side ,Cell cell, int arrayIndex) {
         getImage().setColor(Color.BLACK);//new greenfoot.Color(0, 0, 0, 80));
-        if(!side){
-            setImage(new GreenfootImage(length, 1));
-        } else {
-            setImage(new GreenfootImage(1, length));
-        }
-        GreenfootImage img = side?new GreenfootImage(legnth,1):new GreenfootImage(1,length);
+        GreenfootImage img = side?new GreenfootImage(1,length):new GreenfootImage(length,1);
         setImage(img);
         getImage().fill();
         this.cell = cell;
