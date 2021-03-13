@@ -167,29 +167,17 @@ public class Button extends Actor
                 if(Greenfoot.mouseClicked(null)) thisWorld.showingBest = !thisWorld.showingBest;
                 break;
                 case "Exit":
-                if(Greenfoot.mouseClicked(null)){
-                    if(world.getClass().equals(MyWorld.class)){
-                        thisWorld.network.colBox.stopThread();  // tell the thread to stop
-                        waitForStop = true; // Wait for thread to finish
-                        t.changeText("Exiting...");
-                        world.showText("Waiting for threads to stop, force quitting \nmay cause corruption \nand require a restart.",350,250);
-                    }
-                    else Greenfoot.setWorld(new Menu()); break;
-                }
+                exit();
                 break;
                 case "Settings":
-
                 showSettings();
-
                 break;
             }
         } else if(text == "Info"){              //here if we call this from the save button object, that one will never be selected while the info button is, so we must on override the text from the info button class
             world.showText(null,250,250);
         }
         if(t.getText() == "Exiting...") onThreadStop();  // only call from 1 button
-        System.out.println(thisWorld.getObjects(Overlay.class).get(0));
     }
-
 
     public void reDraw(){
         world.getBackground().setColor(color);
@@ -220,19 +208,31 @@ public class Button extends Actor
         if(type != "switchWorld"  && text != "Set Recc" && text != "Import Map") world.showText("Value: "+value, x+dimensions*3/2,y+dimensions*2/3);
     }
 
+    private void exit(){
+        if(Greenfoot.mouseClicked(null)){
+            if(world.getClass().equals(MyWorld.class)){
+                thisWorld.network.colBox.stopThread();  // tell the thread to stop
+                waitForStop = true; // Wait for thread to finish
+                t.changeText("Exiting...");
+                world.showText("Waiting for threads to stop, force quitting \nmay cause corruption \nand require a restart.",350,250);
+            }
+            else Greenfoot.setWorld(new Menu());
+        }
+    }
+
     // Kill the thread and remove its traces, if not done correctly will create major CPU issues and require a taskmanager quit on open SDK
     private void onThreadStop(){
         if(waitForStop && thisWorld.network.colBox.stopped){    // wait for stop flag
-            exit();
+            switchOnThread();
         }
         if(++coolDown %700 == 0 && waitForStop) {                           // if a thread has failed to stop prematurely, the java vm will die
             System.out.println("Warning: Couldn't kill the thread in time, force quitting instead!");
-            exit();
+            switchOnThread();
         }
         world.showText("Timing Out: "+coolDown,100,300);
     }
 
-    private void exit(){
+    private void switchOnThread(){
         thisWorld.network.col.interrupt();  // kill background process
         thisWorld.network.col.stop();   // kill the thread 
         thisWorld.removeObjects(thisWorld.getObjects(CollisionRayCast.class)); // remove object trace (just an extra precaution)

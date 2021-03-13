@@ -72,7 +72,7 @@ public class Network extends Actor
     }
 
     //calculate all the fitnesses
-    public void calculateFitness() {
+    public void calculateAllFitnesses() {
         for (int i = 0; i< runners.length; i++) {
             runners[i].calculateFitness();
         }
@@ -143,9 +143,8 @@ public class Network extends Actor
             runners[i].mutate();
         }
     }
-
-    //finds the dot with the highest fitness and sets it as the best dot
-    private void setBest() {
+    
+    private int getMaxIndexOfMaxFitness(){
         float max = 0;
         int maxIndex = 0;
         for (int i = 0; i< runners.length; i++) {
@@ -154,6 +153,12 @@ public class Network extends Actor
                 maxIndex = i;
             }
         }
+        return maxIndex;
+    }
+
+    //finds the dot with the highest fitness and sets it as the best dot
+    private void setBest() {
+        int maxIndex = getMaxIndexOfMaxFitness();
         bestmazeRunner = maxIndex;
         bestFitness = runners[bestmazeRunner].fitness;
         //if this dot reached the goal then reset the minimum number of steps it takes to get to the goal

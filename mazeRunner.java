@@ -175,7 +175,7 @@ public class mazeRunner extends AdvancedActor
                     Cell nextCell = world.grid.get(index+1);
                     int pathx = nextCell.x;
                     int pathy = nextCell.y;
-                    distanceNextPoint = 1.0f/(float)(Math.hypot(location.x()-(pathx+(world.size/2)), location.y()-(pathy+(world.size/2))));     // inverse so lower is better
+                    distanceNextPoint = 1.0f/(float)(Math.hypot(location.x()-(pathx+(world.size/2)), location.y()-(pathy+(world.size/2)))) *100;     // inverse so lower is better
                     fitness = newFitness+(distanceNextPoint*distanceNextPoint); // we sqaure the distance to the next goal to encourge it being closer
                 }
             }

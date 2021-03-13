@@ -11,7 +11,7 @@ public class Pointer extends Actor
 {
     private int mx,my;
     private MouseInfo mouse;
-    private int hitboxOffset = 15;
+    private int hitboxOffset;
     LevelEditor world;
     /**
      * Act - do whatever the Pionter wants to do. This method is called whenever
@@ -26,6 +26,7 @@ public class Pointer extends Actor
     protected void addedToWorld(World world)
     {
         //world = (LevelEditor)getWorld(); // for some reason this doesnt work when the world is a subclass, thanks greenfoot :/
+        hitboxOffset =((LevelEditor)getWorld()).size /5;
     }
 
     public void act() 

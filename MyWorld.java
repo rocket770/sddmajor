@@ -160,7 +160,7 @@ public class MyWorld extends UIWorld
         if(finishedDrawing && found){
             if(!createdPop){
                 network = new Network(population);
-                for(Cell grid: grid) grid.show();
+                //for(Cell grid: grid) grid.show();
                 addObject(new Wall(600, false, null, -1), 300, 0); // borders
                 addObject(new Wall(600, false, null, -1), 300, 599);
                 addObject(new Wall(600, true, null, -1), 599, 300);
@@ -192,7 +192,7 @@ public class MyWorld extends UIWorld
     private void controllPop(){
         if (network.allmazeRunnersDead()) {
             //genetic algorithm
-            network.calculateFitness();
+            network.calculateAllFitnesses();
             network.naturalSelection();
             network.mutation();
         } else if(!settings.pause) {
