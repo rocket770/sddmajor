@@ -9,15 +9,15 @@ import java.util.Random;
  */
 public class Network extends Actor
 {
-    mazeRunner[] runners;
-    float fitnessSum;
-    int gen = 1;
-    int lowest;
-    int bestmazeRunner = 0;//the index of the best dot in the runners[]
-    float bestFitness = 0.0f;
-    int minStep = 1200;
-    CollisionRayCast colBox;
-    Thread col;
+    public mazeRunner[] runners;
+    public float fitnessSum;
+    public int gen = 1;
+    public int lowest;
+    public int bestmazeRunner = 0;//the index of the best dot in the runners[]
+    public float bestFitness = 0.0f;
+    private int minStep = 1200;
+    public CollisionRayCast colBox;
+    public Thread col;
     MyWorld world = ((MyWorld)getWorld());
 
     Network(int size) {
@@ -143,7 +143,7 @@ public class Network extends Actor
             runners[i].mutate();
         }
     }
-    
+
     private int getMaxIndexOfMaxFitness(){
         float max = 0;
         int maxIndex = 0;

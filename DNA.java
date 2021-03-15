@@ -8,10 +8,10 @@ import java.util.Random;
  */
 public class DNA extends Actor
 {
-    Vector[] directions;//array of vectors which get the dot to the goal (hopefully)
-    int step = 0;
-    Vector vector;
-    Random random = new Random();
+    public Vector[] directions;//array of vectors which get the dot to the goal (hopefully)
+    public int step = 0;
+    private Vector vector;
+    private Random random = new Random();
     MyWorld world = ((MyWorld)getWorld());
     DNA(int size) {
         world = (MyWorld)MyWorld.world;
@@ -20,7 +20,7 @@ public class DNA extends Actor
         randomize();
     }
     //sets all instructions to a vector pointed to a random angle. Later on these will change as the computer learns. 
-    void randomize() {
+    public void randomize() {
         for (int i = 0; i< directions.length; i++) {
             float randomAngle = random.nextFloat()*(float)(2.0f*Math.PI);
             directions[i] = vector.fromAngle(randomAngle);
@@ -28,7 +28,7 @@ public class DNA extends Actor
     }
 
     //copy directions array to new DNA copy
-    DNA transform(){ // no crossover, rely on mutation. We do this with the best node but still mutate it later on. 
+    public DNA transform(){ // no crossover, rely on mutation. We do this with the best node but still mutate it later on. 
         DNA clone = new DNA(directions.length);
         for (int i = 0; i < directions.length; i++) {
             clone.directions[i] = directions[i].copy();
@@ -36,7 +36,7 @@ public class DNA extends Actor
         return clone;
     }
 
-    DNA crossOver(){
+    public DNA crossOver(){
         DNA clone = new DNA(directions.length);
         mazeRunner best = world.network.runners[world.network.bestmazeRunner];  // utilize best found runner to breed with candidate
         // peform uniform crossover with a heavy bais towards selected candiadate

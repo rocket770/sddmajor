@@ -1,16 +1,16 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class Slider extends Actor{
-    float min, max;
+    private float min, max;
     private int x,y;
-    int radius = 50;
-    World world;
-    float value; 
-    int length;
+    private int radius = 50;
+    private World world;
+    public float value; 
+    private int length;
     private double mouseX = 50;
-    int lineCount = 4;
-    String type;
-    GreenfootImage img = new GreenfootImage(12,12);
+    private int lineCount = 4;
+    public String type;
+    private GreenfootImage img = new GreenfootImage(12,12);
     private int percentMoved;
     Slider(float min, float max, int length,World world, String type, Color color, int mouseX){
         world.getBackground().setColor(color);

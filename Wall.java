@@ -4,8 +4,8 @@ import rccookie.game.AdvancedActor;
 
 public class Wall extends AdvancedActor {
     private static final long serialVersionUID = 1L;
-    Cell cell;
-    int index;
+    private Cell cell;
+    private int index;
     public Wall(int length, boolean side ,Cell cell, int arrayIndex) {
         getImage().setColor(Color.BLACK);//new greenfoot.Color(0, 0, 0, 80));
         GreenfootImage img = side?new GreenfootImage(1,length):new GreenfootImage(length,1);

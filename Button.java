@@ -209,6 +209,7 @@ public class Button extends Actor
     }
 
     private void exit(){
+        Greenfoot.setSpeed(100);
         if(Greenfoot.mouseClicked(null)){
             if(world.getClass().equals(MyWorld.class)){
                 thisWorld.network.colBox.stopThread();  // tell the thread to stop

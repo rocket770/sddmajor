@@ -267,6 +267,7 @@ public class MyWorld extends UIWorld
             drawCells();
         } else if(!finishedDrawing){
             if(difficulty != 4)makeEasy();
+            Greenfoot.setSpeed(speed);
             addNeighbour();
             drawCells();
             addObject(new FramesPerSecond(),getWidth()-50, 30);

@@ -16,7 +16,7 @@ public class Menu extends World
     }
     
 
-    void init(){
+    private void init(){
         Greenfoot.start();
         Greenfoot.setSpeed(100);
         getBackground().setColor(Color.WHITE);
@@ -25,7 +25,7 @@ public class Menu extends World
         showText("The file name of the map will be based of the selected world size. It should automatically update absed on the file name",250,250);
     }
 
-    void generateButtons(){
+    private void generateButtons(){
         Button pop = new Button(this, Color.BLUE, 50,200, "Population", "Var", 350,50); buttons[0] = pop;
         Button map = new Button(this, Color.RED, 225,200, "Map Size", "Var", 75,10); buttons[1] = map;
         Button Speed = new Button(this, Color.GREEN, 400,200, "Speed", "Var", 100,20); buttons[2] = Speed;
@@ -40,13 +40,13 @@ public class Menu extends World
         
     }
     
-    void addSliders(){
+    private void addSliders(){
        Slider popSlider = new Slider(50,2500, 150, this, "Population", new Color(100,100,255), 50);
         addObject(popSlider,50,300);
         Slider speedSlider = new Slider(20,100, 150,this, "Speed", new Color(100,255,100),400);
         addObject(speedSlider,400,300); 
-        Slider difficultySlider = new Slider(0,4, 150, this, "Difficulty", new Color(100,255,100),400);
-        //addObject(difficultySlider,400,300);
+       // Slider difficultySlider = new Slider(0,4, 150, this, "Difficulty", new Color(100,255,100),400);
+       // addObject(difficultySlider,400,300);
     }
 
 }

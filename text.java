@@ -43,7 +43,6 @@ public class text extends Actor
     protected void addedToWorld(World world){
         textImage = new GreenfootImage(text, fontSize, color, new Color(0, 0, 0, 0));
         image = new GreenfootImage(textImage.getWidth()+12, 36);
-        
         x= getX();
         y = getY();
         rePaint();
