@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class text extends Actor
+public class Text extends Actor
 {
     /**
      * Act - do whatever the text wants to do. This method is called whenever
@@ -20,21 +20,21 @@ public class text extends Actor
     public int state =1;
     private Color color = Color.BLACK;
     private int fontSize = 24;
-    public text(String text){
+    public Text(String text){
         this.text = text;
     }
     
-    public text(String text, int fontSize){
+    public Text(String text, int fontSize){
         this.text = text;
         this.fontSize = fontSize;
     }
 
-    public text(String text, Color color){
+    public Text(String text, Color color){
         this.text = text;
         this.color = color;
     }
     
-    public text(String text, Color color, int fontSize){
+    public Text(String text, Color color, int fontSize){
         this.text = text;
         this.color = color;
         this.fontSize = fontSize;
@@ -59,6 +59,13 @@ public class text extends Actor
     public void changeText(String text){
         this.text = text;
         textImage = new GreenfootImage(text, fontSize, color, new Color(0, 0, 0, 0));
+        image = new GreenfootImage(textImage.getWidth()+12, 36);
+        rePaint();
+    }
+    
+    public void changeSize(int size){
+        this.text = text;
+        textImage = new GreenfootImage(text, size, color, new Color(0, 0, 0, 0));
         image = new GreenfootImage(textImage.getWidth()+12, 36);
         rePaint();
     }

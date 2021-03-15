@@ -37,7 +37,7 @@ public class Button extends Actor
     public boolean pause = false;
     private Button[] buttons;
     private  Color incorrectColor;
-    private text t;
+    private Text t;
     public Button(World world, Color color, int x, int y, String text, String type, int reccomended, int min) 
     {
         this.world= world; 
@@ -70,7 +70,7 @@ public class Button extends Actor
         this.dimensions = dimensions;
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x,y,dimensions*3,dimensions);
-        t = new text(this.text);
+        t = new Text(this.text);
         world.addObject(t,x+dimensions*3/2,y+dimensions*2/5);
         updateBox();
     } 
@@ -87,7 +87,7 @@ public class Button extends Actor
         this.dimensions = dimensions;
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x,y,dimensions*3,dimensions);
-        t = new text(this.text,fontSize);
+        t = new Text(this.text,fontSize);
         world.addObject(t,x+dimensions*3/2,y+dimensions*2/5);
         updateBox();
     } 

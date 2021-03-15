@@ -27,7 +27,7 @@ public class Menu extends World
 
     private void generateButtons(){
         Button pop = new Button(this, Color.BLUE, 50,200, "Population", "Var", 350,50); buttons[0] = pop;
-        Button map = new Button(this, Color.RED, 225,200, "Map Size", "Var", 75,10); buttons[1] = map;
+        Button map = new Button(this, Color.RED, 225,200, "Map Size", "Var", 75,25); buttons[1] = map;
         Button Speed = new Button(this, Color.GREEN, 400,200, "Speed", "Var", 100,20); buttons[2] = Speed;
         Button setReccomended = new Button(this, new Color(128,128,128), 139,375, "Set Recc", 50, 24); buttons[3] = setReccomended;
         Button switchWorld = new Button(this, Color.PINK, 313,375, "Enter World", "switchWorld", buttons, new Color(128,128,128), 50); buttons[4] = switchWorld;

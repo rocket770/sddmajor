@@ -64,7 +64,7 @@ public class MyWorld extends UIWorld
     public Button settings;
     public boolean showingBest;
     public int difficulty = 2;  // make 2
-    public text[] t;
+    public Text[] t;
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw)
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
@@ -272,8 +272,8 @@ public class MyWorld extends UIWorld
             drawCells();
             addObject(new FramesPerSecond(),getWidth()-50, 30);
             makeButtons();
-            finishedDrawing = true;
             showText("",getWidth()/2,getHeight()-75);
+            finishedDrawing = true;
         }
     }
 
@@ -409,9 +409,9 @@ public class MyWorld extends UIWorld
     }
 
     private void drawBest(){
-        t = new text[bestPath.size()];
+        t = new Text[bestPath.size()];
         for(int i = 1; i < bestPath.size(); i++){
-            t[i] = new text(""+bestPath.get(i).getNumber());
+            t[i] = new Text(""+bestPath.get(i).getNumber());
            addObject(t[i],bestPath.get(i).x+size/2,bestPath.get(i).y+size/2);
         }
         drawCells();
