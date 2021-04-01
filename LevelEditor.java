@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.List;
 /**
  * Write a description of class LevelEditor here.
  * 
@@ -10,11 +11,11 @@ public class LevelEditor extends MyWorld
     /**
      * Constructor for objects of class LevelEditor
      */
-    public LevelEditor(Button[] buttons)
+    public LevelEditor(List values)
     {    
-        super(buttons, 600, 600);
+        super(values, 600, 600);
         canGenGrid = false;
-        this.buttons = buttons;
+        this.values = values;
         makeCells(false);
         addObject(new FramesPerSecond(),getWidth()-50, 30);
         getButtonVar();

@@ -1,5 +1,7 @@
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Stack;
@@ -30,7 +32,7 @@ public class MyWorld extends UIWorld
     //Genetic Evolution
     private int population;
     protected int speed;
-    protected Button[] buttons;
+    protected List<value> values;
     private int gx, gy;
     public static MyWorld world;
     public Network network;
@@ -63,45 +65,45 @@ public class MyWorld extends UIWorld
     private Button exitOption;
     public Button settings;
     public boolean showingBest;
-    public int difficulty = 2;  // make 2
+    public int difficulty;  // make 2
     public Text[] t;
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw)
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
     // A thread always will run in the background but resume code when this world is active. If you do, it may cause a runtime error or decreased FPS, just restart the program!
 
-    public MyWorld(Button[] buttons)
+    public MyWorld(List values)
     {    
         // Create a new world with 600x600 cells with a cell size of 1x1 pixels.
         super(600, 600, 1);
         world = this; 
-        this.buttons = buttons;
+        this.values = values;
         getButtonVar();
         initMap(false, true);
         setPaintOrder(CollisionRayCast.class, Wall.class, mazeRunner.class);
 
     }
 
-    public MyWorld(Button[] buttons, boolean[] Walls)
+    public MyWorld(List values, boolean[] Walls)
     {    
         // Create a new world with 600x600 cells with a cell size of 1x1 pixels.
         super(600, 600, 1);
         canGenGrid = false;
         world = this; 
         this.Walls = Walls;
-        this.buttons = buttons;
+        this.values = values;
         getButtonVar(); 
         difficulty = 4;
         initMap(true, true);
         setPaintOrder(CollisionRayCast.class, Wall.class, mazeRunner.class);
     }
 
-    public MyWorld(Button[] buttons, int x, int y)
+    public MyWorld(List values, int x, int y)
     {    
         // Create a new world with 600x600 cells with a cell size of 1x1 pixels.
         super(x, y, 1);
         world = this; 
-        this.buttons = buttons;
+        this.values = values;
         getButtonVar();
         initMap(false,false);
     }
@@ -178,15 +180,22 @@ public class MyWorld extends UIWorld
         }return (float)((finishedSum/grid.size())*50.0f);   //  *100  /2
     }
 
-    protected void getButtonVar(){    // take the values from the buttons array we importanded
-        for(int i = 0; i < buttons.length-1; i++){
-            Button button = buttons[i];
-            switch(button.text){
-                case "Population": population =  button.value; break;
-                case "Map Size": size  = button.value; break;
-                case "Speed": speed =  button.value; break;
+    protected void getButtonVar(){    // export the values from the list we importanded
+        // population = 250;
+       // size = 75;
+        // speed = 100;
+        
+        for(value v: values){
+            int val = (int)v.getValue();
+            System.out.println(v.getID() + "val: "+val);
+            switch(v.getID()){
+                case "Population": population =  val; break;
+                case "Map Size": size  = val; break;
+                case "Speed": speed =  val; break;
+                case "difficultySlider": difficulty = val; break;
             }
         }
+        //.out.println(getObjects(value.class).size());
     }
 
     private void controllPop(){
@@ -412,7 +421,7 @@ public class MyWorld extends UIWorld
         t = new Text[bestPath.size()];
         for(int i = 1; i < bestPath.size(); i++){
             t[i] = new Text(""+bestPath.get(i).getNumber());
-           addObject(t[i],bestPath.get(i).x+size/2,bestPath.get(i).y+size/2);
+            addObject(t[i],bestPath.get(i).x+size/2,bestPath.get(i).y+size/2);
         }
         drawCells();
     }

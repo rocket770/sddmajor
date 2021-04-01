@@ -12,14 +12,36 @@ public class Slider extends Actor{
     public String type;
     private GreenfootImage img = new GreenfootImage(12,12);
     private int percentMoved;
-    Slider(float min, float max, int length,World world, String type, Color color, int mouseX){
+    private value v;
+    private String ID;
+    public boolean LinkedToButton;
+    private Text t;
+    public int reccomended;
+    Slider(float min, float max, int length,World world, String type, Color color, int mouseX, String ID, boolean LinkedToButton){
         world.getBackground().setColor(color);
+        value = min;
         this.min = min;
         this.mouseX = mouseX;
         this.max = max;
         this.length = length;
         this.world = world;
         this.type = type;
+        this.ID = ID;
+        this.LinkedToButton = LinkedToButton;
+    }
+    
+    Slider(float min, float max, int length,World world, String type, Color color, int mouseX, String ID, boolean LinkedToButton, int reccomended){
+        world.getBackground().setColor(color);
+        value = min;
+        this.min = min;
+        this.mouseX = mouseX;
+        this.max = max;
+        this.length = length;
+        this.world = world;
+        this.type = type;
+        this.ID = ID;
+        this.LinkedToButton = LinkedToButton;
+        this.reccomended = reccomended;
     }
 
     protected void addedToWorld(World world)
@@ -27,6 +49,14 @@ public class Slider extends Actor{
         x = getX();
         y = getY();
         drawSlider();
+        if(!LinkedToButton){
+            v = new value();
+            getWorld().addObject(v,0,0);
+            v.setID(ID);
+            v.setValue(value);
+            t = new Text(""+value);
+            getWorld().addObject(t,x+75,y+30);
+        }
     }
 
     public void act(){
@@ -41,7 +71,9 @@ public class Slider extends Actor{
                 if(mouseX < x) mouseX = x;
                 if(mouseX > x+length) mouseX = x+length;
                 setLocation((int)mouseX,y);
-                updateButton();
+                if(LinkedToButton){
+                    updateButton();
+                } else updateSlider(); 
             }
         } catch(Exception e){
             return;
@@ -56,11 +88,24 @@ public class Slider extends Actor{
             }
         }
     }
+    
+    private void updateSlider(){
+        value = (int)(((mouseX-x)/length*(max-min))+min);   
+        v.setValue(value);
+        t.changeText(""+value);
+    }
+    
 
     public void setValue(int amount){
         value = amount;
-        mouseX = ((double)(length*(value-min))/(max-min))+x;    // just re-arranged the percent moved equtaion
+        mouseX = ((double)(length*(value-min))/(max-min))+x;    // just re-arranged the percent moved equtaion, in terms of mX honestly i didnt think it would work
         setLocation((int)Math.round(mouseX),y);
+    }
+    
+    public void setReccomended(){
+        setValue(reccomended);
+        v.setValue(value);
+        t.changeText(""+value);
     }
 
     private void drawSlider(){

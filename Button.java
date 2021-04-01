@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.io.*;
 import java.awt.FileDialog;
 import java.awt.Frame;
-
+import java.util.List;
 /**
  * Write a description of class Button here.
  * 
@@ -35,9 +35,9 @@ public class Button extends Actor
     private  boolean hasSize = false; 
     private boolean waitForStop = false; 
     public boolean pause = false;
-    private Button[] buttons;
     private  Color incorrectColor;
     private Text t;
+    private value v;
     public Button(World world, Color color, int x, int y, String text, String type, int reccomended, int min) 
     {
         this.world= world; 
@@ -49,14 +49,13 @@ public class Button extends Actor
         this.color = color;
         this.text = text; 
         this.type = type; 
-        this.buttons = buttons;
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x,y,dimensions*3,dimensions);
         world.showText(text, x+dimensions*3/2,y+dimensions*1/3);
         updateText();
     }    
 
-    public Button(World world, Color color, int x, int y, String text, String type, Button[] buttons, Color incorrectColor, int dimensions) 
+    public Button(World world, Color color, int x, int y, String text, String type, Color incorrectColor, int dimensions) 
     {
         this.world= world; 
         this.x = x;
@@ -66,7 +65,6 @@ public class Button extends Actor
         this.text = text; 
         this.type = type; 
         this.incorrectColor = incorrectColor;
-        this.buttons = buttons;
         this.dimensions = dimensions;
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x,y,dimensions*3,dimensions);
@@ -90,12 +88,22 @@ public class Button extends Actor
         t = new Text(this.text,fontSize);
         world.addObject(t,x+dimensions*3/2,y+dimensions*2/5);
         updateBox();
+
     } 
+
+    protected void addedToWorld(World world){
+        if(type == "Var"){
+            v = new value();
+            getWorld().addObject(v,0,0);
+            v.setID(text);
+        }
+    }
 
     public void act(){
         checkClick();
         updateSlider();
         reDraw();
+        if(type == "Var")v.setValue(value);
     }
 
     private void checkClick(){
@@ -264,18 +272,21 @@ public class Button extends Actor
         for(int i = 0; i < world.getObjects(Button.class).size()-1; i++){
             if(world.getObjects(Button.class).get(i).type != "switchWorld")world.getObjects(Button.class).get(i).value = world.getObjects(Button.class).get(i).reccomended;
         }
+        for(int i = 0; i < world.getObjects(Slider.class).size(); i++){
+            if(!world.getObjects(Slider.class).get(i).LinkedToButton) world.getObjects(Slider.class).get(i).setReccomended();
+        }
         updateText();
     }
 
     private void checkEnterWorld(){
         if(hasEntered()){
-            Greenfoot.setWorld(new MyWorld(buttons));
+            Greenfoot.setWorld(new MyWorld(getValues()));
         } else world.showText("Please enter valid values in each box!",250,450);
     }
 
     private void levelEditor(){
         if(hasEntered()){
-            Greenfoot.setWorld(new LevelEditor(buttons));
+            Greenfoot.setWorld(new LevelEditor(getValues()));
         } else world.showText("Please enter valid values in each box!",250,450);
     }
 
@@ -348,6 +359,11 @@ public class Button extends Actor
         return true;
     }
 
+    private List<value> getValues(){
+        List vals = getWorld().getObjects(value.class);
+        return vals;
+    }
+
     // For map change
     private void getMap(){
         FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);      // Use Library to open file slection dialog
@@ -370,10 +386,10 @@ public class Button extends Actor
             }
             int size = Integer.parseInt(String.valueOf(fd.getFile().charAt(fd.getFile().length()- 6))+String.valueOf(fd.getFile().charAt(fd.getFile().length()- 5))); // Reduce the name to only number
             if(size == 00) size = 100;  // fix value for 100
-            for(Button button : buttons){
-                if(button.text =="Map Size") button.value = size;   // Update the buttons value that contains the map size 
+            for(value v :getWorld().getObjects(value.class)){
+                if(v.getID() =="Map Size") v.setValue(size);   // Update the buttons value that contains the map size 
             }
-            Greenfoot.setWorld(new MyWorld(buttons, fileOutput));
+            Greenfoot.setWorld(new MyWorld(getValues(), fileOutput));
 
         }catch(Exception e){    
             e.printStackTrace();

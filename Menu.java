@@ -30,9 +30,9 @@ public class Menu extends World
         Button map = new Button(this, Color.RED, 225,200, "Map Size", "Var", 75,25); buttons[1] = map;
         Button Speed = new Button(this, Color.GREEN, 400,200, "Speed", "Var", 100,20); buttons[2] = Speed;
         Button setReccomended = new Button(this, new Color(128,128,128), 139,375, "Set Recc", 50, 24); buttons[3] = setReccomended;
-        Button switchWorld = new Button(this, Color.PINK, 313,375, "Enter World", "switchWorld", buttons, new Color(128,128,128), 50); buttons[4] = switchWorld;
-        Button importMap = new Button(this, Color.YELLOW, 230,500, "Import Map", "Var", buttons, null, 50);    buttons[5] = importMap;
-        Button levelEditor = new Button(this, Color.PINK, 313,575, "Level Editor", "levelEditor", buttons, new Color(128,128,128), 50); buttons[6] = levelEditor;
+        Button switchWorld = new Button(this, Color.PINK, 313,375, "Enter World", "switchWorld", new Color(128,128,128), 50); buttons[4] = switchWorld;
+        Button importMap = new Button(this, Color.YELLOW, 230,500, "Import Map", "Var", null, 50);    buttons[5] = importMap;
+        Button levelEditor = new Button(this, Color.PINK, 313,575, "Level Editor", "levelEditor", new Color(128,128,128), 50); buttons[6] = levelEditor;
 
         for(int i = 0; i<buttons.length; i++){
             addObject(buttons[i],0,0);
@@ -41,12 +41,12 @@ public class Menu extends World
     }
     
     private void addSliders(){
-       Slider popSlider = new Slider(50,2500, 150, this, "Population", new Color(100,100,255), 50);
+       Slider popSlider = new Slider(50,2500, 150, this, "Population", new Color(100,100,255), 50, "popSlider", true);
         addObject(popSlider,50,300);
-        Slider speedSlider = new Slider(20,100, 150,this, "Speed", new Color(100,255,100),400);
+        Slider speedSlider = new Slider(20,100, 150,this, "Speed", new Color(100,255,100),400, "speedSlider", true);
         addObject(speedSlider,400,300); 
-       // Slider difficultySlider = new Slider(0,4, 150, this, "Difficulty", new Color(100,255,100),400);
-       // addObject(difficultySlider,400,300);
+        Slider difficultySlider = new Slider(1,4, 150, this, "Difficulty", new Color(100,255,100),400, "difficultySlider", false, 2);
+        addObject(difficultySlider,400,500);
     }
 
 }
