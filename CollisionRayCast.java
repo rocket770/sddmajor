@@ -15,7 +15,7 @@ public class CollisionRayCast extends AdvancedActor implements Runnable
     mazeRunner runner;
     boolean hasExecuted = false;
     GreenfootImage image = new GreenfootImage(2,2);
-    private mazeRunner[] runners;
+    private mazeRunner[] genomes;
     public boolean isRunning = true;
     public boolean stopped = false;
     
@@ -25,11 +25,11 @@ public class CollisionRayCast extends AdvancedActor implements Runnable
         raycast.setMaxLength(12);       // set a defeault length, it really doesnt matter
     }
 
-    public CollisionRayCast(mazeRunner[] runners)
+    public CollisionRayCast(mazeRunner[] genomes)
     {
         setImage(image);
         getImage().fill();
-        this.runners = runners;
+        this.genomes = genomes;
     }
 
     void onStart()
@@ -54,7 +54,7 @@ public class CollisionRayCast extends AdvancedActor implements Runnable
         while(isRunning){    // dont kill the thread, however we can chose to kill it if we want
             while(!world.network.allmazeRunnersDead()){ // dont update the thread at a null state  -Dangoures even if the object is syncronyzed and wrapped by a boolean field
                 try{
-                    for(mazeRunner runner: runners){        // loop through population given
+                    for(mazeRunner runner: genomes){        // loop through population given
                         //runner = currentRunner;
                         if(!runner.dead){
                             setRotation(runner.getRotation());  // shoot a ray cast from the actor with thier rotation and look x units infront
@@ -65,7 +65,7 @@ public class CollisionRayCast extends AdvancedActor implements Runnable
                             }
                         }
                     }
-                    runners = world.network.runners;    // get new state of population
+                    genomes = world.network.genomes;    // get new state of population
                 }catch(Exception e){
                     //e.printStackTrace();
                     //stopThread();

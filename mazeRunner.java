@@ -144,7 +144,7 @@ public class mazeRunner extends AdvancedActor
                 //float rotation = getRotation();   // look infront of poistion the runner is facing, i pixels ahead and check what color it is
                 float rotation = (float)location.direction;
                 for(int i = 0; i <=collisionOffset; i++){
-                    Color onTop = world.getBackground().getColorAt((int)(location.x() + i * (Math.cos(Math.toRadians(rotation)))), (int)(location.y() + i * (Math.sin(Math.toRadians(rotation)))));
+                    Color onTop = world.getBackground().getColorAt((int)(location.x() + i * (Math.cos(Math.toRadians(rotation)))), (int)(location.y() + i * (Math.sin(Math.toRadians(rotation))))); // look forward a few pixels of the direction its facing
                     //world.getBackground().drawLine((int)location.x(),(int)location.y(),(int)(location.x() + i * (Math.cos(Math.toRadians(rotation)))), (int)(location.y() + i * (Math.sin(Math.toRadians(rotation)))));
                     if((Color.BLACK).equals(onTop)) dead = true;    // can be dead and still hit target in the case of corners
                     if((Color.GREEN).equals(onTop) && !dead) reachedGoal = true;

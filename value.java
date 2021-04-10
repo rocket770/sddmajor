@@ -8,8 +8,8 @@ import greenfoot.*;
 public class value extends Actor  
 {
     // just a data store object
-    public String id;
-    public float value;
+    private String id;
+    private float value;
     
     
     public float getValue(){
@@ -28,5 +28,7 @@ public class value extends Actor
         this.id = id;
     }
 
-
+    // For Mr. Young: It may seem a lot more sketchy using an object for each value of data to be stored. During testing, I found no need to use an interface to create an abstract-layered value object.
+    // I also found that this method here is much more efficient that saving the menu world and passing it through the MyWorld using a world-type paramter, this way I wouldnt have to search through 
+    // each ecsess object such as the buttons or sliders. It may seem useless, but it saves alot of loading time this way. I also figured using 'getters' instead of vairabel references were more conventional this way.
 }

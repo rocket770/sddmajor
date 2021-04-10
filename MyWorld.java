@@ -1,4 +1,3 @@
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +120,11 @@ public class MyWorld extends UIWorld
 
     public void act(){
         createGrid();
-        makeAStar();
+        try{ // print an error if the maze cant be solved, yeah its annoying having the try catch in a mainline but i dont wanna nest the method. Sorry sir.
+            makeAStar();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         enableAI(); 
         //Thread.getAllStackTraces().keySet().forEach((t) -> System.out.println(t.getName() + "\nIs Daemon " + t.isDaemon() + "\nIs Alive " + t.isAlive()));
     }
@@ -181,14 +184,10 @@ public class MyWorld extends UIWorld
     }
 
     protected void getButtonVar(){    // export the values from the list we importanded
-        // population = 250;
-       // size = 75;
-        // speed = 100;
-        
         for(value v: values){
-            int val = (int)v.getValue();
-            System.out.println(v.getID() + "val: "+val);
-            switch(v.getID()){
+            int val = (int)v.getValue(); // get thier value
+            System.out.println(v.getID() + " val: "+val);
+            switch(v.getID()){ 
                 case "Population": population =  val; break;
                 case "Map Size": size  = val; break;
                 case "Speed": speed =  val; break;
@@ -307,7 +306,7 @@ public class MyWorld extends UIWorld
     }
 
     private void makeButtons(){
-        info = new Button(this, new Color(128,128,128), 20,560, "Info", 30, 18);
+        info = new Button(this, new Color(128,128,128), 200,560, "Info", 30, 18);
         addObject(info,0,0);
 
         saveMap = new Button(this, new Color(128,128,128), 480,560, "Save Map",30, 18);
@@ -316,7 +315,7 @@ public class MyWorld extends UIWorld
         //showingRunner = new Button(this, new Color(128,128,128),300,250,"Show",30);
         //addObject(showingRunner,0,0);
 
-        exitOption = new Button(this, new Color(128,128,128),200,560,"Exit",30,18);
+        exitOption = new Button(this, new Color(128,128,128),20,560,"Exit",30,18);
         addObject(exitOption,0,0);
 
         settings = new Button(this, new Color(128,128,128),300,560,"Settings",30,18);
@@ -356,7 +355,7 @@ public class MyWorld extends UIWorld
         }
     }
 
-    private void makeAStar(){       // I've constructed this algorithm from http://mat.uab.cat/~alseda/MasterOpt/AStar-Algorithm.pdf - an A* pathfinding research contianing pseudocode
+    private void makeAStar() throws Exception{       // I've constructed this algorithm from http://mat.uab.cat/~alseda/MasterOpt/AStar-Algorithm.pdf - an A* pathfinding research paper contianing its pseudocode
         if(finishedDrawing && !found){
             open.push(start);       // put the node in the start of the list where the function of f = h (0)
             long startTime = System.nanoTime(); // Mark the current systems time
@@ -372,7 +371,11 @@ public class MyWorld extends UIWorld
                 evelauteNeighbours(neighbours, current);
                 //testDrawMap();
             }  // becuase of the nature of our recursive backtracker thier is ALWAYS a solution
-        }   
+        } 
+        if(!found && finishedDrawing){ // if we get to this point a second time during execution, there is no possible solveas
+            Greenfoot.setWorld(new Menu());
+            throw new Exception("Error, cant find a solution...\nReturning to the menu...");
+        }
     }
 
     private int getLowestFScore(){
@@ -400,7 +403,7 @@ public class MyWorld extends UIWorld
     private void evelauteNeighbours(Stack<Cell> neighbours, Cell current){
         for(int i = 0; i < neighbours.size();i++){
             Cell neighbour = neighbours.get(i);
-            if(!closed.contains(neighbour) && !obstacleBetween(neighbour, current)){   // Check if there is a wall between the walls 
+            if(!closed.contains(neighbour) && !obstacleBetween(neighbour, current)){   // Check if there is a wall between the cells 
                 int newG = current.g+1;
                 if(open.contains(neighbour)){   // see if we have gotten thier faster previously
                     if(newG < neighbour.g){ // if g(node_successor) ≤ successor_current_cost continue

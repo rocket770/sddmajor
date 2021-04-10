@@ -38,7 +38,7 @@ public class DNA extends Actor
 
     public DNA crossOver(){
         DNA clone = new DNA(directions.length);
-        mazeRunner best = world.network.runners[world.network.bestmazeRunner];  // utilize best found runner to breed with candidate
+        mazeRunner best = world.network.genomes[world.network.bestmazeRunner];  // utilize best found runner to breed with candidate
         // peform uniform crossover with a heavy bais towards selected candiadate
         for (int i = 0; i < directions.length; i++) {
             float rand = random.nextFloat();

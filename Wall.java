@@ -24,6 +24,6 @@ public class Wall extends AdvancedActor {
     }
     
     public void makeTransparnet(){
-        getImage().setTransparency(0);
+        getImage().setTransparency(10);
     }
 }

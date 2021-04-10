@@ -61,10 +61,11 @@ public class Cell extends Actor implements Serializable {
     public void simulateLines(){
         world.getBackground().setColor(Color.BLACK);
         int[]locations = new int[]{ // pre kiad offsets faster to do it in a for loop rather than if statements
-            x,y,x+size,y,x+size,y,x+size,y+size,x +size,y+size,x,y+size,x,y +size,x,y
-        };
+                x,y,x+size,y,x+size,y,x+size,y+size,x +size,y+size,x,y+size,x,y +size,x,y
+            };
         for(int i = 0; i<Walls.length;i++){
             int offset = i*4;
+            //if(world.getClass().equals(LevelEditor.class)){
             if(Walls[i]){
                 world.getBackground().drawLine(locations[offset],locations[offset+1],locations[offset+2],locations[offset+3]);
             }
@@ -85,15 +86,17 @@ public class Cell extends Actor implements Serializable {
         }
     }
 
-    public int getNumber(){
+    public int getNumber(){ // stacks are like backwards arrays, so we want to flip its contents to display the best path 
         int number = (world.bestPath.indexOf(this) - world.bestPath.size())*-1-1 ; // flip values of an array
         return number;
     }
-  
+
     private void setStartSpace(){
-        for(int i = 0; i<2; i++){
-            world.grid.get(i).removeAllWalls();
-            world.grid.get(i+world.cols).removeAllWalls();
+        if(world.getClass().equals(MyWorld.class)){
+            for(int i = 0; i<2; i++){
+                world.grid.get(i).removeAllWalls();
+                world.grid.get(i+world.cols).removeAllWalls();
+            }
         }
     }
 
@@ -167,12 +170,13 @@ public class Cell extends Actor implements Serializable {
         // Pick random nieghbour, if there is any unvisted ones
         if (neighborsList.size() > 0) {
             Random r = new Random();
-            int random = Greenfoot.getRandomNumber(neighborsList.size()); 
-            return neighborsList.get(random);
+            return neighborsList.get(Greenfoot.getRandomNumber(neighborsList.size()));
         }else return null;  // must reutrn something if no neighbours, start backtrack if null
     }
 
     void addNeighbors(){
+        // pretty much just checking if there is an avaibale cell next to each space of this cell
+        // should be using neighbors.push(world.grid.get((i+world.cols)%world.cols); etc...
         if(i < world.cols - 1){  
             neighbors.push(world.grid.get((getIndex(i+1,j))));
         } 

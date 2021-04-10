@@ -162,7 +162,7 @@ public class Button extends Actor
             switch(text){
                 case "Info": 
                 if(world.getClass().equals(MyWorld.class)){
-                    out = ("Generation: " +runners.gen +"\nFit Sum: "+runners.fitnessSum+"\nDot Amount: "+runners.runners.length+"\nAvg Fit: "+(runners.fitnessSum/runners.runners.length)+"\nBest Fit: "+runners.bestFitness+"\nLowest Step: "+runners.lowest); 
+                    out = ("Generation: " +runners.gen +"\nFit Sum: "+runners.fitnessSum+"\nDot Amount: "+runners.genomes.length+"\nAvg Fit: "+(runners.fitnessSum/runners.genomes.length)+"\nBest Fit: "+runners.bestFitness+"\nLowest Step: "+runners.lowest); 
                 }else{
                     out = "Click on or near a line or edge to toggle that wall!\nSave the map when you're finished!";
                 }
@@ -389,7 +389,8 @@ public class Button extends Actor
             for(value v :getWorld().getObjects(value.class)){
                 if(v.getID() =="Map Size") v.setValue(size);   // Update the buttons value that contains the map size 
             }
-            Greenfoot.setWorld(new MyWorld(getValues(), fileOutput));
+            MyWorld world = new MyWorld(getValues(), fileOutput);
+            Greenfoot.setWorld(world);
 
         }catch(Exception e){    
             e.printStackTrace();
