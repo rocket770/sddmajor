@@ -12,19 +12,19 @@ public class Value extends Actor
     private float value;
     
     
-    public float getValue(){
+    public float getValue() {
         return value;
     }
     
-    public String getID(){
+    public String getID() {
         return ID;
     }
     
-    public void setValue(float v){
+    public void setValue(float v) {
         value = v;
     }
     
-    public void setID(String ID){
+    public void setID(String ID) {
         this.ID = ID;
     }
 

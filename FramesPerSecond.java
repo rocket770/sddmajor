@@ -7,8 +7,7 @@ public class FramesPerSecond extends Actor
     private int millisElapsed = 0;
     private long lastTime = 0;
     private int counter = 99;
-    public void act() 
-    {
+    public void act() {
         getTimePassed();
         updateFrams();
         updateImage();
@@ -38,8 +37,7 @@ public class FramesPerSecond extends Actor
     }
     // Sets objects image to transparent grey with black text that shows a rounded value of the fps counter
 
-    private void updateImage() // it is important to note I do note use the text class for here as I also have a backdrop, it is faster than having 2 extra objects
-    {
+    private void updateImage() { // it is important to note I do note use the text class for here as I also have a backdrop, it is faster than having 2 extra objects
         if(++counter % 100 == 0){       // update it every 100 act cycles to save peformance. Increases fps by about 200-300frames
             GreenfootImage textImage = new GreenfootImage("APS: " +(int)fps, 24, new Color(0, 0, 0), new Color(0, 0, 0, 0));
             GreenfootImage image = new GreenfootImage(textImage.getWidth()+12, 36);

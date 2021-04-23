@@ -15,15 +15,15 @@ public class Wall extends AdvancedActor {
         this.index = arrayIndex;
     }
     
-    public Cell getCell(){
+    public Cell getCell() {
         return cell;
     }
     
-    public int getIndex(){
+    public int getIndex() {
         return index;
     }
     
-    public void makeTransparnet(){
+    public void makeTransparnet() {
         getImage().setTransparency(10);
     }
 }
