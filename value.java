@@ -5,10 +5,10 @@ import greenfoot.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class value extends Actor  
+public class Value extends Actor  
 {
     // just a data store object
-    private String id;
+    private String ID;
     private float value;
     
     
@@ -17,15 +17,15 @@ public class value extends Actor
     }
     
     public String getID(){
-        return id;
+        return ID;
     }
     
     public void setValue(float v){
         value = v;
     }
     
-    public void setID(String id){
-        this.id = id;
+    public void setID(String ID){
+        this.ID = ID;
     }
 
     // For Mr. Young: It may seem a lot more sketchy using an object for each value of data to be stored. During testing, I found no need to use an interface to create an abstract-layered value object.

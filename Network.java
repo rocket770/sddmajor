@@ -1,6 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.Random;
-////cgbsdfbrwbgees g
+
 /**
  * Write a description of class Population here.
  * 
@@ -132,8 +132,10 @@ public class Network extends Actor
 
     private void getLowestMove() {
         for (int i = 0; i< genomes.length; i++) {
-            if(lowest == 0 && genomes[i].reachedGoal) lowest = genomes[bestmazeRunner].steps;
-            if(genomes[i].steps < lowest && genomes[i].reachedGoal) lowest = genomes[i].steps;
+            if(lowest == 0 && genomes[i].reachedGoal) 
+                lowest = genomes[bestmazeRunner].steps;
+            if(genomes[i].steps < lowest && genomes[i].reachedGoal)
+                lowest = genomes[i].steps;
         }
     }
 

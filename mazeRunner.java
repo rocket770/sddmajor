@@ -38,7 +38,7 @@ public class mazeRunner extends AdvancedActor
     mazeRunner() {
         world = (MyWorld)MyWorld.world;
         vector = new Vector();
-        brain = new DNA(world.bestPath.size()*100);//new brain with 1000 instruction
+        brain = new DNA(world.bestPath.size()*100);
         initDimensions();
         initVectors();
     }

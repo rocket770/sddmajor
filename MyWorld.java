@@ -31,7 +31,7 @@ public class MyWorld extends UIWorld
     //Genetic Evolution
     private int population;
     protected int speed;
-    protected List<value> values;
+    protected List<Value> values;
     private int gx, gy;
     public static MyWorld world;
     public Network network;
@@ -44,7 +44,7 @@ public class MyWorld extends UIWorld
     public int middleIndex;
     private Cell currentCell;
     public ArrayList<Cell> grid = new ArrayList<Cell>();    // dynamic sized array
-    private  ArrayList<Cell> neighborsSearched = new ArrayList<Cell>();
+    private ArrayList<Cell> neighborsSearched = new ArrayList<Cell>();
     private boolean startGen = false;
     public int cols, rows;
     public int size;
@@ -184,7 +184,7 @@ public class MyWorld extends UIWorld
     }
 
     protected void getButtonVar(){    // export the values from the list we importanded
-        for(value v: values){
+        for(Value v: values){
             int val = (int)v.getValue(); // get thier value
             System.out.println(v.getID() + " val: "+val);
             switch(v.getID()){ 
@@ -232,7 +232,10 @@ public class MyWorld extends UIWorld
         }
     }
 
-    protected void makeCells(boolean preLoad){
+    // Yes it may seem weird having these two things in the same method while they're slightly different.
+    //I did it purposely because this makeCells method gets called through a few different functions and it would be alot weirder as I would need to use an 
+    // if statement in each many times to check the boolean preLoad and then chose which method to call. 
+    protected void makeCells(boolean preLoad){  
         int index = 0;
         if(preLoad){
             for(int j = 0; j<rows;j++){ //y

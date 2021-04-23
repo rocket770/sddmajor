@@ -1,9 +1,0 @@
-#BlueJ class context
-comment0.target=settings
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ settings\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=world\ color\ x\ y\ text\ dimensions\ fontSize
-comment1.target=settings(greenfoot.World,\ greenfoot.Color,\ int,\ int,\ java.lang.String,\ int,\ int)
-comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ settings\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
-comment2.params=
-comment2.target=void\ act()
-numComments=3

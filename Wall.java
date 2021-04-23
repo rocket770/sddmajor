@@ -1,9 +1,9 @@
-import greenfoot.Color;
+ import greenfoot.Color;
 import greenfoot.GreenfootImage;
 import rccookie.game.AdvancedActor;
 
 public class Wall extends AdvancedActor {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; // ignore this
     private Cell cell;
     private int index;
     public Wall(int length, boolean side ,Cell cell, int arrayIndex) {

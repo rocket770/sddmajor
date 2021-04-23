@@ -7,7 +7,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Menu extends World
 {
-    transient public Button[] buttons = new Button[7];
+    transient public Button[] buttons = new Button[6];
     public Menu()
     {    
         super(600, 600, 1);
@@ -22,22 +22,22 @@ public class Menu extends World
         getBackground().setColor(Color.WHITE);
         getBackground().fillRect(0,0,600,400);
         generateButtons();
-        showText("The file name of the map will be based of the selected world size. It should automatically update absed on the file name",250,250);
     }
 
     private void generateButtons(){
         Button pop = new Button(this, Color.BLUE, 50,200, "Population", "Var", 350,50); buttons[0] = pop;
         Button map = new Button(this, Color.RED, 225,200, "Map Size", "Var", 75,25); buttons[1] = map;
         Button Speed = new Button(this, Color.GREEN, 400,200, "Speed", "Var", 100,20); buttons[2] = Speed;
-        Button setReccomended = new Button(this, new Color(128,128,128), 139,375, "Set Recc", 50, 24); buttons[3] = setReccomended;
-        Button switchWorld = new Button(this, Color.PINK, 313,375, "Enter World", "switchWorld", new Color(128,128,128), 50); buttons[4] = switchWorld;
-        Button importMap = new Button(this, Color.YELLOW, 230,500, "Import Map", "Var", null, 50);    buttons[5] = importMap;
-        Button levelEditor = new Button(this, Color.PINK, 313,575, "Level Editor", "levelEditor", new Color(128,128,128), 50); buttons[6] = levelEditor;
+        Button setReccomended = new Button(this, new Color(128,128,128), 150,520, "Set Recc", 45, 24); buttons[3] = setReccomended;
+        Button switchWorld = new Button(this, Color.PINK, 5,520, "Enter World", "switchWorld", new Color(128,128,128), 45); buttons[4] = switchWorld;
+        
+        Button customEditor = new Button(this, Color.PINK, 460,520, "Custom Level", "customLevel",new Color(128,128,128), 45); buttons[5] = customEditor;
 
         for(int i = 0; i<buttons.length; i++){
             addObject(buttons[i],0,0);
         }
-        
+        //Button levelEditor = new Button(this, Color.PINK, 460,500, "Level Editor", "levelEditor",new Color(128,128,128), 45); 
+        //addObject(levelEditor,50,50);
     }
     
     private void addSliders(){
@@ -46,7 +46,7 @@ public class Menu extends World
         Slider speedSlider = new Slider(20,100, 150,this, "Speed", new Color(100,255,100),400, "speedSlider", true);
         addObject(speedSlider,400,300); 
         Slider difficultySlider = new Slider(1,4, 150, this, "Difficulty", new Color(100,255,100),400, "difficultySlider", false, 2);
-        addObject(difficultySlider,400,500);
+        addObject(difficultySlider,300,400);
     }
 
 }

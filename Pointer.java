@@ -12,7 +12,7 @@ public class Pointer extends Actor
     private int mx,my;
     private MouseInfo mouse;
     private int hitboxOffset;
-    LevelEditor world;
+    private LevelEditor world;
     /**
      * Act - do whatever the Pionter wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -49,35 +49,8 @@ public class Pointer extends Actor
     }
 
     private void removeWall(){
-        // Wall wall = (Wall)getOneIntersectingObject(Wall.class);  // old system bad lmao
-        // if(wall != null && Greenfoot.mouseClicked(null)){
-        // Cell cell = wall.cell;
-        // int index = wall.index;
-
-        // LevelEditor world = (LevelEditor)getWorld();
-        // world.grid.get(world.grid.indexOf(cell)).Walls[index] = !world.grid.get(world.grid.indexOf(cell)).Walls[index];
-        // try{
-        // if(index == 0){ //top
-        // world.grid.get(world.grid.indexOf(cell)-world.cols).Walls[2] =!world.grid.get(world.grid.indexOf(cell)-world.cols).Walls[2];
-        // }
-        // if(index == 1){ //right
-        // world.grid.get(world.grid.indexOf(cell)+1).Walls[3] =!world.grid.get(world.grid.indexOf(cell)+1).Walls[3];
-        // }
-        // if(index == 2){
-        // world.grid.get(world.grid.indexOf(cell)+world.cols).Walls[0] =!world.grid.get(world.grid.indexOf(cell)+world.cols).Walls[0];
-        // }
-        // if(index == 3){
-        // world.grid.get(world.grid.indexOf(cell)-1).Walls[1] =!world.grid.get(world.grid.indexOf(cell)-1).Walls[1];
-        // }
-        // }catch(Exception e){
-        // return; // ignore sides
-        // }
-        // System.out.println(index);
-
-        // }
         world = (LevelEditor)getWorld();
         if(mouse != null &&Greenfoot.mouseClicked(null)&& !world.settings.pause){
-
             for(Cell cell: world.grid){
                 int x = cell.x; // current cell's values
                 int y = cell.y;
@@ -105,7 +78,6 @@ public class Pointer extends Actor
                     // this just ignores errors when there isnt a cell above/bellow/left/right to the current cell
                 }
             }
-
         }
     }
 }

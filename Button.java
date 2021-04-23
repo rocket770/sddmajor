@@ -36,8 +36,12 @@ public class Button extends Actor
     private boolean waitForStop = false; 
     public boolean pause = false;
     private  Color incorrectColor;
-    private Text t;
-    private value v;
+    public Text t;
+    private Value v;
+    private String selectedFile = "";
+    Text fileText;
+    private File file;
+    private static boolean[] fileOutput;
     public Button(World world, Color color, int x, int y, String text, String type, int reccomended, int min) 
     {
         this.world= world; 
@@ -71,6 +75,11 @@ public class Button extends Actor
         t = new Text(this.text);
         world.addObject(t,x+dimensions*3/2,y+dimensions*2/5);
         updateBox();
+        if(text == "Import Map"){
+            fileText = new Text("Selected File: Null", 22);
+            world.addObject(fileText,x+70,y+70);
+            fileOutput = null;
+        }
     } 
 
     public Button(World world, Color color, int x, int y, String text, int dimensions, int fontSize) 
@@ -93,7 +102,7 @@ public class Button extends Actor
 
     protected void addedToWorld(World world){
         if(type == "Var"){
-            v = new value();
+            v = new Value();
             getWorld().addObject(v,0,0);
             v.setID(text);
         }
@@ -112,7 +121,7 @@ public class Button extends Actor
             if(mouse != null){
                 int mx = mouse.getX();
                 int my = mouse.getY();
-                if(world instanceof Menu) {         // call different methods depending on the world
+                if(world instanceof Menu || world instanceof CustomLevel) {         // call different methods depending on the world
                     clickOnMenu(mx,my);
                 } else{      
                     clickOnGame(mx,my);
@@ -144,8 +153,14 @@ public class Button extends Actor
                 case "Enter World":
                 checkEnterWorld();
                 break;
-                case "Level Editor":
+                case "New Map":
                 levelEditor();
+                break;
+                case "Custom Level":
+                customLevel();
+                break;
+                case "Load Map":
+                loadLevel();
                 break;
             }
             updateSlider();
@@ -213,7 +228,7 @@ public class Button extends Actor
     }
 
     private void updateText(){
-        if(type != "switchWorld"  && text != "Set Recc" && text != "Import Map") world.showText("Value: "+value, x+dimensions*3/2,y+dimensions*2/3);
+        if(type != "switchWorld"  && text != "Set Recc" && text != "Import Map" && text != "New Map" && text != "Load Map" && text != "Custom Level") world.showText("Value: "+value, x+dimensions*3/2,y+dimensions*2/3);
     }
 
     private void exit(){
@@ -285,9 +300,26 @@ public class Button extends Actor
     }
 
     private void levelEditor(){
+        if(fileOutput == null){
+            Greenfoot.setWorld(new LevelEditor(((CustomLevel)getWorld()).values));
+        } else{
+            Greenfoot.setWorld(new LevelEditor(((CustomLevel)getWorld()).values, fileOutput));
+        }
+    }
+
+    private void customLevel(){
         if(hasEntered()){
-            Greenfoot.setWorld(new LevelEditor(getValues()));
+            Greenfoot.setWorld(new CustomLevel(getValues()));
         } else world.showText("Please enter valid values in each box!",250,450);
+    }
+
+    private void loadLevel(){
+        if(fileOutput != null){
+            MyWorld world = new MyWorld(((CustomLevel)getWorld()).values, fileOutput);
+            Greenfoot.setWorld(world);
+        }else {
+            System.out.println("Please select a map");
+        }
     }
 
     private void checkSpeed(){
@@ -359,8 +391,8 @@ public class Button extends Actor
         return true;
     }
 
-    private List<value> getValues(){
-        List vals = getWorld().getObjects(value.class);
+    private List<Value> getValues(){
+        List vals = getWorld().getObjects(Value.class);
         return vals;
     }
 
@@ -368,14 +400,13 @@ public class Button extends Actor
     private void getMap(){
         FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);      // Use Library to open file slection dialog
         fd.setVisible(true);
-        File file = new File(fd.getDirectory()+fd.getFile()); // save chosen file to variable)
+        file = new File(fd.getDirectory()+fd.getFile()); // save chosen file to variable)
+        fileText.changeText("Selected File: "+fd.getFile());
         try{
             FileInputStream inputStream = new FileInputStream(file);
             int fileLength = (int) file.length();   // Save its length to determine byte array size
-
             byte[] data = new byte[fileLength]; // raw output
-            boolean[] fileOutput = new boolean[fileLength]; // processed output
-
+            fileOutput = new boolean[fileLength]; // processed output
             inputStream.read(data);         // Set data byte array to contents in file    -- done by reading the file and dumping contents into data array
             for (int i = 0; i < data.length; i++){          // Convert byte data to boolean to process it into useful information
                 if (data[i] != 0){
@@ -384,14 +415,12 @@ public class Button extends Actor
                 }
                 fileOutput[i] = false; 
             }
-            int size = Integer.parseInt(String.valueOf(fd.getFile().charAt(fd.getFile().length()- 6))+String.valueOf(fd.getFile().charAt(fd.getFile().length()- 5))); // Reduce the name to only number
+            int size = Integer.parseInt(String.valueOf(fd.getFile().charAt(fd.getFile().length()- 6))+String.valueOf(fd.getFile().charAt(fd.getFile().length()- 5)));  // Reduce the name to only number by taking the 6th and 5th last values of the string and adding them.
             if(size == 00) size = 100;  // fix value for 100
-            for(value v :getWorld().getObjects(value.class)){
+            for(Value v :((CustomLevel)getWorld()).values){
                 if(v.getID() =="Map Size") v.setValue(size);   // Update the buttons value that contains the map size 
             }
-            MyWorld world = new MyWorld(getValues(), fileOutput);
-            Greenfoot.setWorld(world);
-
+            ((CustomLevel)getWorld()).levelEditor.t.changeText("Edit Map");
         }catch(Exception e){    
             e.printStackTrace();
         }   

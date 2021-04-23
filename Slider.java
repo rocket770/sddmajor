@@ -7,21 +7,21 @@ public class Slider extends Actor{
     private World world;
     public float value; 
     private int length;
-    private double mouseX = 50;
+    private double sliderX = 50;
     private int lineCount = 4;
     public String type;
     private GreenfootImage img = new GreenfootImage(12,12);
     private int percentMoved;
-    private value v;
+    private Value v;
     private String ID;
     public boolean LinkedToButton;
     private Text t;
     public int reccomended;
-    Slider(float min, float max, int length,World world, String type, Color color, int mouseX, String ID, boolean LinkedToButton){
+    Slider(float min, float max, int length,World world, String type, Color color, int sliderX, String ID, boolean LinkedToButton){
         world.getBackground().setColor(color);
         value = min;
         this.min = min;
-        this.mouseX = mouseX;
+        this.sliderX = sliderX;
         this.max = max;
         this.length = length;
         this.world = world;
@@ -30,11 +30,11 @@ public class Slider extends Actor{
         this.LinkedToButton = LinkedToButton;
     }
     
-    Slider(float min, float max, int length,World world, String type, Color color, int mouseX, String ID, boolean LinkedToButton, int reccomended){
+    Slider(float min, float max, int length,World world, String type, Color color, int sliderX, String ID, boolean LinkedToButton, int reccomended){
         world.getBackground().setColor(color);
         value = min;
         this.min = min;
-        this.mouseX = mouseX;
+        this.sliderX = sliderX;
         this.max = max;
         this.length = length;
         this.world = world;
@@ -50,7 +50,7 @@ public class Slider extends Actor{
         y = getY();
         drawSlider();
         if(!LinkedToButton){
-            v = new value();
+            v = new Value();
             getWorld().addObject(v,0,0);
             v.setID(ID);
             v.setValue(value);
@@ -67,10 +67,10 @@ public class Slider extends Actor{
         MouseInfo mouse = Greenfoot.getMouseInfo();
         try{
             if(mouse !=null && Greenfoot.mouseDragged(this)){
-                mouseX = mouse.getX();
-                if(mouseX < x) mouseX = x;
-                if(mouseX > x+length) mouseX = x+length;
-                setLocation((int)mouseX,y);
+                sliderX = mouse.getX();
+                if(sliderX < x) sliderX = x;
+                if(sliderX > x+length) sliderX = x+length;
+                setLocation((int)sliderX,y);
                 if(LinkedToButton){
                     updateButton();
                 } else updateSlider(); 
@@ -81,7 +81,7 @@ public class Slider extends Actor{
     }
 
     private void updateButton(){
-        percentMoved = (int)(((mouseX-x)/length*(max-min))+min);        // get distance up bar, turn it into a percent, multiply it by the amount of values we have and add the miniunum
+        percentMoved = (int)(((sliderX-x)/length*(max-min))+min);        // get distance up bar, turn it into a percent, multiply it by the amount of values we have and add the miniunum
         for(int i = 0; i < world.getObjects(Button.class).size(); i++){
             if(world.getObjects(Button.class).get(i).text == type){
                 world.getObjects(Button.class).get(i).value = percentMoved;
@@ -90,7 +90,7 @@ public class Slider extends Actor{
     }
     
     private void updateSlider(){
-        value = (int)(((mouseX-x)/length*(max-min))+min);   
+        value = (int)(((sliderX-x)/length*(max-min))+min);   
         v.setValue(value);
         t.changeText(""+value);
     }
@@ -98,8 +98,8 @@ public class Slider extends Actor{
 
     public void setValue(int amount){
         value = amount;
-        mouseX = ((double)(length*(value-min))/(max-min))+x;    // just re-arranged the percent moved equtaion, in terms of mX honestly i didnt think it would work
-        setLocation((int)Math.round(mouseX),y);
+        sliderX = ((double)(length*(value-min))/(max-min))+x;    // just re-arranged the percent moved equtaion, in terms of mX honestly i didnt think it would work
+        setLocation((int)Math.round(sliderX),y);
     }
     
     public void setReccomended(){

@@ -48,10 +48,10 @@ public class Cell extends Actor implements Serializable {
             world.addObject(new Wall(size, false, this, 0), x+size/2,y);
         }
         if (Walls[1]) { // right
-            world.addObject(new Wall(size, true, this, 1), x+size,y+size/2); // checked
+            world.addObject(new Wall(size, true, this, 1), x+size,y+size/2); 
         }
         if (Walls[2]) { // bottom
-            world.addObject(new Wall(size, false, this, 2), x+size/2,y+size);      //checked
+            world.addObject(new Wall(size, false, this, 2), x+size/2,y+size);   
         }
         if (Walls[3]) { // left
             world.addObject(new Wall(size, true, this, 3), x,y+size/2);
