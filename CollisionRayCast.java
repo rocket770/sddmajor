@@ -2,6 +2,7 @@ import rccookie.game.AdvancedActor;
 import greenfoot.GreenfootImage; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import rccookie.game.raycast.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 /**
  * Write a description of class CollisionRayCast here.
@@ -14,7 +15,7 @@ public class CollisionRayCast extends AdvancedActor implements Runnable {
     mazeRunner runner;
     boolean hasExecuted = false;
     GreenfootImage image = new GreenfootImage(2, 2);
-    private mazeRunner[] genomes;
+    private List<mazeRunner> genomes;
     public boolean isRunning = true;
     public boolean stopped = false;
 
@@ -23,7 +24,7 @@ public class CollisionRayCast extends AdvancedActor implements Runnable {
         raycast.setMaxLength(12); // set a defeault length, it really doesnt matter
     }
 
-    public CollisionRayCast(mazeRunner[] genomes) {
+    public CollisionRayCast(List<mazeRunner> genomes) {
         setImage(image);
         getImage().fill();
         this.genomes = genomes;

@@ -117,7 +117,7 @@ public class Button extends Actor {
             if (mouse != null) {
                 int mx = mouse.getX();
                 int my = mouse.getY();
-                if (world instanceof Menu || world instanceof CustomLevel) { // call different methods depending on the world
+                if (world instanceof Menu || world instanceof CustomLevel || world instanceof SettingsWorld) { // call different methods depending on the world
                     clickOnMenu(mx, my);
                 } else {
                     clickOnGame(mx, my);
@@ -161,6 +161,12 @@ public class Button extends Actor {
                 case "Load Map":
                 loadLevel();
                 break;
+                case "Back":
+                goBack();
+                break;
+                case "Settings":
+                Greenfoot.setWorld(new SettingsWorld());
+                break;
             }
             updateSlider();
         }
@@ -176,7 +182,7 @@ public class Button extends Actor {
             switch (text) {
                 case "Info":
                 if (world.getClass().equals(MyWorld.class)) {
-                    out = ("Generation: " + runners.gen + "\nFit Sum: " + runners.fitnessSum + "\nDot Amount: " + runners.genomes.length + "\nAvg Fit: " + (runners.fitnessSum / runners.genomes.length) + "\nBest Fit: " + runners.bestFitness + "\nLowest Step: " + runners.lowest);
+                    out = ("Generation: " + runners.gen + "\nFit Sum: " + runners.fitnessSum + "\nDot Amount: " + runners.genomes.size() + "\nAvg Fit: " + (runners.fitnessSum / runners.genomes.size()) + "\nBest Fit: " + runners.bestFitness + "\nLowest Step: " + runners.lowest);
                 } else {
                     out = "Click on or near a line or edge to toggle that wall!\nSave the map when you're finished!";
                 }
@@ -229,7 +235,7 @@ public class Button extends Actor {
     }
 
     private void updateText() {
-        if (type != "switchWorld" && text != "Set Recc" && text != "Import Map" && text != "New Map" && text != "Load Map" && text != "Custom Level") world.showText("Value: " + value, x + dimensions * 3 / 2, y + dimensions * 2 / 3);
+        if (type != "switchWorld" && type != "Util" && text != "Set Recc") world.showText("Value: " + value, x + dimensions * 3 / 2, y + dimensions * 2 / 3);
     }
 
     private void exit() {
@@ -294,10 +300,18 @@ public class Button extends Actor {
         }
         updateText();
     }
+    
+    private void goBack() {
+        if(world instanceof CustomLevel) {
+            Greenfoot.setWorld(new Menu());
+        } else {
+            Greenfoot.setWorld(new Menu(getValues()));
+        }
+    }
 
     private void checkEnterWorld() {
         if (hasEntered()) {
-            Greenfoot.setWorld(new MyWorld(getValues()));
+            Greenfoot.setWorld(new MyWorld(((Menu)getWorld()).values));
         } else world.showText("Please enter valid values in each box!", 250, 450);
     }
 
@@ -311,7 +325,7 @@ public class Button extends Actor {
 
     private void customLevel() {
         if (hasEntered()) {
-            Greenfoot.setWorld(new CustomLevel(getValues()));
+            Greenfoot.setWorld(new CustomLevel(((Menu)getWorld()).values));
         } else {
             world.showText("Please enter valid values in each box!", 250, 450);
         }

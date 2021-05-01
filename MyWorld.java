@@ -105,6 +105,7 @@ public class MyWorld extends UIWorld {
 
     public void act() {
         createGrid();
+
         try { // print an error if the maze cant be solved, yeah its annoying having the try catch in a mainline but i dont wanna nest the method. Sorry sir.
             makeAStar();
         } catch (Exception e) {
@@ -182,7 +183,6 @@ public class MyWorld extends UIWorld {
     protected void getButtonVar() { // export the values from the list we importanded
         for (Value v: values) {
             int val = (int) v.getValue(); // get thier value
-            System.out.println(v.getID() + " val: " + val);
             switch (v.getID()) {
                 case "Population":
                 population = val;
@@ -198,7 +198,10 @@ public class MyWorld extends UIWorld {
                 break;
             }
         }
-        //.out.println(getObjects(value.class).size());
+        values.forEach(v -> 
+            System.out.println(v.getID() + " val: " + v.getValue())
+        );
+
     }
 
     private void controllPop() {
@@ -242,23 +245,32 @@ public class MyWorld extends UIWorld {
     protected void makeCells(boolean preLoad) {
         int index = 0;
         if (preLoad) {
-            for (int j = 0; j < rows; j++) { //y
-                for (int i = 0; i < cols; i++) { //x
-                    wallArray = new boolean[4]; // Create a new array of the next 4 processed bytes
-                    for (int y = 0; y < wallArray.length; y++) {
-                        wallArray[y] = Walls[y + index];
-                    }
-                    Cell cell = new Cell(i, j, wallArray); // make square with the new array passed into it
-                    grid.add(cell); // add to grid list
-                    index += wallArray.length; // since we saved our walls in order, every 4th byte marks a new Cell
-                }
-            }
+            loadInputtedMap();
         } else {
-            for (int j = 0; j < rows; j++) { //y
-                for (int i = 0; i < cols; i++) { //x
-                    Cell cell = new Cell(i, j); // make square
-                    grid.add(cell); // add to grid list
+            drawNewMap();
+        }
+    }
+
+    protected void drawNewMap(){
+        for (int j = 0; j < rows; j++) { //y
+            for (int i = 0; i < cols; i++) { //x
+                Cell cell = new Cell(i, j); // make square
+                grid.add(cell); // add to grid list
+            }
+        }
+    }
+
+    protected void loadInputtedMap() {
+        int index = 0;
+        for (int j = 0; j < rows; j++) { //y
+            for (int i = 0; i < cols; i++) { //x
+                wallArray = new boolean[4]; // Create a new array of the next 4 processed bytes
+                for (int y = 0; y < wallArray.length; y++) {
+                    wallArray[y] = Walls[y + index];
                 }
+                Cell cell = new Cell(i, j, wallArray); // make square with the new array passed into it
+                grid.add(cell); // add to grid list
+                index += wallArray.length; // since we saved our walls in order, every 4th byte marks a new Cell
             }
         }
     }

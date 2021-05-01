@@ -23,7 +23,7 @@ public class mazeRunner extends AdvancedActor {
     private Vector force;
     private Vector vector;
     private int width, height;
-    public boolean hide = false;
+    public boolean hidden = false;
     private GreenfootImage image;
     public boolean dead = false;
     public boolean reachedGoal = false;
@@ -76,10 +76,10 @@ public class mazeRunner extends AdvancedActor {
     //draws the mazeRunner on the screen
     public void show() {
         //if this mazeRunner is the best mazeRunner from the previous generation then draw it as a big green mazeRunner
-        if (isBest && !hide) {
+        if (isBest && !hidden) {
             world.getBackground().setColor(Color.BLUE);
             world.getBackground().drawRect((int) location.x(), (int) location.y(), sizeX, sizeY);
-        } else if (!dead && !hide && !world.showingBest) { //all other mazeRunners are just smaller black mazeRunners
+        } else if (!dead && !hidden && !world.showingBest) { //all other mazeRunners are just smaller black mazeRunners
             world.getBackground().setColor(Color.RED);
             world.getBackground().drawRect((int) location.x(), (int) location.y(), sizeX, sizeY);
         }

@@ -1,6 +1,8 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.Random;
-
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 /**
  * Write a description of class Population here.
  * 
@@ -8,7 +10,7 @@ import java.util.Random;
  * @version (a version number or a date)
  */
 public class Network extends Actor {
-    public mazeRunner[] genomes;
+    public List<mazeRunner> genomes = new ArrayList<mazeRunner>();
     public float fitnessSum;
     public int gen = 1;
     public int lowest;
@@ -21,12 +23,12 @@ public class Network extends Actor {
 
     Network(int size) {
         world = (MyWorld) MyWorld.world;
-        genomes = new mazeRunner[size];
+
         for (int i = 0; i < size; i++) {
-            genomes[i] = new mazeRunner();
+            genomes.add(new mazeRunner());
         }
         makeThread();
-        genomes[0].isBest = true; // Set first runner to best to correctly update frame, not ideal but much more optimazed than overlapping each maze for every runner, rather than only the best. 
+        genomes.get(0).isBest = true; // Set first runner to best to correctly update frame, not ideal but much more optimazed than overlapping each maze for every runner, rather than only the best. 
     }
 
     private void makeThread() {
@@ -38,49 +40,40 @@ public class Network extends Actor {
     }
 
     //show all genomes
-    public void show() {
-        for (int i = 1; i < genomes.length; i++) {
-            genomes[i].show();
-        }
-        genomes[0].show(); // show last 
+    public void show() { 
+        genomes.forEach(g -> g.show()); // lamba expression is basically like a for loop that we can call methods from or acess their values. algorithms cannot be used inside
     }
 
     // hide a runner if it is ontop of another
     public void checkOverlap() {
-        for (int i = 0; i < genomes.length; i++) {
-            for (int j = 0; j < genomes.length; j++) {
-                if (genomes[i] != genomes[j] && genomes[i].location.equals(genomes[j].location) && genomes[i].hide != true) {
-                    genomes[i].hide = true;
-                } else {
-                    genomes[i].hide = false;
-                }
-            }
-        }
+        genomes.forEach(current ->        
+                genomes.forEach(others -> 
+                        current.hidden = (current != others && current.location.equals(others.location) && !current.hidden && !current.isBest)       // check if any genomes are on top of each other by checking if a genome is not current hidden and its location doesnt equal any other genomes location  
+                )
+        );
     }
 
     //update all genomes as master function
     @Override
     public void act() {
-        for (int i = 0; i < genomes.length; i++) {
-            if (genomes[i].steps > minStep) { //encouarge less steps, only works if a runner has reached the goal
-                genomes[i].dead = true; //kill it
+        for (int i = 0; i < genomes.size(); i++) {
+            if (genomes.get(i).steps > minStep) { //encouarge less steps, only works if a runner has reached the goal
+                genomes.get(i).dead = true; //kill it
             } else {
-                genomes[i].update();
+                genomes.get(i).update();
             }
         }
     }
 
     //calculate all the fitnesses
     public void calculateAllFitnesses() {
-        for (int i = 0; i < genomes.length; i++) {
-            genomes[i].calculateFitness();
-        }
+         genomes.forEach(g -> g.calculateFitness()); // run the calcualteFitness function for all genomes
     }
 
     //returns whether all the genomes are either dead or have reached the goal
     public synchronized boolean allmazeRunnersDead() {
-        for (int i = 0; i < genomes.length; i++) {
-            if (!genomes[i].dead && !genomes[i].reachedGoal) {
+        for (int i = 0; i < genomes.size(); i++) {
+            if (!genomes.get(i).dead && !genomes.get(i).reachedGoal) {
                 return false;
             }
         }
@@ -89,11 +82,11 @@ public class Network extends Actor {
 
     //gets the next generation of genomes
     public void naturalSelection() {
-        mazeRunner[] newmazeRunners = new mazeRunner[genomes.length]; //next gen
+        mazeRunner[] newmazeRunners = new mazeRunner[genomes.size()]; //next gen
         setBest();
         calculateFitnessSum();
         //get baby from best
-        newmazeRunners[0] = genomes[bestmazeRunner].Breed(false);
+        newmazeRunners[0] = genomes.get(bestmazeRunner).Breed(false);
         newmazeRunners[0].isBest = true;
         for (int i = 1; i < newmazeRunners.length; i++) {
             //select parent based on fitness
@@ -102,15 +95,15 @@ public class Network extends Actor {
             newmazeRunners[i] = parent.Breed(true);
         }
         getLowestMove();
-        genomes = newmazeRunners.clone();
+        genomes = Arrays.asList(newmazeRunners.clone());
         gen++;
     }
 
     //add all together from stats
     private void calculateFitnessSum() {
         fitnessSum = 0;
-        for (int i = 0; i < genomes.length; i++) {
-            fitnessSum += genomes[i].fitness;
+        for (int i = 0; i < genomes.size(); i++) {
+            fitnessSum += genomes.get(i).fitness;
         }
     }
 
@@ -119,38 +112,39 @@ public class Network extends Actor {
         Random random = new Random();
         float randOffset = random.nextFloat() * (fitnessSum);
         float fitSum = 0;
-        for (int i = 0; i < genomes.length; i++) {
-            fitSum += genomes[i].fitness;
+        for (int i = 0; i < genomes.size(); i++) {
+            fitSum += genomes.get(i).fitness;
             if (fitSum > randOffset) {
-                return genomes[i];
+                return genomes.get(i);
             }
-
         }
         return null;
     }
 
     private void getLowestMove() {
-        for (int i = 0; i < genomes.length; i++) {
-            if (lowest == 0 && genomes[i].reachedGoal)
-                lowest = genomes[bestmazeRunner].steps;
-            if (genomes[i].steps < lowest && genomes[i].reachedGoal)
-                lowest = genomes[i].steps;
+        for (int i = 0; i < genomes.size(); i++) {
+            if (lowest == 0 && genomes.get(i).reachedGoal)
+                lowest = genomes.get(bestmazeRunner).steps;
+            if (genomes.get(i).steps < lowest && genomes.get(i).reachedGoal)
+                lowest = genomes.get(i).steps;
         }
     }
 
     //call mutate method for each runner
     public void mutation() {
-        for (int i = 1; i < genomes.length; i++) {
-            genomes[i].mutate();
+        // we dont use the labmda expression here because the greenfoot thread also needs to acess other genomes variables to calculate mutation offsets, doing so will mess up what genome is seen as the best 
+        for (int i = 1; i < genomes.size(); i++) {
+            genomes.get(i).mutate();
         }
+
     }
 
     private int getMaxIndexOfMaxFitness() {
         float max = 0;
         int maxIndex = 0;
-        for (int i = 0; i < genomes.length; i++) {
-            if (genomes[i].fitness > max) {
-                max = genomes[i].fitness;
+        for (int i = 0; i < genomes.size(); i++) {
+            if (genomes.get(i).fitness > max) {
+                max = genomes.get(i).fitness;
                 maxIndex = i;
             }
         }
@@ -161,10 +155,10 @@ public class Network extends Actor {
     private void setBest() {
         int maxIndex = getMaxIndexOfMaxFitness();
         bestmazeRunner = maxIndex;
-        bestFitness = genomes[bestmazeRunner].fitness;
+        bestFitness = genomes.get(bestmazeRunner).fitness;
         //if this dot reached the goal then reset the minimum number of steps it takes to get to the goal
-        if (genomes[bestmazeRunner].reachedGoal) {
-            minStep = genomes[bestmazeRunner].steps;
+        if (genomes.get(bestmazeRunner).reachedGoal) {
+            minStep = genomes.get(bestmazeRunner).steps;
         }
         //System.out.println(genomes[bestmazeRunner].fitness);
     }

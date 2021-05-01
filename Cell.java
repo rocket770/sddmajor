@@ -54,17 +54,17 @@ public class Cell extends Actor implements Serializable {
     public void addWall(int wallNumber) {
         switch (wallNumber) {
             case 0: // top
-            world.addObject(new Wall(size, false, this, 0), this.x + size / 2, this.y);
-            break;
+                world.addObject(new Wall(size, false, this, 0), this.x + size / 2, this.y);
+                break;
             case 1: // right
-            world.addObject(new Wall(size, true, this, 1), this.x + size, this.y + size / 2); // checked
-            break;
+                world.addObject(new Wall(size, true, this, 1), this.x + size, this.y + size / 2); // checked
+                break;
             case 2: // bottom
-            world.addObject(new Wall(size, false, this, 2), this.x + size / 2, this.y + size); //checked
-            break;
+                world.addObject(new Wall(size, false, this, 2), this.x + size / 2, this.y + size); //checked
+                break;
             case 3: // left
-            world.addObject(new Wall(size, true, this, 3), this.x, this.y + size / 2);
-            break;
+                world.addObject(new Wall(size, true, this, 3), this.x, this.y + size / 2);
+                break;
         }
     }
 

@@ -19,11 +19,13 @@ public class CustomLevel extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(600, 600, 1);
         this.values = values;
-        levelEditor = new Button(this, Color.PINK, 300,500, "New Map", "levelEditor",new Color(128,128,128), 45); 
+        levelEditor = new Button(this, Color.PINK, 300,500, "New Map", "Util",new Color(128,128,128), 45); 
         addObject(levelEditor,0,0);
-        Button importMap = new Button(this, Color.YELLOW, 250,200, "Import Map", "Var", null, 45);   
+        Button importMap = new Button(this, Color.YELLOW, 250,200, "Import Map", "Util", null, 45);   
         addObject(importMap,0,0);
-        Button loadMap = new Button(this, Color.YELLOW, 250,300, "Load Map", "Var", null, 45);   
+        Button loadMap = new Button(this, Color.YELLOW, 250,300, "Load Map", "Util", null, 45);   
         addObject(loadMap,0,0);
+        Button Exit = new Button(this, Color.YELLOW, 400,100, "Back", "Util", null, 45);   
+        addObject(Exit,0,0);
     }
 }
