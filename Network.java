@@ -23,7 +23,6 @@ public class Network extends Actor {
 
     Network(int size) {
         world = (MyWorld) MyWorld.world;
-
         for (int i = 0; i < size; i++) {
             genomes.add(new mazeRunner());
         }
@@ -60,7 +59,7 @@ public class Network extends Actor {
             if (genomes.get(i).steps > minStep) { //encouarge less steps, only works if a runner has reached the goal
                 genomes.get(i).dead = true; //kill it
             } else {
-                genomes.get(i).update();
+                genomes.get(i).update(); // otherwise call its master function
             }
         }
     }

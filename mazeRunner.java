@@ -79,12 +79,13 @@ public class mazeRunner extends AdvancedActor {
         if (isBest && !hidden) {
             world.getBackground().setColor(Color.BLUE);
             world.getBackground().drawRect((int) location.x(), (int) location.y(), sizeX, sizeY);
+
         } else if (!dead && !hidden && !world.showingBest) { //all other mazeRunners are just smaller black mazeRunners
             world.getBackground().setColor(Color.RED);
             world.getBackground().drawRect((int) location.x(), (int) location.y(), sizeX, sizeY);
         }
-    }
 
+    }
     public void mutate() {
         Random random = new Random();
         float mutationRate = 0.03f; //chance that any vector in directions gets changed
@@ -128,7 +129,6 @@ public class mazeRunner extends AdvancedActor {
         if (isBest) {
             world.getBackground().setColor(Color.WHITE);
             world.getBackground().fill();
-            //world.drawBest();
             world.drawCells();
         }
     }
@@ -136,9 +136,6 @@ public class mazeRunner extends AdvancedActor {
     public void checkDeath() {
         if (!dead && !reachedGoal) {
             search();
-            if (location.x() < 2 || location.y() < 2 || location.x() > width - 2 || location.y() > height - 2) { //if near the edges of the window then kill it 
-                dead = true;
-            }
             try {
                 //float rotation = getRotation();   // look infront of poistion the runner is facing, i pixels ahead and check what color it is
                 float rotation = (float) location.direction;
@@ -160,7 +157,7 @@ public class mazeRunner extends AdvancedActor {
             fitness = 999999999999999999.0f / (float)(brain.step * brain.step);
         } else { //if the mazeRunner didn't reach the goal then the fitness is based on how close it is to the goal
             //float distanceToGoal = (float)Math.hypot(location.x()- world.gx, location.y()- world.gy);
-            //fitness = 1.0f/(distanceToGoal * distanceToGoal);
+            //fitness = 1.0f/(distanceToGoal * distanceToGoal)
             for (int i = 0; i < world.bestPath.size(); i++) {
                 int gx = world.bestPath.get(i).x;
                 int gy = world.bestPath.get(i).y;
@@ -171,7 +168,7 @@ public class mazeRunner extends AdvancedActor {
                     // get distance to the middle of the next best possible location do some cool math
                     float distanceNextPoint = 0.0f;
                     int index = (gx / world.size) + (gy / world.size) * world.cols; // convert the 2 dimensional position to its base value so it can be referended in an array
-                    Cell nextCell = world.grid.get(index + 1);
+                    Cell nextCell = world.grid.get(index + 1); // pretty much just some math to get the cell around its current position, this is much mreo efficnet then having another for-loop nested that searches through every possible cell :)
                     int pathx = nextCell.x;
                     int pathy = nextCell.y;
                     distanceNextPoint = 1.0f / (float)(Math.hypot(location.x() - (pathx + (world.size / 2)), location.y() - (pathy + (world.size / 2)))) * 100; // inverse so lower is better
@@ -180,6 +177,7 @@ public class mazeRunner extends AdvancedActor {
             }
         }
     }
+
     //clone its moveset  
     mazeRunner Breed(boolean crossOver) {
         mazeRunner baby = new mazeRunner();

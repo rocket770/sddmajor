@@ -34,7 +34,6 @@ public class LevelEditor extends MyWorld {
   private void init() {
     canGenGrid = false;
     this.values = values;
-    addObject(new FramesPerSecond(), getWidth() - 50, 30);
     getButtonVar();
     addObject(new Pointer(), 0, 0);
     difficulty = 4;

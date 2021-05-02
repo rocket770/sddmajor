@@ -161,7 +161,7 @@ public class MyWorld extends UIWorld {
         if (finishedDrawing && found) {
             if (!createdPop) {
                 network = new Network(population);
-                //for(Cell grid: grid) grid.show();
+                for(Cell grid: grid) grid.show();
                 addObject(new Wall(600, false, null, -1), 300, 0); // borders
                 addObject(new Wall(600, false, null, -1), 300, 599);
                 addObject(new Wall(600, true, null, -1), 599, 300);
@@ -239,8 +239,7 @@ public class MyWorld extends UIWorld {
         }
     }
 
-    // Yes it may seem weird having these two things in the same method while they're slightly different.
-    //I did it purposely because this makeCells method gets called through a few different functions and it would be alot weirder as I would need to use an 
+    //I did it weirdly like this purposely because this makeCells method gets called through a few different functions and it would be alot weirder as I would need to use an 
     // if statement in each many times to check the boolean preLoad and then chose which method to call. 
     protected void makeCells(boolean preLoad) {
         int index = 0;
@@ -299,7 +298,7 @@ public class MyWorld extends UIWorld {
             Greenfoot.setSpeed(speed);
             addNeighbour();
             drawCells();
-            addObject(new FramesPerSecond(), getWidth() - 50, 30);
+            addObject(new FramesPerSecond(), getWidth() - 70, 30);
             makeButtons();
             showText("", getWidth() / 2, getHeight() - 75);
             finishedDrawing = true;
@@ -308,10 +307,10 @@ public class MyWorld extends UIWorld {
 
     private void makeEasy() {
         for (Cell cell: grid) {
-            int randNumber = Greenfoot.getRandomNumber(3);
+            int randNumber = Greenfoot.getRandomNumber(3); // the lower the difficulty, the higher chance to remove a random wall
             int choice = Greenfoot.getRandomNumber(difficulty);
             if (choice == 0) {
-                cell.Walls[randNumber] = false;
+                cell.Walls[randNumber] = false; // although its possible that we may remove an already 'false' wall, thats okay otherwise there would be to big of a change
                 try {
                     switch (randNumber) { // get neigboruing cells and remove duplicate wall
                         case 0:

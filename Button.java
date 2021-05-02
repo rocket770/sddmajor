@@ -41,6 +41,8 @@ public class Button extends Actor {
     Text fileText;
     private File file;
     private static boolean[] fileOutput;
+    private final int THREAD_TIME_OUT = 700;
+    private final int SCALE_OFFSET = 3;
     public Button(World world, Color color, int x, int y, String text, String type, int reccomended, int min) {
         this.world = world;
         this.x = x;
@@ -53,7 +55,7 @@ public class Button extends Actor {
         this.type = type;
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
-        world.showText(text, x + dimensions * 3 / 2, y + dimensions * 1 / 3);
+        world.showText(text, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 1 / SCALE_OFFSET);
         updateText();
     }
 
@@ -68,10 +70,10 @@ public class Button extends Actor {
         this.incorrectColor = incorrectColor;
         this.dimensions = dimensions;
         world.getBackground().setColor(color);
-        world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
+        world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
         t = new Text(this.text);
-        world.addObject(t, x + dimensions * 3 / 2, y + dimensions * 2 / 5);
-        updateBox();
+        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
+        if(type == "switchWorld") updateBox();
         if (text == "Import Map") {
             fileText = new Text("Selected File: Null", 22);
             world.addObject(fileText, x + 70, y + 70);
@@ -89,10 +91,10 @@ public class Button extends Actor {
         this.type = "Var";
         this.dimensions = dimensions;
         world.getBackground().setColor(color);
-        world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
+        world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
         t = new Text(this.text, fontSize);
-        world.addObject(t, x + dimensions * 3 / 2, y + dimensions * 2 / 5);
-        updateBox();
+        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
+        if(type == "switchWorld") updateBox();
 
     }
 
@@ -129,7 +131,7 @@ public class Button extends Actor {
     }
 
     private void clickOnMenu(int mx, int my) {
-        if (mx > x && mx < x + dimensions * 3 && my > y && my < y + dimensions && Greenfoot.mouseClicked(null)) {
+        if (mx > x && mx < x + dimensions * SCALE_OFFSET && my > y && my < y + dimensions && Greenfoot.mouseClicked(null)) {
             switch (text) {
                 case "Map Size":
                 hasSize = false;
@@ -170,7 +172,8 @@ public class Button extends Actor {
             }
             updateSlider();
         }
-        updateBox();
+        if(type == "switchWorld") updateBox();
+
         updateText();
     }
 
@@ -178,7 +181,7 @@ public class Button extends Actor {
         thisWorld = (MyWorld) world; // get vars from object
         Network runners = (Network) thisWorld.network;
         String out = null;
-        if (mx > x && mx < x + dimensions * 3 && my > y && my < y + dimensions) {
+        if (mx > x && mx < x + dimensions * SCALE_OFFSET && my > y && my < y + dimensions) {
             switch (text) {
                 case "Info":
                 if (world.getClass().equals(MyWorld.class)) {
@@ -211,7 +214,7 @@ public class Button extends Actor {
 
     public void reDraw() {
         world.getBackground().setColor(color);
-        world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
+        world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
         //world.showText(text, x+dimensions*3/2,y+dimensions*1/3);
     }
 
@@ -225,17 +228,12 @@ public class Button extends Actor {
     }
 
     private void updateBox() {
-        if (type == "switchWorld" && !hasEntered()) {
-            world.getBackground().setColor(incorrectColor);
-            world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
-        } else if (type == "switchWorld" && hasEntered()) {
-            world.getBackground().setColor(color);
-            world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
-        }
+        Color c = hasEntered() ? color : incorrectColor;       
+        world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
     }
 
     private void updateText() {
-        if (type != "switchWorld" && type != "Util" && text != "Set Recc") world.showText("Value: " + value, x + dimensions * 3 / 2, y + dimensions * 2 / 3);
+        if (type != "switchWorld" && type != "Util" && text != "Set Recc") world.showText("Value: " + value, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / SCALE_OFFSET);
     }
 
     private void exit() {
@@ -257,7 +255,7 @@ public class Button extends Actor {
         if (waitForStop && thisWorld.network.colBox.stopped) { // wait for stop flag
             switchOnThread();
         }
-        if (++coolDown % 700 == 0 && waitForStop) { // if a thread has failed to stop prematurely, the java vm will die
+        if (++coolDown % THREAD_TIME_OUT == 0 && waitForStop) { // if a thread has failed to stop prematurely, the java vm will die
             System.out.println("Warning: Couldn't kill the thread in time, force quitting instead!");
             switchOnThread();
         }
