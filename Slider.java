@@ -8,7 +8,6 @@ public class Slider extends Actor {
     public float value;
     private int length;
     private double sliderX = 50;
-    private int lineCount = 4;
     public String type;
     private GreenfootImage img = new GreenfootImage(12, 12);
     private int percentMoved;
@@ -17,6 +16,9 @@ public class Slider extends Actor {
     public boolean LinkedToButton;
     private Text t;
     public int reccomended;
+    private int lastValue = 25;
+    private int lineCount = 4;
+    private final int INCREMENTS = lineCount + 1;
     Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, boolean LinkedToButton) {
         world.getBackground().setColor(color);
         value = min;
@@ -30,7 +32,7 @@ public class Slider extends Actor {
         this.LinkedToButton = LinkedToButton;
     }
 
-    Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, boolean LinkedToButton, int reccomended) {
+    Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, int reccomended) {
         world.getBackground().setColor(color);
         value = min;
         this.min = min;
@@ -40,7 +42,7 @@ public class Slider extends Actor {
         this.world = world;
         this.type = type;
         this.ID = ID;
-        this.LinkedToButton = LinkedToButton;
+        this.LinkedToButton = false;
         this.reccomended = reccomended;
     }
 
@@ -81,6 +83,11 @@ public class Slider extends Actor {
 
     private void updateButton() {
         percentMoved = (int)(((sliderX - x) / length * (max - min)) + min); // get distance up bar, turn it into a percent, multiply it by the amount of values we have and add the miniunum
+        if(ID == "sizeSlider") {
+            if(!(600 % percentMoved != 0) && percentMoved !=40) {
+                lastValue = (int) percentMoved;
+            } else percentMoved = (percentMoved % getWorld().getWidth() == 0 && percentMoved !=40)?++percentMoved:lastValue;
+        }
         for (int i = 0; i < world.getObjects(Button.class).size(); i++) {
             if (world.getObjects(Button.class).get(i).text == type) {
                 world.getObjects(Button.class).get(i).value = percentMoved;
@@ -121,7 +128,7 @@ public class Slider extends Actor {
     }
 
     private void drawIncrementLines() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < INCREMENTS; i++) {
             world.getBackground().drawLine(x + (i * length / lineCount - 1), y, x + (i * length / lineCount - 1), y + 10);
         }
     }

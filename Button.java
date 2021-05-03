@@ -392,8 +392,8 @@ public class Button extends Actor {
     }
 
     private boolean validateSize() {
-        if (size != 0 && (!(world.getWidth() % size == 0 && world.getHeight() % size == 0) || size % 40 == 0) || size < 25 || size > 100) { // Validate data entry so the maze is not disproportionate, any size of the factor of 40 does not havbe an even middle
-            return false;
+        if (size != 0 && (!(world.getWidth() % size == 0 && world.getHeight() % size == 0) || size % 40 == 0) || size < 25 || size > 100) { // Validate data entry so the maze is not disproportionate,
+            return false; // the only acceptable values are those of a factor of the world size. The only ecpetion is 40, whihc is a factor but does not contain a definite middle when used to scale the walls.
         }
         return true;
     }
