@@ -12,8 +12,7 @@ public class Overlay extends Actor {
 
     public void changeImage() {
         world = (MyWorld) getWorld();
-        int Transparancey = (world.settings.pause) ? 50 : 0;
+        int Transparancey = (Button.pause) ? 50 : 0;
         getImage().setTransparency(Transparancey);
     }
-
 }

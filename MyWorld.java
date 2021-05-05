@@ -1,19 +1,18 @@
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Stack;
-import javax.swing.JOptionPane;
-import java.io.*;
-import rccookie.ui.basic.UIWorld;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
 /**
- * Write a description of class MyWorld here.
+     * Write a description of class MyWorld here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class MyWorld extends UIWorld {
+public class MyWorld extends World {
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -105,7 +104,6 @@ public class MyWorld extends UIWorld {
 
     public void act() {
         createGrid();
-
         try { // print an error if the maze cant be solved, yeah its annoying having the try catch in a mainline but i dont wanna nest the method. Sorry sir.
             makeAStar();
         } catch (Exception e) {

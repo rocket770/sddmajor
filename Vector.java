@@ -1,11 +1,10 @@
 import greenfoot.*;
-    public final class Vector
+public final class Vector
 {
-    double dx;
-    double dy;
-    int direction;
-    double length;
-
+    public double dx;
+    public double dy;
+    public int direction;
+    private double length;
     /**
      * Create a vector with given direction and length. The direction should be in
      * the range [0..359], where 0 is EAST, and degrees increase clockwise.
@@ -14,6 +13,7 @@ import greenfoot.*;
     public Vector(){
         // Generate A new Empty Vector
     }
+    
     public Vector(int direction, double length)
     {
         this.length = length;

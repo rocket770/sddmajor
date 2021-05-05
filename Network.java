@@ -56,17 +56,17 @@ public class Network extends Actor {
     @Override
     public void act() {
         for (int i = 0; i < genomes.size(); i++) {
-            if (genomes.get(i).steps > minStep) { //encouarge less steps, only works if a runner has reached the goal
-                genomes.get(i).dead = true; //kill it
+            if (!(genomes.get(i).steps > minStep)) { //encouarge less steps, only works if a runner has reached the goal
+                genomes.get(i).update();
             } else {
-                genomes.get(i).update(); // otherwise call its master function
+                genomes.get(i).dead = true; //kill it otherwise
             }
         }
     }
 
     //calculate all the fitnesses
     public void calculateAllFitnesses() {
-         genomes.forEach(g -> g.calculateFitness()); // run the calcualteFitness function for all genomes
+        genomes.forEach(g -> g.calculateFitness()); // run the calcualteFitness function for all genomes
     }
 
     //returns whether all the genomes are either dead or have reached the goal
@@ -83,6 +83,7 @@ public class Network extends Actor {
     public void naturalSelection() {
         mazeRunner[] newmazeRunners = new mazeRunner[genomes.size()]; //next gen
         setBest();
+        fitnessSum = 0;
         calculateFitnessSum();
         //get baby from best
         newmazeRunners[0] = genomes.get(bestmazeRunner).Breed(false);
@@ -100,7 +101,6 @@ public class Network extends Actor {
 
     //add all together from stats
     private void calculateFitnessSum() {
-        fitnessSum = 0;
         for (int i = 0; i < genomes.size(); i++) {
             fitnessSum += genomes.get(i).fitness;
         }

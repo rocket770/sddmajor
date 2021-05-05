@@ -33,7 +33,7 @@ public class Button extends Actor {
     private boolean hasPop = false;
     private boolean hasSize = false;
     private boolean waitForStop = false;
-    public boolean pause = false;
+    public static boolean pause = false;
     private Color incorrectColor;
     public Text t;
     private Value v;
@@ -184,6 +184,7 @@ public class Button extends Actor {
         if (mx > x && mx < x + dimensions * SCALE_OFFSET && my > y && my < y + dimensions) {
             switch (text) {
                 case "Info":
+                if(pause) return;
                 if (world.getClass().equals(MyWorld.class)) {
                     out = ("Generation: " + runners.gen + "\nFit Sum: " + runners.fitnessSum + "\nDot Amount: " + runners.genomes.size() + "\nAvg Fit: " + (runners.fitnessSum / runners.genomes.size()) + "\nBest Fit: " + runners.bestFitness + "\nLowest Step: " + runners.lowest);
                 } else {
@@ -238,7 +239,7 @@ public class Button extends Actor {
 
     private void exit() {
         Greenfoot.setSpeed(100);
-        if (Greenfoot.mouseClicked(null)) {
+        if (Greenfoot.mouseClicked(null) && !pause) {
             if (world.getClass().equals(MyWorld.class)) {
                 thisWorld.network.colBox.stopThread(); // tell the thread to stop
                 waitForStop = true; // Wait for thread to finish
@@ -270,7 +271,7 @@ public class Button extends Actor {
     }
 
     private void save() {
-        if (Greenfoot.mouseClicked(null)) {
+        if (!pause && Greenfoot.mouseClicked(null)) {
             thisWorld.saveMap();
             text = "Saved!";
             t.changeText(text);
@@ -298,7 +299,7 @@ public class Button extends Actor {
         }
         updateText();
     }
-    
+
     private void goBack() {
         if(world instanceof CustomLevel) {
             Greenfoot.setWorld(new Menu());

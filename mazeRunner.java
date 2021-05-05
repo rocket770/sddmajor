@@ -1,7 +1,6 @@
 import rccookie.game.AdvancedActor;
 import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.Random;
-import rccookie.game.raycast.*;
 /**
  * RULES:
  *  - If a runner travels through a wall in the maze, they arepunihsed an killed.
@@ -114,7 +113,7 @@ public class mazeRunner extends AdvancedActor {
             dead = true;
         }
         //apply the forceeleration and move the mazeRunner
-        if (velocity.x() < 1) velocity.add(force); // i hope this works
+        if (velocity.x() < 1) velocity.add(force); 
         location.add(velocity);
     }
 
