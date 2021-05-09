@@ -42,7 +42,8 @@ public class Button extends Actor {
     private File file;
     private static boolean[] fileOutput;
     private final int THREAD_TIME_OUT = 700;
-    private final int SCALE_OFFSET = 3;
+    private int SCALE_OFFSET = 3;
+    GreenfootImage img;
     public Button(World world, Color color, int x, int y, String text, String type, int reccomended, int min) {
         this.world = world;
         this.x = x;
@@ -55,7 +56,8 @@ public class Button extends Actor {
         this.type = type;
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
-        world.showText(text, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 1 / SCALE_OFFSET);
+       t = new Text(this.text);
+        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5 + 5);
         updateText();
     }
 
@@ -72,7 +74,7 @@ public class Button extends Actor {
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
         t = new Text(this.text);
-        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
+        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5 + 5);
         if(type == "switchWorld") updateBox();
         if (text == "Import Map") {
             fileText = new Text("Selected File: Null", 22);
@@ -93,7 +95,7 @@ public class Button extends Actor {
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
         t = new Text(this.text, fontSize);
-        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
+        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5 + 5);
         if(type == "switchWorld") updateBox();
 
     }
@@ -119,6 +121,7 @@ public class Button extends Actor {
             if (mouse != null) {
                 int mx = mouse.getX();
                 int my = mouse.getY();
+                reSize(mx,my);
                 if (world instanceof Menu || world instanceof CustomLevel || world instanceof SettingsWorld) { // call different methods depending on the world
                     clickOnMenu(mx, my);
                 } else {
@@ -131,7 +134,7 @@ public class Button extends Actor {
     }
 
     private void clickOnMenu(int mx, int my) {
-        if (mx > x && mx < x + dimensions * SCALE_OFFSET && my > y && my < y + dimensions && Greenfoot.mouseClicked(null)) {
+        if (checkHover(mx, my) && Greenfoot.mouseClicked(null)) {
             switch (text) {
                 case "Map Size":
                 hasSize = false;
@@ -181,7 +184,7 @@ public class Button extends Actor {
         thisWorld = (MyWorld) world; // get vars from object
         Network runners = (Network) thisWorld.network;
         String out = null;
-        if (mx > x && mx < x + dimensions * SCALE_OFFSET && my > y && my < y + dimensions) {
+        if (checkHover(mx, my)) {
             switch (text) {
                 case "Info":
                 if(pause) return;
@@ -213,10 +216,22 @@ public class Button extends Actor {
         if (t.getText() == "Exiting...") onThreadStop(); // only call from 1 button
     }
 
+    private boolean checkHover(int mx, int my) {
+        return (mx > x && mx < x + dimensions * SCALE_OFFSET && my > y && my < y + dimensions);
+    }
+
+    private void reSize(int mx, int my){
+        if(checkHover(mx, my)) {
+            world.getBackground().setColor(color);
+            world.getBackground().fillRect(x-2, y-2, dimensions * SCALE_OFFSET+2, dimensions+2);
+        } else { 
+            reDraw();
+        }
+    }
+
     public void reDraw() {
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
-        //world.showText(text, x+dimensions*3/2,y+dimensions*1/3);
     }
 
     //Update our values
@@ -234,7 +249,11 @@ public class Button extends Actor {
     }
 
     private void updateText() {
-        if (type != "switchWorld" && type != "Util" && text != "Set Recc") world.showText("Value: " + value, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / SCALE_OFFSET);
+        if (type != "switchWorld" && type != "Util" && text != "Set Recc") {
+            t.changeText(text+"\nValue: " + value);
+            t.changeFontSize(23);
+            t.changeBoundarySize(15, 60);
+        }
     }
 
     private void exit() {

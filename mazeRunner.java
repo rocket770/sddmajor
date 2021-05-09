@@ -32,6 +32,7 @@ public class mazeRunner extends AdvancedActor {
     MyWorld world; // = ((MyWorld)getWorld());
     private int sizeX, sizeY;
     public int steps;
+    private Random random = new Random();
 
     mazeRunner() {
         world = (MyWorld) MyWorld.world;
@@ -85,8 +86,8 @@ public class mazeRunner extends AdvancedActor {
         }
 
     }
+
     public void mutate() {
-        Random random = new Random();
         float mutationRate = 0.03f; //chance that any vector in directions gets changed
         for (int i = 0; i < brain.directions.length; i++) {
             float rand = random.nextFloat();

@@ -55,7 +55,6 @@ public class Pointer extends Actor {
                     int yleft = world.grid.get(world.grid.indexOf(cell) - 1).y;
                     if ((mx >= x && mx <= x + world.size && my >= y && my <= y + world.size) || (mx >= xleft && mx <= xleft + world.size && my >= yleft && my <= yleft + world.size)) { // check if we are the the left or right of a vertical 
                         if (mx <= x + hitboxOffset && mx >= x - hitboxOffset) {
-                            //System.out.println("x: "+cell.j+" y: "+cell.i + " i: "+world.grid.indexOf(cell));
                             cell.Walls[3] = !cell.Walls[3];
                             world.grid.get(world.grid.indexOf(cell) - 1).Walls[1] = !world.grid.get(world.grid.indexOf(cell) - 1).Walls[1];
                             //break; // save cpu time as we dont need to check any more walls by exiting out of the loop
