@@ -133,7 +133,7 @@ public class Network extends Actor {
     public void mutation() {
         // we dont use the labmda expression here because the greenfoot thread also needs to acess other genomes variables to calculate mutation offsets, doing so will mess up what genome is seen as the best 
         for (int i = 1; i < genomes.size(); i++) {
-            genomes.get(i).mutate();
+            if(!genomes.get(i).isBest) genomes.get(i).mutate();
         }
 
     }

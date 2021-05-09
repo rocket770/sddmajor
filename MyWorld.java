@@ -25,6 +25,15 @@ public class MyWorld extends World {
     private int cooldown = 0;
     private boolean hasAsked = false;
     private String name = "";
+    
+    
+    // Constants for settings
+    public static final int MAX_MAZE_SCALE = 100;
+    public static final int MIN_MAZE_SCALE = 25;
+    public static final int MAX_POP_SIZE = 2500;
+    public static final int MIN_POP_SIZE = 50;
+    public static final int MAX_SPEED = 100;
+    public static final int MIN_SPEED = 20;
 
     //Genetic Evolution
     private int population;

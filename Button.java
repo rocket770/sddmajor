@@ -57,7 +57,7 @@ public class Button extends Actor {
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
        t = new Text(this.text);
-        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5 + 5);
+        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         updateText();
     }
 
@@ -74,7 +74,7 @@ public class Button extends Actor {
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
         t = new Text(this.text);
-        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5 + 5);
+        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         if(type == "switchWorld") updateBox();
         if (text == "Import Map") {
             fileText = new Text("Selected File: Null", 22);
@@ -95,7 +95,7 @@ public class Button extends Actor {
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * SCALE_OFFSET, dimensions);
         t = new Text(this.text, fontSize);
-        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5 + 5);
+        world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         if(type == "switchWorld") updateBox();
 
     }
@@ -250,9 +250,9 @@ public class Button extends Actor {
 
     private void updateText() {
         if (type != "switchWorld" && type != "Util" && text != "Set Recc") {
-            t.changeText(text+"\nValue: " + value);
-            t.changeFontSize(23);
-            t.changeBoundarySize(15, 60);
+            t.setText(text+"\nValue: " + value);
+            t.setFontSize(23);
+            t.setBoundarySize(15, 53);
         }
     }
 
@@ -262,7 +262,7 @@ public class Button extends Actor {
             if (world.getClass().equals(MyWorld.class)) {
                 thisWorld.network.colBox.stopThread(); // tell the thread to stop
                 waitForStop = true; // Wait for thread to finish
-                t.changeText("Exiting...");
+                t.setText("Exiting...");
                 world.showText("Waiting for threads to stop, force quitting \nmay cause corruption \nand require a restart.", 350, 250);
             } else {
                 Greenfoot.setWorld(new Menu());
@@ -293,7 +293,7 @@ public class Button extends Actor {
         if (!pause && Greenfoot.mouseClicked(null)) {
             thisWorld.saveMap();
             text = "Saved!";
-            t.changeText(text);
+            t.setText(text);
         }
     }
 
@@ -402,17 +402,17 @@ public class Button extends Actor {
 
     // Validate our values
     private boolean validatePop() {
-        if (Population < 50 || Population > 2500) return false;
+        if (Population < MyWorld.MIN_POP_SIZE || Population > MyWorld.MAX_POP_SIZE) return false;
         return true;
     }
 
     private boolean validateSpeed() {
-        if (speed < 20 || speed > 100) return false;
+        if (speed < MyWorld.MIN_SPEED || speed > MyWorld.MAX_SPEED) return false;
         return true;
     }
 
     private boolean validateSize() {
-        if (size != 0 && (!(world.getWidth() % size == 0 && world.getHeight() % size == 0) || size % 40 == 0) || size < 25 || size > 100) { // Validate data entry so the maze is not disproportionate,
+        if (size != 0 && (!(world.getWidth() % size == 0 && world.getHeight() % size == 0) || size % 40 == 0) || size < MyWorld.MIN_MAZE_SCALE || size > MyWorld.MAX_MAZE_SCALE) { // Validate data entry so the maze is not disproportionate,
             return false; // the only acceptable values are those of a factor of the world size. The only ecpetion is 40, whihc is a factor but does not contain a definite middle when used to scale the walls.
         }
         return true;
@@ -432,12 +432,12 @@ public class Button extends Actor {
         return vals;
     }
 
-    // For map change
+    // For map set
     private void getMap() {
         FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD); // Use Library to open file slection dialog
         fd.setVisible(true);
         file = new File(fd.getDirectory() + fd.getFile()); // save chosen file to variable)
-        fileText.changeText("Selected File: " + fd.getFile());
+        fileText.setText("Selected File: " + fd.getFile());
         try {
             FileInputStream inputStream = new FileInputStream(file);
             int fileLength = (int) file.length(); // Save its length to determine byte array size
@@ -462,7 +462,7 @@ public class Button extends Actor {
                     v.setValue(size); // Update the buttons value that contains the map size 
                 }
             }
-            ((CustomLevel) getWorld()).levelEditor.t.changeText("Edit Map");
+            ((CustomLevel) getWorld()).levelEditor.t.setText("Edit Map");
         } catch (Exception e) {
             e.printStackTrace();
         }

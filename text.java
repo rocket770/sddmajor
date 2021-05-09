@@ -45,7 +45,7 @@ public class Text extends Actor {
 
     protected final void addedToWorld(World world) { // set up text, only run once when added to world. May never be called again with final attribute 
         textImage = new GreenfootImage(text, fontSize, color, new Color(0, 0, 0, 0));
-        image = new GreenfootImage(textImage.getWidth() + 12, 48);
+        image = new GreenfootImage(textImage.getWidth() + 12, 36);
         x = getX();
         y = getY();
         rePaint();
@@ -63,21 +63,21 @@ public class Text extends Actor {
         state = ++state % 2; // reset to 1 or 0
     }
 
-    public void changeText(String text) { // public 'setter' type method to update the text
+    public void setText(String text) { // public 'setter' type method to update the text
         this.text = text;
         textImage = new GreenfootImage(text, fontSize, color, new Color(0, 0, 0, 0));
         image = new GreenfootImage(textImage.getWidth() + 12, 36);
         rePaint();
     }
 
-    public void changeFontSize(int size) { // public 'setter' type method to update the size
+    public void setFontSize(int size) { // public 'setter' type method to update the size
         fontSize = size;
         textImage = new GreenfootImage(text, size, color, new Color(0, 0, 0, 0));
         image = new GreenfootImage(textImage.getWidth() + 12, 36);
         rePaint();
     }
     
-    public void changeBoundarySize(int x, int y) { // public 'setter' type method to update the size
+    public void setBoundarySize(int x, int y) { // public 'setter' type method to update the size
         textImage = new GreenfootImage(text, fontSize, color, new Color(0, 0, 0, 0));
         image = new GreenfootImage(textImage.getWidth() + x, y);
         rePaint();

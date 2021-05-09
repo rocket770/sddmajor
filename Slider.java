@@ -98,7 +98,7 @@ public class Slider extends Actor {
     private void updateSlider() {
         value = (int)(((sliderX - x) / length * (max - min)) + min);
         v.setValue(value);
-        t.changeText("" + value);
+        t.setText("" + value);
     }
 
     public void setValue(int amount) {
@@ -110,7 +110,7 @@ public class Slider extends Actor {
     public void setReccomended() {
         setValue(reccomended);
         v.setValue(value);
-        t.changeText("" + value);
+        t.setText("" + value);
     }
 
     private void drawSlider() {
