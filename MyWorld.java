@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 /**
-     * Write a description of class MyWorld here.
+ * Write a description of class MyWorld here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -29,7 +29,7 @@ public class MyWorld extends World {
     //Genetic Evolution
     private int population;
     protected int speed;
-    protected List < Value > values;
+    protected List <Value> values;
     private int gx, gy;
     public static MyWorld world;
     public Network network;
@@ -166,8 +166,9 @@ public class MyWorld extends World {
                 addObject(new Wall(600, true, null, -1), 0, 300);
                 addObject(new Overlay(), getWidth() / 2, getHeight() / 2);
                 createdPop = true;
+                
             }
-            controllPop();
+controllPop();
         }
     }
 
@@ -197,12 +198,31 @@ public class MyWorld extends World {
             }
         }
         values.forEach(v -> 
-            System.out.println(v.getID() + " val: " + v.getValue())
+                System.out.println(v.getID() + " val: " + v.getValue())
         );
 
     }
 
     private void controllPop() {
+        // new Thread(
+        // new Runnable(){
+        // public void run(){
+        // while(true) {
+        // if (network.allmazeRunnersDead()) {
+        // //genetic algorithm
+        // network.calculateAllFitnesses();
+        // network.naturalSelection();
+        // network.mutation();
+        // } else if (!settings.pause) {
+        // //if any of the dots are still alive then update and then show them
+        // network.checkOverlap();
+        // network.act();
+        // network.show();
+        // }
+        // }
+        // }
+        // }).start();
+
         if (network.allmazeRunnersDead()) {
             //genetic algorithm
             network.calculateAllFitnesses();

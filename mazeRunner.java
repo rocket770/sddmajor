@@ -168,10 +168,11 @@ public class mazeRunner extends AdvancedActor {
                     float distanceNextPoint = 0.0f;
                     int index = (gx / world.size) + (gy / world.size) * world.cols; // convert the 2 dimensional position to its base value so it can be referended in an array
                     Cell nextCell = world.grid.get(index + 1); // pretty much just some math to get the cell around its current position, this is much mreo efficnet then having another for-loop nested that searches through every possible cell :)
-                    int pathx = nextCell.x;
-                    int pathy = nextCell.y;
-                    distanceNextPoint = 1.0f / (float)(Math.hypot(location.x() - (pathx + (world.size / 2)), location.y() - (pathy + (world.size / 2)))) * 100; // inverse so lower is better
+                    int pathX = nextCell.x;
+                    int pathY = nextCell.y;
+                    distanceNextPoint = 1.0f / (float)(Math.hypot(location.x() - (pathX + (world.size / 2)), location.y() - (pathY + (world.size / 2)))) * 100; // inverse so lower is better
                     fitness = newFitness + (distanceNextPoint * distanceNextPoint); // we sqaure the distance to the next goal to encourge it being closer
+                    return;
                 }
             }
         }

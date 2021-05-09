@@ -26,16 +26,16 @@ public class SettingsWorld extends World
         buttons[3] = setReccomended;
         Button Exit = new Button(this, Color.YELLOW, 150,520, "Back", "Util", null, 45);   
         buttons[4] = Exit;
-         for (int i = 0; i < buttons.length; i++) {
+        for (int i = 0; i < buttons.length; i++) {
             addObject(buttons[i], 0, 0);
         }        
         addSliders();
     }
-    
-     private void addSliders() {
+
+    private void addSliders() {
         Slider popSlider = new Slider(50, 2500, 150, this, "Population", Color.BLUE, 50, "popSlider", true);
         addObject(popSlider, 400, 125);
-                Slider sizeSlider = new Slider(25, 100, 150, this, "Map Size", Color.RED, 400, "sizeSlider", true);
+        Slider sizeSlider = new Slider(25, 100, 150, this, "Map Size", Color.RED, 400, "sizeSlider", true);
         addObject(sizeSlider, 400, 225);
         Slider speedSlider = new Slider(20, 100, 150, this, "Speed", new Color(100, 255, 100), 400, "speedSlider", true);
         addObject(speedSlider, 400, 325);

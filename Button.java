@@ -310,7 +310,7 @@ public class Button extends Actor {
 
     private void checkEnterWorld() {
         if (hasEntered()) {
-            Greenfoot.setWorld(new MyWorld(((Menu)getWorld()).values));
+            Greenfoot.setWorld(new MyWorld(Menu.values));
         } else world.showText("Please enter valid values in each box!", 250, 450);
     }
 

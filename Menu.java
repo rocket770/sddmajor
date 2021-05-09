@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Menu extends World {
     public static List<Value> values = new ArrayList<Value>();
-    
+
     public Menu() {
         super(600, 600, 1);
         init();
@@ -24,7 +24,7 @@ public class Menu extends World {
         generateButtons();
         System.out.println();
     }
-    
+
     private void generateButtons() {
         Button switchWorld = new Button(this, Color.PINK, 5, 520, "Enter World", "switchWorld", new Color(128, 128, 128), 45);
         addObject(switchWorld,0,0);
@@ -33,39 +33,37 @@ public class Menu extends World {
         Button settings = new Button(this, Color.PINK, 460, 320, "Settings", "Util", new Color(128, 128, 128), 45);
         addObject(settings, 0,0);
     }
-    
+
     public Menu(List<Value> values) {
         super(600, 600, 1);
-        init();
         this.values = values;         
+        init();
     }
-    
+
     public void populateEmptyVals() {
         for(int i = 0; i < 4; ++i){
             Value v = new Value();
             switch(i){
                 case 0: 
-                    v.setID("Population");
-                    v.setValue(50);
-                    break;
+                v.setID("Population");
+                v.setValue(50);
+                break;
                 case 1: 
-                    v.setID("Speed");
-                    v.setValue(25);
-                    break;
+                v.setID("Speed");
+                v.setValue(25);
+                break;
                 case 2: 
-                    v.setID("difficultySlider");
-                    v.setValue(1);
-                    break;  
+                v.setID("difficultySlider");
+                v.setValue(1);
+                break;  
                 case 3: 
-                    v.setID("Map Size");
-                    v.setValue(25);
-                    break; 
-                    
+                v.setID("Map Size");
+                v.setValue(25);
+                break; 
+
             }
             values.add(v);
         }
     }
-
-   
 
 }

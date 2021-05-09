@@ -19,7 +19,8 @@ public class CollisionRayCast extends AdvancedActor implements Runnable {
     public boolean isRunning = true;
     public boolean stopped = false;
 
-    Raycasting raycast = new Raycasting(this); {
+    Raycasting raycast = new Raycasting(this);
+    {
         raycast.setDebug(false); // dont set to true with this actor! Even if you're marking this game! The thread isnt able to handle this!
         raycast.setMaxLength(12); // set a defeault length, it really doesnt matter
     }
