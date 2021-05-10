@@ -9,9 +9,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Title extends Actor
 {
 
-    public Title()
+    public Title(String img)
     {    
-        setImage("Title.gif");
+        setImage(img);
         getImage().scale((int)(getImage().getWidth()/2.2),(int)(getImage().getHeight()/2.4));
     }
+    
 }

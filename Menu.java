@@ -28,7 +28,7 @@ public class Menu extends World {
         Greenfoot.start();
         Greenfoot.setSpeed(100);
         generateButtons();
-        addObject(new Title(), getWidth()/2, 125);
+        addObject(new Title("Title.gif"), getWidth()/2, 125);
         System.out.println("\n");
     }
 

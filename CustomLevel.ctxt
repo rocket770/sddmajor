@@ -4,4 +4,6 @@ comment0.text=\r\n\ Write\ a\ description\ of\ class\ CustomLevel\ here.\r\n\ \r
 comment1.params=values
 comment1.target=CustomLevel(java.util.List)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ CustomLevel.\r\n\ \r\n
-numComments=2
+comment2.params=
+comment2.target=void\ act()
+numComments=3
