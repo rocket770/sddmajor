@@ -38,12 +38,13 @@ public class Button extends Actor {
     public Text t;
     private Value v;
     private String selectedFile = "";
-    Text fileText;
     private File file;
     private static boolean[] fileOutput;
     private final int THREAD_TIME_OUT = 700;
     private int SCALE_OFFSET = 3;
     GreenfootImage img;
+    private List<Button> settingsButtons;
+
     public Button(World world, Color color, int x, int y, String text, String type, int reccomended, int min) {
         this.world = world;
         this.x = x;
@@ -56,7 +57,7 @@ public class Button extends Actor {
         this.type = type;
         world.getBackground().setColor(color);
         world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
-       t = new Text(this.text);
+        t = new Text(this.text);
         world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         updateText();
     }
@@ -76,11 +77,7 @@ public class Button extends Actor {
         t = new Text(this.text);
         world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         if(type == "switchWorld") updateBox();
-        if (text == "Import Map") {
-            fileText = new Text("Selected File: Null", 22);
-            world.addObject(fileText, x + 70, y + 70);
-            fileOutput = null;
-        }
+        fileOutput = null;
     }
 
     public Button(World world, Color color, int x, int y, String text, int dimensions, int fontSize) {
@@ -97,7 +94,6 @@ public class Button extends Actor {
         t = new Text(this.text, fontSize);
         world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         if(type == "switchWorld") updateBox();
-
     }
 
     protected void addedToWorld(World world) {
@@ -129,6 +125,7 @@ public class Button extends Actor {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return;
         }
     }
@@ -187,7 +184,7 @@ public class Button extends Actor {
         if (checkHover(mx, my)) {
             switch (text) {
                 case "Info":
-                if(pause) return;
+                //if(pause && type != "Util") return;
                 if (world.getClass().equals(MyWorld.class)) {
                     out = ("Generation: " + runners.gen + "\nFit Sum: " + runners.fitnessSum + "\nDot Amount: " + runners.genomes.size() + "\nAvg Fit: " + (runners.fitnessSum / runners.genomes.size()) + "\nBest Fit: " + runners.bestFitness + "\nLowest Step: " + runners.lowest);
                 } else {
@@ -208,6 +205,9 @@ public class Button extends Actor {
                 break;
                 case "Settings":
                 showSettings();
+                break;
+                case "Toggle Path": 
+                togglePath();
                 break;
             }
         } else if (text == "Info") { //here if we call this from the save button object, that one will never be selected while the info button is, so we must on override the text from the info button class
@@ -299,12 +299,37 @@ public class Button extends Actor {
 
     private void showSettings() {
         if (Greenfoot.mouseClicked(null)) {
-            pause = true;
-            if (pause && Greenfoot.mouseClicked(null) && ++coolDown > 1) { // activatr on toggle clicks anywhere
-                pause = false;
-                coolDown = 0;
+            pause = !pause;
+            if(pause) {
+                addSettingsButtons();                
+            } else {
+                removeSettingsButtons();
+                settingsButtons.clear();
             }
+
             thisWorld.getObjects(Overlay.class).get(0).changeImage();
+        }
+    }
+
+    private void addSettingsButtons() {
+        settingsButtons = new ArrayList<Button>();
+        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 340, "Toggle Path", "Util", new Color(128, 128, 128), 45));
+        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 440, "Show", "Util", new Color(128, 128, 128), 45));
+        settingsButtons.forEach(b -> 
+                world.addObject(b,0,0)
+        );
+    }
+
+    private void removeSettingsButtons() {
+        for(Button b :settingsButtons) {
+            world.removeObject(b.t);
+            world.removeObject(b);
+        }
+    }
+
+    private void togglePath() {
+        if (Greenfoot.mouseClicked(null)) {
+            thisWorld.toggleBestPath();
         }
     }
 
@@ -437,7 +462,7 @@ public class Button extends Actor {
         FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD); // Use Library to open file slection dialog
         fd.setVisible(true);
         file = new File(fd.getDirectory() + fd.getFile()); // save chosen file to variable)
-        fileText.setText("Selected File: " + fd.getFile());
+        CustomLevel.fileText.setText("Selected File: " + fd.getFile());
         try {
             FileInputStream inputStream = new FileInputStream(file);
             int fileLength = (int) file.length(); // Save its length to determine byte array size

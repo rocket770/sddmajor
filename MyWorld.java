@@ -55,6 +55,7 @@ public class MyWorld extends World {
     private boolean startGen = false;
     public int cols, rows;
     public int size;
+    private Text genFinishedText = new Text("");
 
     // A* Algortihm
     private Cell start;
@@ -72,7 +73,7 @@ public class MyWorld extends World {
     public Button settings;
     public boolean showingBest;
     public int difficulty; // make 2
-    public Text[] t;
+    private Text[] textObjs;
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw)
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
@@ -125,6 +126,7 @@ public class MyWorld extends World {
     private void initMap(boolean preLoad, boolean solveMap) { // basic methods that would fit in each constructer, combined into a single method to clean up code
         cols = getWidth() / size;
         rows = getHeight() / size;
+        addObject(genFinishedText, getWidth()/2, 100);
         makeCells(preLoad);
         if (solveMap) {
             currentCell = grid.get(0);
@@ -174,10 +176,11 @@ public class MyWorld extends World {
                 addObject(new Wall(600, true, null, -1), 599, 300);
                 addObject(new Wall(600, true, null, -1), 0, 300);
                 addObject(new Overlay(), getWidth() / 2, getHeight() / 2);
+                removeObject(genFinishedText);
                 createdPop = true;
                 
             }
-controllPop();
+            controllPop();
         }
     }
 
@@ -244,6 +247,13 @@ controllPop();
             network.show();
         }
     }
+    
+    public void toggleBestPath() {
+        for(Text t: textObjs) {
+            t.toggle();
+        }
+    }
+    
     // found this from a youtube video and modified it, gets the difference of the positions of the walls
     private void removeWalls(Cell a, Cell b) {
         //x components
@@ -327,7 +337,6 @@ controllPop();
             drawCells();
             addObject(new FramesPerSecond(), getWidth() - 70, 30);
             makeButtons();
-            showText("", getWidth() / 2, getHeight() - 75);
             finishedDrawing = true;
         }
     }
@@ -363,8 +372,6 @@ controllPop();
         saveMap = new Button(this, new Color(128, 128, 128), 480, 560, "Save Map", 30, 18);
         addObject(saveMap, 0, 0);
 
-        //showingRunner = new Button(this, new Color(128,128,128),300,250,"Show",30);
-        //addObject(showingRunner,0,0);
 
         exitOption = new Button(this, new Color(128, 128, 128), 20, 560, "Exit", 30, 18);
         addObject(exitOption, 0, 0);
@@ -378,7 +385,7 @@ controllPop();
         currentCell.visited = true;
         getBackground().setColor(Color.RED);
         String genFinished = Math.round(getPercentageGen()) - 1 > 1 ? "Generating Map: " + (Math.round(getPercentageGen()) - 1) + "%..." : "Generating Map: " + (Math.round(getPercentageGen())) + "%..."; // if statement to never show a negative number in generation
-        showText(genFinished, getWidth() / 2, getHeight() - 75);
+        genFinishedText.setText(genFinished);
         finishedSum = 0;
     }
 
@@ -472,10 +479,11 @@ controllPop();
     }
 
     private void drawBest() {
-        t = new Text[bestPath.size()];
+        System.out.println("drawBest");
+        textObjs = new Text[bestPath.size()];
         for (int i = 1; i < bestPath.size(); i++) {
-            t[i] = new Text("" + bestPath.get(i).getNumber());
-            addObject(t[i], bestPath.get(i).x + size / 2, bestPath.get(i).y + size / 2);
+            textObjs[i] = new Text("" + bestPath.get(i).getNumber());
+            addObject(textObjs[i], bestPath.get(i).x + size / 2, bestPath.get(i).y + size / 2);
         }
         drawCells();
     }
