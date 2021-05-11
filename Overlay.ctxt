@@ -2,6 +2,4 @@
 comment0.target=Overlay
 comment1.params=
 comment1.target=Overlay()
-comment2.params=
-comment2.target=void\ changeImage()
-numComments=3
+numComments=2

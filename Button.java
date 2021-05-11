@@ -309,30 +309,26 @@ public class Button extends Actor {
 
     private void showSettings() {
         if (Greenfoot.mouseClicked(null)) {
-            unPause();
-            System.out.println(pause);
+            pause = !pause;         // toggle pause state
             if(pause) {
-                addSettingsButtons();                
+                addSettingsButtons();  // if pausing, add all options to the screen               
             } else {
-                removeSettingsButtons();
+                removeSettingsButtons(); // otherwinse if we unpause we want to remove them
                 settingsButtons.clear();
-            }            
+            } 
         }
-    }
-    
-    private void unPause() {    // shared metod in showSettings and resume button
-        pause = !pause;         // toggle pause state
-        thisWorld.getObjects(Overlay.class).get(0).changeImage();   // toggle overlay
     }
 
     private void addSettingsButtons() {
-        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 90, "Toggle Path", "Util", new Color(128, 128, 128), 45));
+        thisWorld.addObject(new Overlay(), thisWorld.getWidth()/2,thisWorld.getHeight()/2); // toggle overlay
+        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 90, "Toggle Path", "Util", new Color(128, 128, 128), 45)); // add all needed buttons
         settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 190, "Show", "Util", new Color(128, 128, 128), 45));
         settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 290, "Toggle FPS", "Util", new Color(128, 128, 128), 45));
         settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 390, "Resume", "Util", new Color(128, 128, 128), 45));
         settingsButtons.forEach(b -> 
                 world.addObject(b,0,0)
         );
+        
     }
 
     private void removeSettingsButtons() {
@@ -340,6 +336,7 @@ public class Button extends Actor {
             world.removeObject(b.t); // remove all the text boxes for the buttons
             world.removeObject(b);   // remove all the actual objects
         }
+        thisWorld.removeObjects(thisWorld.getObjects(Overlay.class));
     }
 
     private void togglePath() {

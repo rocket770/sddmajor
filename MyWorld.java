@@ -124,7 +124,7 @@ public class MyWorld extends World {
         cols = getWidth() / size;
         rows = getHeight() / size;
         addObject(genFinishedText, getWidth()/2, 100);
-        setPaintOrder(getBackground().getClass(), Overlay.class, CollisionRayCast.class, Wall.class, mazeRunner.class);
+        setPaintOrder(Button.class, getBackground().getClass(), Text.class, Overlay.class, CollisionRayCast.class, Wall.class, mazeRunner.class);
         makeCells(preLoad);
         if (solveMap) {
             currentCell = grid.get(0);
@@ -173,10 +173,8 @@ public class MyWorld extends World {
                 addObject(new Wall(600, false, null, -1), 300, 599);
                 addObject(new Wall(600, true, null, -1), 599, 300);
                 addObject(new Wall(600, true, null, -1), 0, 300);
-                addObject(new Overlay(), getWidth() / 2, getHeight() / 2);
                 removeObject(genFinishedText);
-                createdPop = true;
-
+                createdPop = true;               
             }
             controllPop();
         }
