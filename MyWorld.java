@@ -41,7 +41,6 @@ public class MyWorld extends World {
     private int gx, gy;
     public static MyWorld world;
     public Network network;
-    public static float mutationRate = 0.05f;
 
     // Reccursive backtracker + Depth first search
     private boolean finishedDrawing = false;
@@ -73,6 +72,8 @@ public class MyWorld extends World {
     public boolean showingBest;
     public int difficulty; 
     private Text[] pathNumbers;
+    public float mutationRate;
+
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw)
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
@@ -189,25 +190,28 @@ public class MyWorld extends World {
 
     protected void getButtonVar() { // export the values from the list we importanded
         for (Value v: values) {
-            int val = (int) v.getValue(); // get thier value
+            float val = v.getValue(); // get thier value
             switch (v.getID()) {
                 case "Population":
-                population = val;
+                population = (int)val;
                 break;
                 case "Map Size":
-                size = val;
+                size = (int)val;
                 break;
                 case "Speed":
-                speed = val;
+                speed = (int)val;
                 break;
                 case "difficultySlider":
-                difficulty = val;
+                difficulty = (int)val;
+                break;
+                case "mutationSlider": 
+                mutationRate = val;
                 break;
             }
         }
-        values.forEach(v -> 
-                System.out.println(v.getID() + " val: " + v.getValue())
-        );
+        // values.forEach(v -> 
+                // System.out.println(v.getID() + " val: " + v.getValue())
+        // );
 
     }
 

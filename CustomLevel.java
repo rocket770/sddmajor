@@ -20,7 +20,7 @@ public class CustomLevel extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(600, 600, 1);
         this.values = values;
-        addObject(new Title("SettingsTitle.gif"), getWidth()/2, 125);
+        addObject(new Title("CustomLevelTitle.gif"), getWidth()/2, 125);
         Button importMap = new Button(this, Color.ORANGE, 232,200, "Import Map", "Util", null, 45);   
         addObject(importMap,0,0);
         fileText = new Text("Selected File: Null", 22);

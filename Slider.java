@@ -10,15 +10,16 @@ public class Slider extends Actor {
     private double sliderX = 50;
     public String type;
     private GreenfootImage img = new GreenfootImage(12, 12);
-    private int percentMoved;
+    private float percentMoved;
     private Value v;
     private String ID;
     public boolean LinkedToButton;
     private Text t;
-    public int reccomended;
+    public float reccomended;
     private int lastValue = 25;
     private int lineCount = 4;
     private final int INCREMENTS = lineCount + 1;
+    private boolean roundValues = true;
     Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, boolean LinkedToButton) {
         world.getBackground().setColor(color);
         value = min;
@@ -32,7 +33,7 @@ public class Slider extends Actor {
         this.LinkedToButton = LinkedToButton;
     }
 
-    Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, int reccomended) {
+    Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, float reccomended) {
         world.getBackground().setColor(color);
         value = min;
         this.min = min;
@@ -82,7 +83,7 @@ public class Slider extends Actor {
     }
 
     private void updateButton() {
-        percentMoved = (int)(((sliderX - x) / length * (max - min)) + min); // get distance up bar, turn it into a percent, multiply it by the amount of values we have and add the miniunum
+        percentMoved = (float)(((sliderX - x) / length * (max - min)) + min); // get distance up bar, turn it into a percent, multiply it by the amount of values we have and add the miniunum
         if(ID == "sizeSlider") {
             if(!(600 % percentMoved != 0) && percentMoved !=40) {
                 lastValue = (int) percentMoved;
@@ -90,21 +91,25 @@ public class Slider extends Actor {
         }
         for (int i = 0; i < world.getObjects(Button.class).size(); i++) {
             if (world.getObjects(Button.class).get(i).text == type) {
-                world.getObjects(Button.class).get(i).value = percentMoved;
+                world.getObjects(Button.class).get(i).value = (int)percentMoved;
             }
         }
     }
 
     private void updateSlider() {
-        value = (int)(((sliderX - x) / length * (max - min)) + min);
+        value = (roundValues) ? (int)(((sliderX - x) / length * (max - min)) + min) : (float)(((sliderX - x) / length * (max - min)) + min);
         v.setValue(value);
         t.setText("" + value);
     }
 
-    public void setValue(int amount) {
+    public void setValue(float amount) {
         value = amount;
         sliderX = ((double)(length * (value - min)) / (max - min)) + x; // just re-arranged the percent moved equtaion, in terms of mX honestly i didnt think it would work
         setLocation((int) Math.round(sliderX), y);
+    }
+    
+    public void setroundValues(boolean roundValues) {
+        this.roundValues = roundValues;
     }
 
     public void setReccomended() {

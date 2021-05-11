@@ -321,14 +321,15 @@ public class Button extends Actor {
 
     private void addSettingsButtons() {
         thisWorld.addObject(new Overlay(), thisWorld.getWidth()/2,thisWorld.getHeight()/2); // toggle overlay
+        setAllTransparency(50); // fade all objects into the background
         settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 90, "Toggle Path", "Util", new Color(128, 128, 128), 45)); // add all needed buttons
         settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 190, "Show", "Util", new Color(128, 128, 128), 45));
         settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 290, "Toggle FPS", "Util", new Color(128, 128, 128), 45));
         settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 390, "Resume", "Util", new Color(128, 128, 128), 45));
         settingsButtons.forEach(b -> 
-                world.addObject(b,0,0)
+                world.addObject(b,0,0)  // add all of the settings buttons in the list to the world
         );
-        
+
     }
 
     private void removeSettingsButtons() {
@@ -336,7 +337,18 @@ public class Button extends Actor {
             world.removeObject(b.t); // remove all the text boxes for the buttons
             world.removeObject(b);   // remove all the actual objects
         }
+        setAllTransparency(255);    // make all objects clear again
         thisWorld.removeObjects(thisWorld.getObjects(Overlay.class));
+    }
+
+    private void setAllTransparency(int t) {    // set all the actors transparency that isnt a button in use 
+        List<Object> objs = world.getObjects(null);
+        for(Object obj: objs) {
+            Actor actor = (Actor)obj;
+            if(actor.getClass() != Button.class ) {
+                actor.getImage().setTransparency(t);
+            }
+        }
     }
 
     private void togglePath() {

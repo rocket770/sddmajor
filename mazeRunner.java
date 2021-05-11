@@ -88,7 +88,6 @@ public class mazeRunner extends AdvancedActor {
     }
 
     public void mutate() {
-        float mutationRate = 0.03f; //chance that any vector in directions gets changed
         for (int i = 0; i < brain.directions.length; i++) {
             float rand = random.nextFloat();
             if (i > (int) brain.directions.length / 1.38) { // bais favouring later directions to mutate
@@ -98,7 +97,7 @@ public class mazeRunner extends AdvancedActor {
                 }
             }
             // increase chances based on position to encourage different movement towards the end
-            if (rand < mutationRate) {
+            if (rand < world.mutationRate) {
                 //set this direction as a random direction 
                 float randomAngle = random.nextFloat() * (float)(2 * Math.PI);
                 brain.directions[i] = vector.fromAngle(randomAngle);
@@ -171,7 +170,7 @@ public class mazeRunner extends AdvancedActor {
                     Cell nextCell = world.grid.get(index + 1); // pretty much just some math to get the cell around its current position, this is much mreo efficnet then having another for-loop nested that searches through every possible cell :)
                     int pathX = nextCell.x;
                     int pathY = nextCell.y;
-                    distanceNextPoint = 1.0f / (float)(Math.hypot(location.x() - (pathX + (world.size / 2)), location.y() - (pathY + (world.size / 2)))) * 10; // inverse so lower is better
+                    distanceNextPoint = 1.0f / (float)(Math.hypot(location.x() - (pathX + (world.size / 2)), location.y() - (pathY + (world.size / 2)))); // inverse so lower is better
                     fitness = newFitness + (distanceNextPoint * distanceNextPoint); // we sqaure the distance to the next goal to encourge it being closer
                     return;
                 }
