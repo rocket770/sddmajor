@@ -25,8 +25,7 @@ public class MyWorld extends World {
     private int cooldown = 0;
     private boolean hasAsked = false;
     private String name = "";
-    
-    
+
     // Constants for settings
     public static final int MAX_MAZE_SCALE = 100;
     public static final int MIN_MAZE_SCALE = 25;
@@ -72,8 +71,8 @@ public class MyWorld extends World {
     private Button exitOption;
     public Button settings;
     public boolean showingBest;
-    public int difficulty; // make 2
-    private Text[] textObjs;
+    public int difficulty; 
+    private Text[] pathNumbers;
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw)
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
     // DONT EDIT CODE WHILE A THREAD MAY BE RUNNING (For Mr. Young btw) 
@@ -86,7 +85,6 @@ public class MyWorld extends World {
         this.values = values;
         getButtonVar();
         initMap(false, true);
-        setPaintOrder(CollisionRayCast.class, Wall.class, mazeRunner.class);
 
     }
 
@@ -100,7 +98,6 @@ public class MyWorld extends World {
         getButtonVar();
         difficulty = 4;
         initMap(true, true);
-        setPaintOrder(CollisionRayCast.class, Wall.class, mazeRunner.class);
     }
 
     public MyWorld(List values, int x, int y) {
@@ -127,6 +124,7 @@ public class MyWorld extends World {
         cols = getWidth() / size;
         rows = getHeight() / size;
         addObject(genFinishedText, getWidth()/2, 100);
+        setPaintOrder(getBackground().getClass(), Overlay.class, CollisionRayCast.class, Wall.class, mazeRunner.class);
         makeCells(preLoad);
         if (solveMap) {
             currentCell = grid.get(0);
@@ -178,7 +176,7 @@ public class MyWorld extends World {
                 addObject(new Overlay(), getWidth() / 2, getHeight() / 2);
                 removeObject(genFinishedText);
                 createdPop = true;
-                
+
             }
             controllPop();
         }
@@ -247,13 +245,13 @@ public class MyWorld extends World {
             network.show();
         }
     }
-    
+
     public void toggleBestPath() {
-        for(Text t: textObjs) {
-            t.toggle();
+        for (int i = 1; i <pathNumbers.length; i++) {            
+            pathNumbers[i].toggle();
         }
     }
-    
+
     // found this from a youtube video and modified it, gets the difference of the positions of the walls
     private void removeWalls(Cell a, Cell b) {
         //x components
@@ -279,7 +277,6 @@ public class MyWorld extends World {
     //I did it weirdly like this purposely because this makeCells method gets called through a few different functions and it would be alot weirder as I would need to use an 
     // if statement in each many times to check the boolean preLoad and then chose which method to call. 
     protected void makeCells(boolean preLoad) {
-        int index = 0;
         if (preLoad) {
             loadInputtedMap();
         } else {
@@ -371,7 +368,6 @@ public class MyWorld extends World {
 
         saveMap = new Button(this, new Color(128, 128, 128), 480, 560, "Save Map", 30, 18);
         addObject(saveMap, 0, 0);
-
 
         exitOption = new Button(this, new Color(128, 128, 128), 20, 560, "Exit", 30, 18);
         addObject(exitOption, 0, 0);
@@ -479,11 +475,10 @@ public class MyWorld extends World {
     }
 
     private void drawBest() {
-        System.out.println("drawBest");
-        textObjs = new Text[bestPath.size()];
+        pathNumbers = new Text[bestPath.size()];
         for (int i = 1; i < bestPath.size(); i++) {
-            textObjs[i] = new Text("" + bestPath.get(i).getNumber());
-            addObject(textObjs[i], bestPath.get(i).x + size / 2, bestPath.get(i).y + size / 2);
+            pathNumbers[i] = new Text("" + bestPath.get(i).getNumber());
+            addObject(pathNumbers[i], bestPath.get(i).x + size / 2, bestPath.get(i).y + size / 2);
         }
         drawCells();
     }

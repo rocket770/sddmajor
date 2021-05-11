@@ -43,8 +43,9 @@ public class Button extends Actor {
     private final int THREAD_TIME_OUT = 700;
     private int SCALE_OFFSET = 3;
     GreenfootImage img;
-    private List<Button> settingsButtons;
-
+    private static List<Button> settingsButtons = new ArrayList<Button>();
+    private static Text showState;
+    private boolean FPS_Visible = true;
     public Button(World world, Color color, int x, int y, String text, String type, int reccomended, int min) {
         this.world = world;
         this.x = x;
@@ -78,10 +79,12 @@ public class Button extends Actor {
         world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         if(type == "switchWorld") updateBox();
         fileOutput = null;
+
     }
 
     public Button(World world, Color color, int x, int y, String text, int dimensions, int fontSize) {
         this.world = world;
+
         this.x = x;
         this.y = y;
         this.color = color;
@@ -101,6 +104,9 @@ public class Button extends Actor {
             v = new Value();
             getWorld().addObject(v, 0, 0);
             v.setID(text);
+        } else if(text == "Show") {
+            thisWorld = (MyWorld) world;
+            updateShowText();           
         }
     }
 
@@ -184,7 +190,7 @@ public class Button extends Actor {
         if (checkHover(mx, my)) {
             switch (text) {
                 case "Info":
-                //if(pause && type != "Util") return;
+                if(pause && type != "Util") return;
                 if (world.getClass().equals(MyWorld.class)) {
                     out = ("Generation: " + runners.gen + "\nFit Sum: " + runners.fitnessSum + "\nDot Amount: " + runners.genomes.size() + "\nAvg Fit: " + (runners.fitnessSum / runners.genomes.size()) + "\nBest Fit: " + runners.bestFitness + "\nLowest Step: " + runners.lowest);
                 } else {
@@ -196,9 +202,7 @@ public class Button extends Actor {
                 save();
                 break;
                 case "Show":
-                if (Greenfoot.mouseClicked(null)) {
-                    thisWorld.showingBest = !thisWorld.showingBest;
-                }
+                toggleShowing();
                 break;
                 case "Exit":
                 exit();
@@ -209,6 +213,12 @@ public class Button extends Actor {
                 case "Toggle Path": 
                 togglePath();
                 break;
+                case "Toggle FPS": 
+                toggleFPS();
+                break; 
+                case "Resume": 
+                if(Greenfoot.mouseClicked(null)) showSettings();
+                break;    
             }
         } else if (text == "Info") { //here if we call this from the save button object, that one will never be selected while the info button is, so we must on override the text from the info button class
             world.showText(null, 250, 250);
@@ -299,22 +309,27 @@ public class Button extends Actor {
 
     private void showSettings() {
         if (Greenfoot.mouseClicked(null)) {
-            pause = !pause;
+            unPause();
+            System.out.println(pause);
             if(pause) {
                 addSettingsButtons();                
             } else {
                 removeSettingsButtons();
                 settingsButtons.clear();
-            }
-
-            thisWorld.getObjects(Overlay.class).get(0).changeImage();
+            }            
         }
+    }
+    
+    private void unPause() {    // shared metod in showSettings and resume button
+        pause = !pause;         // toggle pause state
+        thisWorld.getObjects(Overlay.class).get(0).changeImage();   // toggle overlay
     }
 
     private void addSettingsButtons() {
-        settingsButtons = new ArrayList<Button>();
-        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 340, "Toggle Path", "Util", new Color(128, 128, 128), 45));
-        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 440, "Show", "Util", new Color(128, 128, 128), 45));
+        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 90, "Toggle Path", "Util", new Color(128, 128, 128), 45));
+        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 190, "Show", "Util", new Color(128, 128, 128), 45));
+        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 290, "Toggle FPS", "Util", new Color(128, 128, 128), 45));
+        settingsButtons.add(new Button(thisWorld, Color.ORANGE, 232, 390, "Resume", "Util", new Color(128, 128, 128), 45));
         settingsButtons.forEach(b -> 
                 world.addObject(b,0,0)
         );
@@ -322,8 +337,8 @@ public class Button extends Actor {
 
     private void removeSettingsButtons() {
         for(Button b :settingsButtons) {
-            world.removeObject(b.t);
-            world.removeObject(b);
+            world.removeObject(b.t); // remove all the text boxes for the buttons
+            world.removeObject(b);   // remove all the actual objects
         }
     }
 
@@ -331,6 +346,31 @@ public class Button extends Actor {
         if (Greenfoot.mouseClicked(null)) {
             thisWorld.toggleBestPath();
         }
+    }
+
+    private void toggleFPS() {
+        if (Greenfoot.mouseClicked(null)) {
+            FPS_Visible = !FPS_Visible;
+            if(FPS_Visible) {
+                thisWorld.addObject(new FramesPerSecond(),thisWorld.getWidth() - 70, 30);
+            } else {
+                thisWorld.removeObjects(thisWorld.getObjects(FramesPerSecond.class));
+            }
+        }
+    }
+
+    private void toggleShowing() {
+        if (Greenfoot.mouseClicked(null)) {
+            thisWorld.showingBest = !thisWorld.showingBest;
+            thisWorld.network.act(); // we have to update the frame here even if its paused to clear the background
+            thisWorld.network.show(); // actually apply the settings by updating the screen with the correct viewing
+            updateShowText();
+        }   
+    }
+
+    private void updateShowText() {
+        String showText = (thisWorld.showingBest) ? "Show: Best" : "Show: All";
+        t.setText(showText);
     }
 
     // Update our vairables
