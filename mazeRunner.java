@@ -170,7 +170,7 @@ public class mazeRunner extends AdvancedActor {
                     Cell nextCell = world.grid.get(index + 1); // pretty much just some math to get the cell around its current position, this is much mreo efficnet then having another for-loop nested that searches through every possible cell :)
                     int pathX = nextCell.x;
                     int pathY = nextCell.y;
-                    distanceNextPoint = 1.0f / (float)(Math.hypot(location.x() - (pathX + (world.size / 2)), location.y() - (pathY + (world.size / 2)))); // inverse so lower is better
+                    distanceNextPoint = (1.0f / (float)(Math.hypot(location.x() - (pathX + (world.size / 2)), location.y() - (pathY + (world.size / 2))))) * 100; // inverse so lower is better
                     fitness = newFitness + (distanceNextPoint * distanceNextPoint); // we sqaure the distance to the next goal to encourge it being closer
                     return;
                 }

@@ -45,7 +45,10 @@ public class Button extends Actor {
     GreenfootImage img;
     private static List<Button> settingsButtons = new ArrayList<Button>();
     private static Text showState;
-    private boolean FPS_Visible = true;
+    private static boolean FPS_Visible = true;
+    private Text timeOutText = new Text("");
+    private Text timeOutCountdown = new Text("");
+    private int xout = 0, yout = 0;
     public Button(World world, Color color, int x, int y, String text, String type, int reccomended, int min) {
         this.world = world;
         this.x = x;
@@ -79,12 +82,10 @@ public class Button extends Actor {
         world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         if(type == "switchWorld") updateBox();
         fileOutput = null;
-
     }
 
     public Button(World world, Color color, int x, int y, String text, int dimensions, int fontSize) {
         this.world = world;
-
         this.x = x;
         this.y = y;
         this.color = color;
@@ -131,7 +132,6 @@ public class Button extends Actor {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return;
         }
     }
@@ -175,6 +175,11 @@ public class Button extends Actor {
                 case "Settings":
                 Greenfoot.setWorld(new SettingsWorld());
                 break;
+                case "Help":
+                try {
+                    new ProcessBuilder("cmd.exe", "/C", "./User Manual Help Screen.pdf").start(); // open the help pdf                 
+                }catch(Exception e) {}
+                break;
             }
             updateSlider();
         }
@@ -189,14 +194,21 @@ public class Button extends Actor {
         String out = null;
         if (checkHover(mx, my)) {
             switch (text) {
-                case "Info":
+                case "Info": // the quickest way to have text only appear when it hovered and dispear after was this, I tried to put it in another method but it got messy trying to reset variables
                 if(pause && type != "Util") return;
                 if (world.getClass().equals(MyWorld.class)) {
-                    out = ("Generation: " + runners.gen + "\nFit Sum: " + runners.fitnessSum + "\nDot Amount: " + runners.genomes.size() + "\nAvg Fit: " + (runners.fitnessSum / runners.genomes.size()) + "\nBest Fit: " + runners.bestFitness + "\nLowest Step: " + runners.lowest);
-                } else {
-                    out = "Click on or near a line or edge to toggle that wall!\nSave the map when you're finished!";
+                    out = ("Summary: \n"+"Generation: " + runners.gen + "\nFit Sum: " + runners.fitnessSum + "\nDot Amount: " + runners.genomes.size() + "\nAvg Fit: " + (runners.fitnessSum / runners.genomes.size()) + "\nBest Fit: " + runners.bestFitness + "\nLowest Step: " + runners.lowest);
+                    world.getBackground().fillRect(40, 265,215, 180);   // put a backdrop around the test, had to hard code these values as text lengths are dynamic with greenfoot. There would be no "exact" offset when the text changes
+                    xout = 150;
+                    yout = 350;
+                    world.showText(out, xout, yout);
+                } else { 
+                    out = "Click on or near a line or edge to toggle that wall!\nEnsure there is a clear path from the starting cells\n to the goal!\nSave the map when you're finished!";
+                    world.getBackground().fillRect(105, 265,485, 180);
+                    xout = 350;
+                    yout = 350; 
+                    world.showText(out, xout, yout);
                 }
-                world.showText(out, 250, 250);
                 break;
                 case "Save Map":
                 save();
@@ -221,7 +233,7 @@ public class Button extends Actor {
                 break;    
             }
         } else if (text == "Info") { //here if we call this from the save button object, that one will never be selected while the info button is, so we must on override the text from the info button class
-            world.showText(null, 250, 250);
+            world.showText(null,xout, yout);
         }
         if (t.getText() == "Exiting...") onThreadStop(); // only call from 1 button
     }
@@ -266,14 +278,26 @@ public class Button extends Actor {
         }
     }
 
+    private void showGameInfo() {
+        if (type != "switchWorld" && type != "Util" && text != "Set Recc") {
+            t.setText(text+"\nValue: " + value);
+            t.setFontSize(23);
+            t.setBoundarySize(15, 53);
+        }
+    }
+
     private void exit() {
-        Greenfoot.setSpeed(100);
         if (Greenfoot.mouseClicked(null) && !pause) {
+            Greenfoot.setSpeed(100);
             if (world.getClass().equals(MyWorld.class)) {
+                setAllTransparency(5);
+                world.addObject(timeOutText,290,280);
+                world.addObject(timeOutCountdown, 290, 350);
                 thisWorld.network.colBox.stopThread(); // tell the thread to stop
                 waitForStop = true; // Wait for thread to finish
                 t.setText("Exiting...");
-                world.showText("Waiting for threads to stop, force quitting \nmay cause corruption \nand require a restart.", 350, 250);
+                timeOutText.setText("Waiting for threads to stop, force quitting \nmay cause corruption \nand require a restart.");
+                timeOutText.setBoundarySize(0, 90);
             } else {
                 Greenfoot.setWorld(new Menu());
             }
@@ -289,7 +313,7 @@ public class Button extends Actor {
             System.out.println("Warning: Couldn't kill the thread in time, force quitting instead!");
             switchOnThread();
         }
-        world.showText("Timing Out: " + coolDown, 100, 300);
+        timeOutCountdown.setText("Timing Out: " + coolDown);
     }
 
     private void switchOnThread() {
@@ -527,9 +551,9 @@ public class Button extends Actor {
             }
             // get the loaded maps size
             int size = Integer.parseInt(
-                String.valueOf(fd.getFile().charAt(fd.getFile().length() - 6)) 
-                + String.valueOf(fd.getFile().charAt(fd.getFile().length() - 5))
-            ); // Reduce the name to only number by taking the 6th and 5th last values of the string and adding them.
+                    String.valueOf(fd.getFile().charAt(fd.getFile().length() - 6)) 
+                    + String.valueOf(fd.getFile().charAt(fd.getFile().length() - 5))
+                ); // Reduce the name to only number by taking the 6th and 5th last values of the string and adding them.
             if (size == 00) {
                 size = 100; // fix value for 100
             }

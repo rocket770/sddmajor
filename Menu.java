@@ -15,6 +15,12 @@ public class Menu extends World {
         if(values.isEmpty()) populateEmptyVals();
     }
 
+    public Menu(List<Value> values) {
+        super(600, 600, 1);
+        this.values = values;         
+        init();
+    }
+
     public void act() {
         getBackground().setColor(Color.WHITE);
         getBackground().fill();
@@ -43,14 +49,8 @@ public class Menu extends World {
         addObject(help, 0,0);
     }
 
-    public Menu(List<Value> values) {
-        super(600, 600, 1);
-        this.values = values;         
-        init();
-    }
-
     public void populateEmptyVals() {
-        for(int i = 0; i < 4; ++i){
+        for(int i = 0; i < 5; ++i){ // populate place holder values if no settings are found in memory or have not yet been chosen
             Value v = new Value();
             switch(i){
                 case 0: 
@@ -68,6 +68,10 @@ public class Menu extends World {
                 case 3: 
                 v.setID("Map Size");
                 v.setValue(SettingsWorld.SIZE_DEFAULT);
+                break; 
+                case 4: 
+                v.setID("Mutation Rate");
+                v.setValue(SettingsWorld.MUTATION_DEFAULT);
                 break; 
 
             }

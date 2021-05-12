@@ -57,10 +57,10 @@ public class Cell extends Actor implements Serializable {
                 world.addObject(new Wall(size, false, this, 0), this.x + size / 2, this.y);
                 break;
             case 1: // right
-                world.addObject(new Wall(size, true, this, 1), this.x + size, this.y + size / 2); // checked
+                world.addObject(new Wall(size, true, this, 1), this.x + size, this.y + size / 2); 
                 break;
             case 2: // bottom
-                world.addObject(new Wall(size, false, this, 2), this.x + size / 2, this.y + size); //checked
+                world.addObject(new Wall(size, false, this, 2), this.x + size / 2, this.y + size); 
                 break;
             case 3: // left
                 world.addObject(new Wall(size, true, this, 3), this.x, this.y + size / 2);
@@ -70,7 +70,7 @@ public class Cell extends Actor implements Serializable {
 
     public void simulateLines() {
         world.getBackground().setColor(Color.BLACK);
-        int[] locations = new int[] { // pre kiad offsets faster to do it in a for loop rather than if statements
+        int[] locations = new int[] { // pre load offsets, faster to do it in a for loop rather than if statements
                 x,
                 y,
                 x + size,
