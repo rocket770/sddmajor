@@ -2,7 +2,7 @@ import greenfoot.*; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class Slider extends Actor {
     private float min, max;
-    private int x, y;
+    public int x, y;
     private int radius = 50;
     private World world;
     public float value;

@@ -47,7 +47,7 @@ public class Network extends Actor {
     public void checkOverlap() {
         genomes.forEach(current ->        
                 genomes.forEach(others -> 
-                        current.hidden = (current != others && current.location.equals(others.location) && !current.hidden && !current.isBest)       // check if any genomes are on top of each other by checking if a genome is not current hidden and its location doesnt equal any other genomes location  
+                        current.hidden = (current != others && current.location.equals(others.location) && !current.hidden && !current.isBest)// check if any genomes are on top of each other by checking if a genome is not current hidden and its location doesnt equal any other genomes location  
                 )
         );
     }

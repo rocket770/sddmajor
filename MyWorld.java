@@ -175,9 +175,10 @@ public class MyWorld extends World {
                 addObject(new Wall(600, true, null, -1), 599, 300);
                 addObject(new Wall(600, true, null, -1), 0, 300);
                 removeObject(genFinishedText);
-                createdPop = true;               
+                createdPop = true;      
             }
             controllPop();
+
         }
     }
 
@@ -210,7 +211,7 @@ public class MyWorld extends World {
             }
         }
         // values.forEach(v -> 
-                // System.out.println(v.getID() + " val: " + v.getValue())
+        // System.out.println(v.getID() + " val: " + v.getValue())
         // );
 
     }

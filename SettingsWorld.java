@@ -8,7 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class SettingsWorld extends World
 {
-    Button[] buttons = new Button[5];
+    private Button[] buttons = new Button[5];
+    public static final int POP_DEFAULT = 50;
+    public static final int SIZE_DEFAULT = 25;
+    public static final int SPEED_DEFAULT = 20;
+    public static final float MUTATION_DEFAULT = 0.01f;
+    public static final int DIFFICULTY_DEFAULT = 1;
     /**
      * Constructor for objects of class SettingsWorld.
      * 
@@ -17,13 +22,13 @@ public class SettingsWorld extends World
     {// Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(600, 600, 1);
         addObject(new Title("SettingsTitle.gif"), getWidth()/2, 125);
-        Button pop = new Button(this, Color.ORANGE, 110, 100, "Population", "Var", 350, 50);
+        Button pop = new Button(this, Color.ORANGE, 110, 185, "Population", "Var", 350, 50);
         buttons[0] = pop;
-        Button map = new Button(this, Color.ORANGE, 110, 200, "Map Size", "Var", 75, 25);
+        Button map = new Button(this, Color.ORANGE, 110, 285, "Map Size", "Var", 75, 25);
         buttons[1] = map;
-        Button Speed = new Button(this, Color.ORANGE, 110, 300, "Speed", "Var", 100, 20);
+        Button Speed = new Button(this, Color.ORANGE, 110, 385, "Speed", "Var", 100, 20);
         buttons[2] = Speed;
-        Button setReccomended = new Button(this, Color.ORANGE, 400, 520, "Set Recc", 45, 24);
+        Button setReccomended = new Button(this, Color.ORANGE, 451, 552, "Set Recc", 45, 24);
         buttons[3] = setReccomended;
         Button Exit = new Button(this, Color.ORANGE, 12,552, "Back", "Util", null, 45);   
         buttons[4] = Exit;
@@ -39,7 +44,7 @@ public class SettingsWorld extends World
         GreenfootImage img = new GreenfootImage("TitleScreen.gif");
         setBackground(img);
         getBackground().setColor(new Color(128,128,128));
-        getBackground().fillRect(60, 100, 537, 450);
+        getBackground().fillRect(60, 100, 480, 450);
         for(Slider s: getObjects(Slider.class)) {
             getBackground().setColor(s.color);
             s.drawSlider();
@@ -47,18 +52,18 @@ public class SettingsWorld extends World
     }
 
     private void addSliders() {
-        Slider popSlider = new Slider(50, 2500, 150, this, "Population", Color.RED, 50, "popSlider", true);
-        addObject(popSlider, 350, 125);
-        Slider sizeSlider = new Slider(25, 100, 150, this, "Map Size", Color.RED, 400, "sizeSlider", true);
-        addObject(sizeSlider, 350, 225);
-        Slider speedSlider = new Slider(20, 100, 150, this, "Speed", Color.RED, 400, "speedSlider", true);
-        addObject(speedSlider, 350, 325);
-        Slider difficultySlider = new Slider(1, 4, 150, this, "Difficulty", Color.RED, 400, "difficultySlider", 2);
-        addObject(difficultySlider, 350, 425);
-        Slider Mutation = new Slider(0, 1, 150, this, "Mutation", Color.RED, 400, "mutationSlider", .03f);
-        {
-            Mutation.setroundValues(false);
-        }
-        addObject(Mutation, 100, 425);
+        Slider popSlider = new Slider(POP_DEFAULT, 2500, 150, this, "Population", Color.RED, 50, "popSlider", true);
+        addObject(popSlider, 325, 200);
+        Slider sizeSlider = new Slider(SIZE_DEFAULT, 100, 150, this, "Map Size", Color.RED, 400, "sizeSlider", true);
+        addObject(sizeSlider, 325, 300);
+        Slider speedSlider = new Slider(SPEED_DEFAULT, 100, 150, this, "Speed", Color.RED, 400, "speedSlider", true);
+        addObject(speedSlider, 325, 400);
+        Slider difficultySlider = new Slider(DIFFICULTY_DEFAULT, 4, 150, this, "Difficulty", Color.RED, 400, "difficultySlider", 2);
+        addObject(difficultySlider, 325, 500);
+        Slider mutationRateSlider = new Slider(MUTATION_DEFAULT, 1, 150, this, "Mutation", Color.RED, 400, "mutationSlider", .03f);       
+        mutationRateSlider.setroundValues(false);        
+        addObject(mutationRateSlider, 100, 500);
+        addObject(new Text("Mutation Rate"),mutationRateSlider.x+75,mutationRateSlider.y-25);
+        addObject(new Text("Difficulty"),difficultySlider.x+75,difficultySlider.y-25);
     }
 }

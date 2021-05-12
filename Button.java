@@ -526,7 +526,10 @@ public class Button extends Actor {
                 fileOutput[i] = false;
             }
             // get the loaded maps size
-            int size = Integer.parseInt(String.valueOf(fd.getFile().charAt(fd.getFile().length() - 6)) + String.valueOf(fd.getFile().charAt(fd.getFile().length() - 5))); // Reduce the name to only number by taking the 6th and 5th last values of the string and adding them.
+            int size = Integer.parseInt(
+                String.valueOf(fd.getFile().charAt(fd.getFile().length() - 6)) 
+                + String.valueOf(fd.getFile().charAt(fd.getFile().length() - 5))
+            ); // Reduce the name to only number by taking the 6th and 5th last values of the string and adding them.
             if (size == 00) {
                 size = 100; // fix value for 100
             }

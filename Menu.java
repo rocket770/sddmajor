@@ -55,19 +55,19 @@ public class Menu extends World {
             switch(i){
                 case 0: 
                 v.setID("Population");
-                v.setValue(50);
+                v.setValue(SettingsWorld.POP_DEFAULT);
                 break;
                 case 1: 
                 v.setID("Speed");
-                v.setValue(25);
+                v.setValue(SettingsWorld.SPEED_DEFAULT);
                 break;
                 case 2: 
                 v.setID("difficultySlider");
-                v.setValue(1);
+                v.setValue(SettingsWorld.DIFFICULTY_DEFAULT);
                 break;  
                 case 3: 
                 v.setID("Map Size");
-                v.setValue(25);
+                v.setValue(SettingsWorld.SIZE_DEFAULT);
                 break; 
 
             }
