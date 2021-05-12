@@ -20,8 +20,10 @@ public class Slider extends Actor {
     private int lineCount = 4;
     private final int INCREMENTS = lineCount + 1;
     private boolean roundValues = true;
+    public Color color;
     Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, boolean LinkedToButton) {
         world.getBackground().setColor(color);
+        this.color = color;
         value = min;
         this.min = min;
         this.sliderX = sliderX;
@@ -35,6 +37,7 @@ public class Slider extends Actor {
 
     Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, float reccomended) {
         world.getBackground().setColor(color);
+        this.color = color;
         value = min;
         this.min = min;
         this.sliderX = sliderX;
@@ -118,7 +121,7 @@ public class Slider extends Actor {
         t.setText("" + value);
     }
 
-    private void drawSlider() {
+    public void drawSlider() {
         world.getBackground().drawLine(x, y, x + length, y);
         world.showText("" + min, x, y + 15);
         world.showText("" + max, x + length, y + 15);

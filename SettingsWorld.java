@@ -32,7 +32,7 @@ public class SettingsWorld extends World
         }        
         addSliders();
     }
-    
+
     public void act() {
         getBackground().setColor(Color.WHITE);
         getBackground().fill();
@@ -40,6 +40,10 @@ public class SettingsWorld extends World
         setBackground(img);
         getBackground().setColor(new Color(128,128,128));
         getBackground().fillRect(60, 100, 537, 450);
+        for(Slider s: getObjects(Slider.class)) {
+            getBackground().setColor(s.color);
+            s.drawSlider();
+        }
     }
 
     private void addSliders() {
