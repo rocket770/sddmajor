@@ -60,7 +60,7 @@ public class SettingsWorld extends World
         addObject(speedSlider, 325, 400);
         Slider difficultySlider = new Slider(DIFFICULTY_DEFAULT, 4, 150, this, "Difficulty", Color.RED, 400, "difficultySlider", 2);
         addObject(difficultySlider, 325, 500);
-        Slider mutationRateSlider = new Slider(MUTATION_DEFAULT, 1, 150, this, "Mutation", Color.RED, 400, "mutationSlider", .03f);       
+        Slider mutationRateSlider = new Slider(MUTATION_DEFAULT, 1, 150, this, "Mutation", Color.RED, 400, "mutationSlider", .05f);       
         mutationRateSlider.setroundValues(false);        
         addObject(mutationRateSlider, 100, 500);
         addObject(new Text("Mutation Rate"),mutationRateSlider.x+75,mutationRateSlider.y-25);

@@ -54,6 +54,7 @@ public class MyWorld extends World {
     public int cols, rows;
     public int size;
     private Text genFinishedText = new Text("");
+    private boolean foundMiddle = false;
 
     // A* Algortihm
     private Cell start;
@@ -394,13 +395,16 @@ public class MyWorld extends World {
                 currentCell.showNow(Color.PINK);
             }
             grid.get(i).simulateLines();
-            if (grid.get(i).x == getWidth() / 2 && grid.get(i).y == getHeight() / 2) {
+            if (!foundMiddle && grid.get(i).x == getWidth() / 2 && grid.get(i).y == getHeight() / 2) {
                 grid.get(i).middle = true;
+                foundMiddle = true;
                 middleIndex = i;
                 end = grid.get(i);
                 gx = grid.get(i).x;
                 gy = grid.get(i).y;
                 grid.get(i).show();
+            } else if(grid.get(i).middle) {
+              grid.get(i).showNow(Color.GREEN); 
             }
         }
     }
