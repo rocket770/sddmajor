@@ -89,10 +89,9 @@ public class Cell extends Actor {
             };
         for (int i = 0; i < Walls.length; i++) {
             int offset = i * 4;
-            //if(world.getClass().equals(LevelEditor.class)){
             if (Walls[i]) {
                 world.getBackground().drawLine(locations[offset], locations[offset + 1], locations[offset + 2], locations[offset + 3]);
-            }
+            } 
         }
         //Check if wall should be drawn, if side value is true
     }

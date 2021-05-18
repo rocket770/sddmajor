@@ -311,38 +311,8 @@ public class MyWorld extends World {
             }
         }
     }
-
-    protected void createGrid() {
-        if (neighborsSearched.size() != 0 || !startGen && canGenGrid) {
-            initalizeGridSpot();
-            // Step 1, Pick random neighbour, mark as visited
-            Cell neighbor = currentCell.checkNeighbors();
-            if (neighbor != null) {
-                neighbor.visited = true;
-                // Step 2 add current cell to stack of tracked cells
-                neighborsSearched.add(currentCell);
-                // Step 3 Remove the walls of conjoining cells
-                removeWalls(currentCell, neighbor);
-                // Step 4, set to next neighbor position to restart the loop
-                currentCell = neighbor;
-            } else if (neighborsSearched.size() > 0) { // If the track has run out of cells or come to a dead end, start from the previous spot and search (backtrack movement)
-                currentCell = neighborsSearched.remove((neighborsSearched.size()) - 1);
-            }
-            drawCells();
-        } else if (!finishedDrawing) {
-            if (difficulty != 4) {
-                makeEasy();
-            }
-            Greenfoot.setSpeed(speed);
-            addNeighbour();
-            drawCells();
-            addObject(new FramesPerSecond(), getWidth() - 70, 30);
-            makeButtons();
-            finishedDrawing = true;
-        }
-    }
-
-    private void makeEasy() {
+    
+     private void makeEasy() {
         for (Cell cell: grid) {
             int randNumber = Greenfoot.getRandomNumber(3); // the lower the difficulty, the higher chance to remove a random wall
             int choice = Greenfoot.getRandomNumber(difficulty);
@@ -379,6 +349,38 @@ public class MyWorld extends World {
         settings = new Button(this, new Color(128, 128, 128), 300, 560, "Settings", 30, 18);
         addObject(settings, 0, 0);
     }
+
+    protected void createGrid() {   //bfs - recursive backtrack starter
+        if (neighborsSearched.size() != 0 || !startGen && canGenGrid) {
+            initalizeGridSpot();
+            // Step 1, Pick random neighbour, mark as visited
+            Cell neighbor = currentCell.checkNeighbors();
+            if (neighbor != null) {
+                neighbor.visited = true;
+                // Step 2 add current cell to stack of tracked cells
+                neighborsSearched.add(currentCell);
+                // Step 3 Remove the walls of conjoining cells
+                removeWalls(currentCell, neighbor);
+                // Step 4, set to next neighbor position to restart the loop
+                currentCell = neighbor;
+            } else if (neighborsSearched.size() > 0) { // If the track has run out of cells or come to a dead end, start from the previous spot and search (backtrack movement)
+                currentCell = neighborsSearched.remove((neighborsSearched.size()) - 1);
+            }
+            drawCells();
+        } else if (!finishedDrawing) {
+            if (difficulty != 4) {
+                makeEasy();
+            }
+            Greenfoot.setSpeed(speed);
+            addNeighbour();
+            drawCells(); // called again to preload cells for A*
+            addObject(new FramesPerSecond(), getWidth() - 70, 30);
+            makeButtons();
+            finishedDrawing = true;
+        }
+    }
+
+   
 
     private void initalizeGridSpot() {
         startGen = true;

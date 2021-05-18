@@ -47,7 +47,6 @@ public class Pointer extends Actor {
     private void removeWall() {
         world = (LevelEditor) getWorld();
         if (mouse != null && Greenfoot.mouseClicked(null) &&!world.settings.pause) {
-
             for (Cell cell: world.grid) {
                 int x = cell.x; // current cell's values
                 int y = cell.y;
@@ -56,20 +55,16 @@ public class Pointer extends Actor {
                     int yleft = world.grid.get(world.grid.indexOf(cell) - 1).y;
                     if ((mx >= x && mx <= x + world.size && my >= y && my <= y + world.size) || (mx >= xleft && mx <= xleft + world.size && my >= yleft && my <= yleft + world.size)) { // check if we are the the left or right of a vertical 
                         if (mx <= x + hitboxOffset && mx >= x - hitboxOffset) {
-                            
-                                cell.Walls[3] = !cell.Walls[3];
-                                world.grid.get(world.grid.indexOf(cell) - 1).Walls[1] = !world.grid.get(world.grid.indexOf(cell) - 1).Walls[1];
-                            
+                            cell.Walls[3] = !cell.Walls[3];
+                            world.grid.get(world.grid.indexOf(cell) - 1).Walls[1] = !world.grid.get(world.grid.indexOf(cell) - 1).Walls[1];
                         }
                     }
                     int xup = world.grid.get(world.grid.indexOf(cell) - world.cols).x; // get cell above's values so the offset works on both above and below the wall
                     int yup = world.grid.get(world.grid.indexOf(cell) - world.cols).y;
                     if ((mx >= x && mx <= x + world.size && my >= y && my <= y + world.size) || (mx >= xup && mx <= xup + world.size && my >= yup && my <= yup + world.size)) { // check if we are above or below a horizontal wall
                         if (my <= y + hitboxOffset && my >= y - hitboxOffset) {
-                           
-                                cell.Walls[0] = !cell.Walls[0];
-                                world.grid.get(world.grid.indexOf(cell) - world.cols).Walls[2] = !world.grid.get(world.grid.indexOf(cell) - world.cols).Walls[2];
-                  
+                            cell.Walls[0] = !cell.Walls[0];
+                            world.grid.get(world.grid.indexOf(cell) - world.cols).Walls[2] = !world.grid.get(world.grid.indexOf(cell) - world.cols).Walls[2];
                         }
                     }
                 } catch (Exception e) {
@@ -78,7 +73,6 @@ public class Pointer extends Actor {
                 }
             }
         }
-        
-        
+
     }
 }

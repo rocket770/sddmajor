@@ -102,7 +102,7 @@ public class Network extends Actor {
     //add all together from stats
     private void calculateFitnessSum() {
         for (int i = 0; i < genomes.size(); i++) {
-            fitnessSum = genomes.get(i).fitness;
+            fitnessSum += genomes.get(i).fitness;
         }
     }
 

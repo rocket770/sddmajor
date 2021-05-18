@@ -38,10 +38,10 @@ public class LevelEditor extends MyWorld {
         addObject(new Pointer(), 0, 0);
         difficulty = 4;
         for (Cell grid: grid) {
-            grid.show();
+            grid.show(); // add all background lines
         }
         for (Wall wall: world.getObjects(Wall.class)) {
-            wall.makeTransparnet();
+           wall.makeTransparnet(); // make then go slightly see through when clicked
         }
     }
 

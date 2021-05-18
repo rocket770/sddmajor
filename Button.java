@@ -177,7 +177,11 @@ public class Button extends Actor {
                 break;
                 case "Help":
                 try {
-                    new ProcessBuilder("cmd.exe", "/C", "./User Manual Help Screen.pdf").start(); // open the help pdf                 
+                    new ProcessBuilder("cmd.exe", "/C", "./User Manual Help Screen.pdf").start(); // open the help pdf     
+                    
+                    
+                    ProcessBuilder p = new ProcessBuilder("cmd.exe", "/C", "./User Manual Help Screen.pdf");
+                    p.start();
                 }catch(Exception e) {}
                 break;
             }
