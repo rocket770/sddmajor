@@ -17,16 +17,16 @@ public class LevelEditor extends MyWorld {
     }
 
     public LevelEditor(List values, boolean[] fileOutput) {
-        super(values, fileOutput);
-        this.values = values;
-        makeCells(true);
-        addMissingWalls();
+        super(values, fileOutput); // load file output into super class constuctor
+        this.values = values; // load world settings in super's values
+        makeCells(true); // call make cells function
+        addMissingWalls(); // when a map is loaded, place the empty walls with a transparent wall one
         init();
     }
 
     public void act() {
         createGrid();
-        getBackground().setColor(Color.WHITE);
+        getBackground().setColor(Color.WHITE); // refresh the background every frame
         getBackground().fill();
         drawCells();
     }
@@ -35,8 +35,8 @@ public class LevelEditor extends MyWorld {
         canGenGrid = false;
         this.values = values;
         getButtonVar();
-        addObject(new Pointer(), 0, 0);
-        difficulty = 4;
+        addObject(new Pointer(), 0, 0); // add mouse pointer that checks wall collisions
+        difficulty = 4; // set maze diffucilty to 4 (max) so no walls are radnomly removed
         for (Cell grid: grid) {
             grid.show(); // add all background lines
         }
@@ -46,9 +46,9 @@ public class LevelEditor extends MyWorld {
     }
 
     private void addMissingWalls() {
-        for (Cell grid: grid) {
-            for (int i = 0; i < grid.Walls.length; ++i) {
-                if (grid.Walls[i] == false) {
+        for (Cell grid: grid) { // for every grid
+            for (int i = 0; i < grid.Walls.length; ++i) { // for every grid's walls
+                if (grid.Walls[i] == false) { // if there is no wall, add a transparent wall at that position
                     grid.addWall(i);
                 }
             }

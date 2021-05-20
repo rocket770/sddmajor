@@ -126,7 +126,7 @@ public class MyWorld extends World {
         cols = getWidth() / size;
         rows = getHeight() / size;
         addObject(genFinishedText, getWidth()/2, 100);
-        setPaintOrder(Button.class, getBackground().getClass(), Text.class, Overlay.class, CollisionRayCast.class, Wall.class, mazeRunner.class);
+        setPaintOrder(Button.class, getBackground().getClass(), Text.class, Overlay.class, CollisionRayCast.class, Wall.class, MazeRunner.class);
         makeCells(preLoad);
         if (solveMap) {
             currentCell = grid.get(0);
@@ -168,9 +168,9 @@ public class MyWorld extends World {
 
     private void enableAI() {
         if (finishedDrawing && found) {
-            if (!createdPop) {
-                network = new Network(population);
-                for(Cell grid: grid) grid.show();
+            if (!createdPop) { // do all prerequestes for the simulation - do once
+                network = new Network(population); // initilze the population
+                for(Cell grid: grid) grid.show(); // load all the walls into the map 
                 addObject(new Wall(600, false, null, -1), 300, 0); // borders
                 addObject(new Wall(600, false, null, -1), 300, 599);
                 addObject(new Wall(600, true, null, -1), 599, 300);
@@ -178,14 +178,14 @@ public class MyWorld extends World {
                 removeObject(genFinishedText);
                 createdPop = true;      
             }
-            controllPop();
+            controllPop(); // do once the maze has been generated and solved
 
         }
     }
 
-    private float getPercentageGen() {
+    private float getPercentageGen() { // not 100% percentae accurate but very close (as some walls may be visited twice on the way back)
         for (int i = 0; i < grid.size(); i++) {
-            if (grid.get(i).visited) finishedSum += 1;
+            if (grid.get(i).visited) finishedSum += 1; // calculate how many cells have been visited by the maze generator
         }
         return (float)((finishedSum / grid.size()) * 50.0f); //  *100  /2
     }
@@ -237,7 +237,7 @@ public class MyWorld extends World {
         // }
         // }).start();
 
-        if (network.allmazeRunnersDead()) {
+        if (network.allMazeRunnersDead()) {
             //genetic algorithm
             network.calculateAllFitnesses();
             network.naturalSelection();
@@ -250,7 +250,7 @@ public class MyWorld extends World {
         }
     }
 
-    public void toggleBestPath() {
+    public void toggleBestPath() { // for all of the paths in the world, call the toggle method 
         for (int i = 1; i <pathNumbers.length; i++) {            
             pathNumbers[i].toggle();
         }
@@ -289,8 +289,8 @@ public class MyWorld extends World {
     }
 
     protected void drawNewMap(){
-        for (int j = 0; j < rows; j++) { //y
-            for (int i = 0; i < cols; i++) { //x
+        for (int j = 0; j < rows; j++) { // for all y
+            for (int i = 0; i < cols; i++) { //for all x
                 Cell cell = new Cell(i, j); // make square
                 grid.add(cell); // add to grid list
             }
@@ -311,8 +311,8 @@ public class MyWorld extends World {
             }
         }
     }
-    
-     private void makeEasy() {
+
+    private void makeEasy() {
         for (Cell cell: grid) {
             int randNumber = Greenfoot.getRandomNumber(3); // the lower the difficulty, the higher chance to remove a random wall
             int choice = Greenfoot.getRandomNumber(difficulty);
@@ -336,7 +336,7 @@ public class MyWorld extends World {
         }
     }
 
-    private void makeButtons() {
+    private void makeButtons() { // instansiate new button objects to add them to the world
         info = new Button(this, new Color(128, 128, 128), 200, 560, "Info", 30, 18);
         addObject(info, 0, 0);
 
@@ -350,7 +350,7 @@ public class MyWorld extends World {
         addObject(settings, 0, 0);
     }
 
-    protected void createGrid() {   //bfs - recursive backtrack starter
+    protected void createGrid() {   //bfs + recursive backtrack function
         if (neighborsSearched.size() != 0 || !startGen && canGenGrid) {
             initalizeGridSpot();
             // Step 1, Pick random neighbour, mark as visited
@@ -380,11 +380,10 @@ public class MyWorld extends World {
         }
     }
 
-   
 
-    private void initalizeGridSpot() {
-        startGen = true;
-        currentCell.visited = true;
+    private void initalizeGridSpot() { // every frame while the grid is still being generated
+        if(!startGen) startGen = true; // mark generation has started
+        currentCell.visited = true; // mark the current cell as visited
         getBackground().setColor(Color.RED);
         String genFinished = Math.round(getPercentageGen()) - 1 > 1 ? "Generating Map: " + (Math.round(getPercentageGen()) - 1) + "%..." : "Generating Map: " + (Math.round(getPercentageGen())) + "%..."; // if statement to never show a negative number in generation
         genFinishedText.setText(genFinished);
@@ -392,13 +391,13 @@ public class MyWorld extends World {
     }
 
     public void drawCells() {
-        for (int i = 0; i < grid.size(); i++) {
-            if (neighborsSearched.size() != 0) {
-                currentCell.showNow(Color.PINK);
+        for (int i = 0; i < grid.size(); i++) { 
+            if (neighborsSearched.size() != 0) { // if there is still cells to be searched, set the current cells color to pink
+                currentCell.showNow(Color.PINK); 
             }
-            grid.get(i).simulateLines();
+            grid.get(i).simulateLines(); // draw all lines ot backgorund every frame
             if (!foundMiddle && grid.get(i).x == getWidth() / 2 && grid.get(i).y == getHeight() / 2) {
-                grid.get(i).middle = true;
+                grid.get(i).middle = true; // get the middle
                 foundMiddle = true;
                 middleIndex = i;
                 end = grid.get(i);
@@ -406,7 +405,7 @@ public class MyWorld extends World {
                 gy = grid.get(i).y;
                 grid.get(i).show();
             } else if(grid.get(i).middle) {
-              grid.get(i).showNow(Color.GREEN); 
+              grid.get(i).showNow(Color.GREEN);  // set the middle to green.
             }
         }
     }
@@ -414,7 +413,7 @@ public class MyWorld extends World {
     // begin A*
     private void addNeighbour() {
         for (int i = 0; i < grid.size(); i++) {
-            grid.get(i).addNeighborsForGeneration();
+            grid.get(i).addNeighborsForGeneration(); //get all thier neighbours again
         }
     }
 
@@ -445,7 +444,7 @@ public class MyWorld extends World {
         int lowest = 0;
         for (int i = 0; i < open.size(); i++) {
             if (open.get(i).f < open.get(lowest).f) {
-                lowest = i;
+                lowest = i; // get the lowest score by searching through them and getting the lowst
             }
         }
         return lowest;
@@ -453,11 +452,11 @@ public class MyWorld extends World {
 
     private void getFoundPath(Cell current) {
         bestPath = new Stack < Cell > (); // save path
-        Cell pathCell = current;
+        Cell pathCell = current; 
         bestPath.push(pathCell);
         while (pathCell.previous != null) { // backtrack on previousvisited cells
             bestPath.push(pathCell.previous);
-            pathCell = pathCell.previous;
+            pathCell = pathCell.previous; // add them to the list
         }
         drawBest();
         found = true;
@@ -485,14 +484,14 @@ public class MyWorld extends World {
 
     private void drawBest() {
         pathNumbers = new Text[bestPath.size()];
-        for (int i = 1; i < bestPath.size(); i++) {
+        for (int i = 1; i < bestPath.size(); i++) { // for all the ones in the best path, give them a text object representing thier number on the apth
             pathNumbers[i] = new Text("" + bestPath.get(i).getNumber());
             addObject(pathNumbers[i], bestPath.get(i).x + size / 2, bestPath.get(i).y + size / 2);
         }
         drawCells();
     }
 
-    private boolean obstacleBetween(Cell neighbour, Cell current) {
+    private boolean obstacleBetween(Cell neighbour, Cell current) { // calculate if there is a wall in the cell or one in the way at the nieghbouring cell
         try {
             if (grid.indexOf(current) == grid.indexOf(neighbour) + cols && (neighbour.checkBelow() || current.checkTop())) {
                 return true;

@@ -10,11 +10,11 @@ import java.util.Arrays;
  * @version (a version number or a date)
  */
 public class Network extends Actor {
-    public List<mazeRunner> genomes = new ArrayList<mazeRunner>();
+    public List<MazeRunner> genomes = new ArrayList<MazeRunner>();
     public float fitnessSum;
     public int gen = 1;
     public int lowest;
-    public int bestmazeRunner = 0; //the index of the best dot in the genomes[]
+    public int bestMazeRunner = 0; //the index of the best dot in the genomes[]
     public float bestFitness = 0.0f;
     private int minStep = 1200;
     public CollisionRayCast colBox;
@@ -24,7 +24,7 @@ public class Network extends Actor {
     Network(int size) {
         world = (MyWorld) MyWorld.world;
         for (int i = 0; i < size; i++) {
-            genomes.add(new mazeRunner());
+            genomes.add(new MazeRunner());
         }
         makeThread();
         genomes.get(0).isBest = true; // Set first runner to best to correctly update frame, not ideal but much more optimazed than overlapping each maze for every runner, rather than only the best. 
@@ -70,7 +70,7 @@ public class Network extends Actor {
     }
 
     //returns whether all the genomes are either dead or have reached the goal
-    public synchronized boolean allmazeRunnersDead() {
+    public synchronized boolean allMazeRunnersDead() {
         for (int i = 0; i < genomes.size(); i++) {
             if (!genomes.get(i).dead && !genomes.get(i).reachedGoal) {
                 return false;
@@ -81,21 +81,21 @@ public class Network extends Actor {
 
     //gets the next generation of genomes
     public void naturalSelection() {
-        mazeRunner[] newmazeRunners = new mazeRunner[genomes.size()]; //next gen
+        MazeRunner[] newMazeRunners = new MazeRunner[genomes.size()]; //next gen
         setBest();
         fitnessSum = 0;
         calculateFitnessSum();
         //get baby from best
-        newmazeRunners[0] = genomes.get(bestmazeRunner).Breed(false);
-        newmazeRunners[0].isBest = true;
-        for (int i = 1; i < newmazeRunners.length; i++) {
+        newMazeRunners[0] = genomes.get(bestMazeRunner).Breed(false);
+        newMazeRunners[0].isBest = true;
+        for (int i = 1; i < newMazeRunners.length; i++) {
             //select parent based on fitness
-            mazeRunner parent = selectParent();
+            MazeRunner parent = selectParent();
             //get baby from them
-            newmazeRunners[i] = parent.Breed(true);
+            newMazeRunners[i] = parent.Breed(true);
         }
         getLowestMove();
-        genomes = Arrays.asList(newmazeRunners.clone());
+        genomes = Arrays.asList(newMazeRunners.clone());
         gen++;
     }
 
@@ -107,7 +107,7 @@ public class Network extends Actor {
     }
 
     //chooses from the population to return random runner in population influenced by fitness)
-    private mazeRunner selectParent() {
+    private MazeRunner selectParent() {
         Random random = new Random();
         float randOffset = random.nextFloat() * (fitnessSum);
         float fitSum = 0;
@@ -123,7 +123,7 @@ public class Network extends Actor {
     private void getLowestMove() {
         for (int i = 0; i < genomes.size(); i++) {
             if (lowest == 0 && genomes.get(i).reachedGoal)
-                lowest = genomes.get(bestmazeRunner).steps;
+                lowest = genomes.get(bestMazeRunner).steps;
             if (genomes.get(i).steps < lowest && genomes.get(i).reachedGoal)
                 lowest = genomes.get(i).steps;
         }
@@ -153,12 +153,12 @@ public class Network extends Actor {
     //finds the dot with the highest fitness and sets it as the best dot
     private void setBest() {
         int maxIndex = getMaxIndexOfMaxFitness();
-        bestmazeRunner = maxIndex;
-        bestFitness = genomes.get(bestmazeRunner).fitness;
+        bestMazeRunner = maxIndex;
+        bestFitness = genomes.get(bestMazeRunner).fitness;
         //if this dot reached the goal then reset the minimum number of steps it takes to get to the goal
-        if (genomes.get(bestmazeRunner).reachedGoal) {
-            minStep = genomes.get(bestmazeRunner).steps;
+        if (genomes.get(bestMazeRunner).reachedGoal) {
+            minStep = genomes.get(bestMazeRunner).steps;
         }
-        //System.out.println(genomes[bestmazeRunner].fitness);
+        //System.out.println(genomes[bestMazeRunner].fitness);
     }
 }

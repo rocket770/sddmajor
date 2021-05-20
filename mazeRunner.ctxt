@@ -1,8 +1,8 @@
 #BlueJ class context
-comment0.target=mazeRunner
+comment0.target=MazeRunner
 comment0.text=\r\n\ RULES\:\r\n\ \ -\ If\ a\ runner\ travels\ through\ a\ wall\ in\ the\ maze,\ they\ arepunihsed\ an\ killed.\r\n\ \ -\ If\ a\ runner\ travels\ of\ the\ reccomened\ track\ and\ dies,\ they\ are\ punished.\r\n\ \ -\ If\ a\ runner\ dies\ on\ the\ reccomened\ track\ they\ are\ rewarded.\r\n\ \ -\ If\ a\ runner\ dies\ on\ the\ reccomened\ track,\ closer\ to\ the\ goal,\ they\ are\ made\ the\ best.\r\n\ \ -\ After\ a\ generation,\ the\ runners\ will\ take\ the\ moveset\ from\ the\ current\ best\ runner\ and\ mutate\ its\ move\ in\ a\ set\ randomly.\r\n\ \ -\ Moves\ have\ a\ higher\ chance\ of\ mutation\ the\ futher\ they\ are\ in\ the\ set.\r\n\ \ -\ If\ a\ dot\ has\ reached\ the\ goal,\ they\ will\ no\ longer\ be\ punished.\r\n\ \ -\ If\ many\ dots\ reach\ the\ goal,\ their\ rewards\ are\ then\ based\ on\ how\ many\ moves\ it\ took\ them,\ where\ less\ are\ encouraged.\r\n\ \ -\ The\ best\ pathway\ through\ the\ maze\ is\ determined\ via\ a\ heuristic\ based\ algorithm,where\ cells\ that\ are\ closer\ to\ the\ goal\ are\ favoured\ in\ a\ path.\ \r\n\ \ -\ The\ runners\ do\ not\ need\ to\ follow\ the\ reccomened\ path\ as\ long\ as\ they\ reach\ the\ goal\ and\ dont\ die.\ It\ is\ only\ thier\ to\ guide\ them.\r\n\ \ -\ The\ best\ runner\ is\ enocuraged\ to\ stick\ to\ the\ corners\ of\ the\ current\ cell,\ to\ allow\ other\ runners\ to\ progress\ pass\ it\ with\ a\ larger\ opening.\r\n
 comment1.params=
-comment1.target=mazeRunner()
+comment1.target=MazeRunner()
 comment10.params=
 comment10.target=void\ update()
 comment11.params=
@@ -12,7 +12,7 @@ comment12.target=void\ checkDeath()
 comment13.params=
 comment13.target=void\ calculateFitness()
 comment14.params=crossOver
-comment14.target=mazeRunner\ Breed(boolean)
+comment14.target=MazeRunner\ Breed(boolean)
 comment2.params=
 comment2.target=void\ initDimensions()
 comment3.params=

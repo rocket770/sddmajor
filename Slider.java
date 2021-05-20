@@ -87,11 +87,15 @@ public class Slider extends Actor {
 
     private void updateButton() {
         percentMoved = (float)(((sliderX - x) / length * (max - min)) + min); // get distance up bar, turn it into a percent, multiply it by the amount of values we have and add the miniunum
-        if(ID == "sizeSlider") {
-            if(!(600 % percentMoved != 0) && percentMoved !=40) {
-                lastValue = (int) percentMoved;
-            } else percentMoved = (percentMoved % getWorld().getWidth() == 0 && percentMoved !=40)?++percentMoved:lastValue;
+        if(ID == "sizeSlider") {    // the sizeSlider has limits so just custom code the limitation in here
+            if(!(600 % percentMoved != 0) && percentMoved !=40) { // if its not 40 and a factor of world size
+                lastValue = (int) percentMoved; // update last working value
+            } else percentMoved = (percentMoved % getWorld().getWidth() == 0 && percentMoved !=40)?++percentMoved:lastValue; // or set it to its last value
         }
+        updateAllButtons();
+    }
+
+    private void updateAllButtons() {
         for (int i = 0; i < world.getObjects(Button.class).size(); i++) {
             if (world.getObjects(Button.class).get(i).text == type) {
                 world.getObjects(Button.class).get(i).value = (int)percentMoved;
@@ -110,7 +114,7 @@ public class Slider extends Actor {
         sliderX = ((double)(length * (value - min)) / (max - min)) + x; // just re-arranged the percent moved equtaion, in terms of mX honestly i didnt think it would work
         setLocation((int) Math.round(sliderX), y);
     }
-    
+
     public void setroundValues(boolean roundValues) {
         this.roundValues = roundValues;
     }

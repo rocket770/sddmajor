@@ -12,10 +12,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CollisionRayCast extends AdvancedActor implements Runnable {
     MyWorld world;
-    mazeRunner runner;
+    MazeRunner runner;
     boolean hasExecuted = false;
     GreenfootImage image = new GreenfootImage(2, 2);
-    private List<mazeRunner> genomes;
+    private List<MazeRunner> genomes;
     public boolean isRunning = true;
     public boolean stopped = false;
 
@@ -25,7 +25,7 @@ public class CollisionRayCast extends AdvancedActor implements Runnable {
         raycast.setMaxLength(12); // set a defeault length, it really doesnt matter
     }
 
-    public CollisionRayCast(List<mazeRunner> genomes) {
+    public CollisionRayCast(List<MazeRunner> genomes) {
         setImage(image);
         getImage().fill();
         this.genomes = genomes;
@@ -49,9 +49,9 @@ public class CollisionRayCast extends AdvancedActor implements Runnable {
     public void run() {
         onStart(); // this seems very inefficent but since it is running on its own thread, seperate from greenfoot, we can now use it while mainting ~300-700 fps
         while (isRunning) { // dont kill the thread, however we can chose to kill it if we want
-            while (!world.network.allmazeRunnersDead()) { // dont update the thread at a null state  -Dangoures even if the object is syncronyzed and wrapped by a boolean field
+            while (!world.network.allMazeRunnersDead()) { // dont update the thread at a null state  -Dangoures even if the object is syncronyzed and wrapped by a boolean field
                 try {
-                    for (mazeRunner runner: genomes) { // loop through population given
+                    for (MazeRunner runner: genomes) { // loop through population given
                         //runner = currentRunner;
                         if (!runner.dead) {
                             setRotation(runner.getRotation()); // shoot a ray cast from the actor with thier rotation and look x units infront
