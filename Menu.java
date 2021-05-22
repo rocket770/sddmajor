@@ -17,16 +17,16 @@ public class Menu extends World {
 
     public Menu(List<Value> values) {
         super(600, 600, 1);
-        this.values = values;         
+        this.values = values;   // load values from settings world      
         init();
     }
 
     public void act() {
-        getBackground().setColor(Color.WHITE);
+        getBackground().setColor(Color.WHITE); // re fresh screen
         getBackground().fill();
-        GreenfootImage img = new GreenfootImage("TitleScreen.gif");
+        GreenfootImage img = new GreenfootImage("TitleScreen.gif"); // re paint background image
         setBackground(img);
-        getBackground().setColor(new Color(128,128,128));
+        getBackground().setColor(new Color(128,128,128)); // re draw rect tangle backdrop
         getBackground().fillRect(127, 100, 337, 450);
     }
 
@@ -38,7 +38,7 @@ public class Menu extends World {
         System.out.println("\n");
     }
 
-    private void generateButtons() {
+    private void generateButtons() { // initailze all buttons and add them to the world 
         Button switchWorld = new Button(this, Color.ORANGE, 232, 200, "Enter World", "switchWorld", new Color(128, 128, 128), 45);
         addObject(switchWorld,0,0);
         Button customEditor = new Button(this, Color.ORANGE, 232, 270, "Custom Level", "Util", new Color(128, 128, 128), 45);
@@ -75,7 +75,7 @@ public class Menu extends World {
                 break; 
 
             }
-            values.add(v);
+            values.add(v); // add the value object to the array
         }
     }
 

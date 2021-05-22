@@ -51,7 +51,7 @@ public class SettingsWorld extends World
         }
     }
 
-    private void addSliders() { // add all sliders
+    private void addSliders() { // add all sliders and add them to world 
         Slider popSlider = new Slider(POP_DEFAULT, 2500, 150, this, "Population", Color.RED, 50, "popSlider", true);
         addObject(popSlider, 325, 200);
         Slider sizeSlider = new Slider(SIZE_DEFAULT, 100, 150, this, "Map Size", Color.RED, 400, "sizeSlider", true);

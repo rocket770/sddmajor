@@ -45,7 +45,7 @@ public class MazeRunner extends AdvancedActor {
     private void initDimensions() {
         height = world.getHeight();
         width = world.getWidth();
-        sizeX = world.size / 6;
+        sizeX = world.size / 6; // scale the size based on the size of the world
         sizeY = sizeX;
         collisionOffset = sizeX + 6;
     }
@@ -87,7 +87,7 @@ public class MazeRunner extends AdvancedActor {
 
     }
 
-    public void mutate() {
+    public void mutate() { // change some of the direction vector to new ones randomly
         for (int i = 0; i < brain.directions.length; i++) {
             float rand = random.nextFloat();
             if (i > (int) brain.directions.length / 1.38) { // bais favouring later directions to mutate
@@ -104,7 +104,7 @@ public class MazeRunner extends AdvancedActor {
             }
         }
     }
-    //moves the MazeRunner forceording to the brains directions
+    //moves the Maze Runner forceording to the brains directions
     public void search() {
         if (brain.directions.length > brain.step) { //if there are still directions left then set the forceeleration as the next PVector in the direcitons array
             force = brain.directions[brain.step];
@@ -113,7 +113,7 @@ public class MazeRunner extends AdvancedActor {
             dead = true;
         }
         //apply the forceeleration and move the MazeRunner
-        if (velocity.x() < 1) velocity.add(force); 
+        if (velocity.x() < 2) velocity.add(force); 
         location.add(velocity);
     }
 
@@ -125,7 +125,7 @@ public class MazeRunner extends AdvancedActor {
     }
 
     private void updateBackground() {
-        if (isBest) {
+        if (isBest) { // only clear the background from 1 maze runner, if we do every one its too slow and will not render the others 
             world.getBackground().setColor(Color.WHITE);
             world.getBackground().fill();
             world.drawCells();

@@ -4,11 +4,11 @@ public class Wall extends Actor {
     private int index;
     public Wall(int length, boolean side ,Cell cell, int arrayIndex) {
         getImage().setColor(Color.BLACK);
-        GreenfootImage img = side?new GreenfootImage(1,length):new GreenfootImage(length,1);
+        GreenfootImage img = side?new GreenfootImage(1,length):new GreenfootImage(length,1); // draw a sraight lines either horizontally or vertically
         setImage(img);
         getImage().fill();
-        this.cell = cell;
-        this.index = arrayIndex;
+        this.cell = cell; /// give it the cell it represents
+        this.index = arrayIndex; // give it the value in the array of the cell it represents
     }
 
     public Cell getCell() {
@@ -20,6 +20,6 @@ public class Wall extends Actor {
     }
 
     public void makeTransparnet() {
-        getImage().setTransparency(10);
+        getImage().setTransparency(10); // make image transparent for level editor 
     }
 }

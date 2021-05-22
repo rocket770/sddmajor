@@ -70,9 +70,9 @@ public class Network extends Actor {
     }
 
     //returns whether all the genomes are either dead or have reached the goal
-    public synchronized boolean allMazeRunnersDead() {
+    public synchronized boolean allMazeRunnersDead() { // synchronized to run in time with the thread
         for (int i = 0; i < genomes.size(); i++) {
-            if (!genomes.get(i).dead && !genomes.get(i).reachedGoal) {
+            if (!genomes.get(i).dead && !genomes.get(i).reachedGoal) { // if everything is dead, return true
                 return false;
             }
         }
@@ -81,22 +81,22 @@ public class Network extends Actor {
 
     //gets the next generation of genomes
     public void naturalSelection() {
-        MazeRunner[] newMazeRunners = new MazeRunner[genomes.size()]; //next gen
-        setBest();
-        fitnessSum = 0;
-        calculateFitnessSum();
+        MazeRunner[] newMazeRunners = new MazeRunner[genomes.size()]; // intilaze new generations population
+        setBest(); // pick the best
+        fitnessSum = 0; // reset fitness sum
+        calculateFitnessSum(); // get new one
         //get baby from best
-        newMazeRunners[0] = genomes.get(bestMazeRunner).Breed(false);
-        newMazeRunners[0].isBest = true;
-        for (int i = 1; i < newMazeRunners.length; i++) {
+        newMazeRunners[0] = genomes.get(bestMazeRunner).Breed(false); // breed the best through regualr mutation but the rest with cross-over breeding
+        newMazeRunners[0].isBest = true; // the 0th one is saved with the best maze runners directions
+        for (int i = 1; i < newMazeRunners.length; i++) { // breed everything else with a cross over of the best maze runner
             //select parent based on fitness
             MazeRunner parent = selectParent();
-            //get baby from them
+            //get output of cross over breed
             newMazeRunners[i] = parent.Breed(true);
         }
         getLowestMove();
-        genomes = Arrays.asList(newMazeRunners.clone());
-        gen++;
+        genomes = Arrays.asList(newMazeRunners.clone()); // fill array with new population
+        gen++; // increase end of generation
     }
 
     //add all together from stats
@@ -120,11 +120,11 @@ public class Network extends Actor {
         return null;
     }
 
-    private void getLowestMove() {
+    private void getLowestMove() { // just search the list for the maze runner with the lostest steps 
         for (int i = 0; i < genomes.size(); i++) {
-            if (lowest == 0 && genomes.get(i).reachedGoal)
-                lowest = genomes.get(bestMazeRunner).steps;
-            if (genomes.get(i).steps < lowest && genomes.get(i).reachedGoal)
+            if (lowest == 0 && genomes.get(i).reachedGoal) // set the starting value to the previously best maze runner 
+                lowest = genomes.get(bestMazeRunner).steps; 
+            if (genomes.get(i).steps < lowest && genomes.get(i).reachedGoal) // then compare them to each other
                 lowest = genomes.get(i).steps;
         }
     }
@@ -141,7 +141,7 @@ public class Network extends Actor {
     private int getMaxIndexOfMaxFitness() {
         float max = 0;
         int maxIndex = 0;
-        for (int i = 0; i < genomes.size(); i++) {
+        for (int i = 0; i < genomes.size(); i++) { // just search the list for the maze runner with the highest fitness
             if (genomes.get(i).fitness > max) {
                 max = genomes.get(i).fitness;
                 maxIndex = i;

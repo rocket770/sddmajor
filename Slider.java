@@ -21,6 +21,7 @@ public class Slider extends Actor {
     private final int INCREMENTS = lineCount + 1;
     private boolean roundValues = true;
     public Color color;
+    private static final int CIRCLE_RADIUS = 12;
     Slider(float min, float max, int length, World world, String type, Color color, int sliderX, String ID, boolean LinkedToButton) {
         world.getBackground().setColor(color);
         this.color = color;
@@ -51,15 +52,15 @@ public class Slider extends Actor {
     }
 
     protected void addedToWorld(World world) {
-        x = getX();
+        x = getX(); // set the moveable position indicator (circle) to the starting position
         y = getY();
-        drawSlider();
-        if (!LinkedToButton) {
+        drawSlider(); // draw slider image to background
+        if (!LinkedToButton) { // if the slider is standalone, initilize a new text object to display its current value at all times
             v = new Value();
             getWorld().addObject(v, 0, 0);
             v.setID(ID);
             v.setValue(value);
-            t = new Text("" + value);
+            t = new Text("" + value); 
             getWorld().addObject(t, x + 75, y + 30);
         }
     }
@@ -72,10 +73,10 @@ public class Slider extends Actor {
         MouseInfo mouse = Greenfoot.getMouseInfo();
         try {
             if (mouse != null && Greenfoot.mouseDragged(this)) {
-                sliderX = mouse.getX();
+                sliderX = mouse.getX(); // have the circle follow the mouses x position, but ensure it does not go past the boundarys
                 if (sliderX < x) sliderX = x;
                 if (sliderX > x + length) sliderX = x + length;
-                setLocation((int) sliderX, y);
+                setLocation((int) sliderX, y); // keep the y location the same
                 if (LinkedToButton) {
                     updateButton();
                 } else updateSlider();
@@ -95,7 +96,7 @@ public class Slider extends Actor {
         updateAllButtons();
     }
 
-    private void updateAllButtons() {
+    private void updateAllButtons() { // if its linked to a button, update its value if the slider is moved
         for (int i = 0; i < world.getObjects(Button.class).size(); i++) {
             if (world.getObjects(Button.class).get(i).text == type) {
                 world.getObjects(Button.class).get(i).value = (int)percentMoved;
@@ -103,9 +104,9 @@ public class Slider extends Actor {
         }
     }
 
-    private void updateSlider() {
+    private void updateSlider() { // set the value based on the percentage the slider has moved multipled by the diffrence in the max and min value, then add it to the minium value to keep it in range
         value = (roundValues) ? (int)(((sliderX - x) / length * (max - min)) + min) : (float)(((sliderX - x) / length * (max - min)) + min);
-        v.setValue(value);
+        v.setValue(value); // update text object to dipslay new value
         t.setText("" + value);
     }
 
@@ -120,16 +121,16 @@ public class Slider extends Actor {
     }
 
     public void setReccomended() {
-        setValue(reccomended);
-        v.setValue(value);
+        setValue(reccomended); // set this sliders value to its reccomended
+        v.setValue(value); // update display text too
         t.setText("" + value);
     }
 
     public void drawSlider() {
-        world.getBackground().drawLine(x, y, x + length, y);
-        world.showText("" + min, x, y + 15);
+        world.getBackground().drawLine(x, y, x + length, y); // draw slider to background in the correct position
+        world.showText("" + min, x, y + 15); // just use plain text to show the min and max value
         world.showText("" + max, x + length, y + 15);
-        makeCircle(12);
+        makeCircle(CIRCLE_RADIUS); // draw the circle to indicate theposition in the slider
         drawIncrementLines();
     }
 
@@ -141,7 +142,7 @@ public class Slider extends Actor {
 
     private void drawIncrementLines() {
         for (int i = 0; i < INCREMENTS; i++) {
-            world.getBackground().drawLine(x + (i * length / lineCount - 1), y, x + (i * length / lineCount - 1), y + 10);
+            world.getBackground().drawLine(x + (i * length / lineCount - 1), y, x + (i * length / lineCount - 1), y + 10); // increment lines by a ratio of the line count to the length of the line
         }
     }
 }

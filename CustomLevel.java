@@ -34,11 +34,11 @@ public class CustomLevel extends World
     }
 
     public void act() {
-        getBackground().setColor(Color.WHITE);
+        getBackground().setColor(Color.WHITE); // re fresh the background every frame
         getBackground().fill();
-        GreenfootImage img = new GreenfootImage("TitleScreen.gif");
+        GreenfootImage img = new GreenfootImage("TitleScreen.gif"); // re paint background image
         setBackground(img);
-        getBackground().setColor(new Color(128,128,128));
+        getBackground().setColor(new Color(128,128,128)); // re draw rect tangle backdrop
         getBackground().fillRect(127, 100, 337, 450);   
     }
 }

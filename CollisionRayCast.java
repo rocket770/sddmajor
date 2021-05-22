@@ -18,11 +18,11 @@ public class CollisionRayCast extends AdvancedActor implements Runnable {
     private List<MazeRunner> genomes;
     public boolean isRunning = true;
     public boolean stopped = false;
-
+    private static final int RAY_LENGTH= 12;
     Raycasting raycast = new Raycasting(this);
     {
         raycast.setDebug(false); // dont set to true with this actor! Even if you're marking this game! The thread isnt able to handle this!
-        raycast.setMaxLength(12); // set a defeault length, it really doesnt matter
+        raycast.setMaxLength(RAY_LENGTH); // set a defeault length, it really doesnt matter
     }
 
     public CollisionRayCast(List<MazeRunner> genomes) {
@@ -71,14 +71,14 @@ public class CollisionRayCast extends AdvancedActor implements Runnable {
         }
         stopped = true;
     }
-
+    // witht he synchronized tag, these mehtods may be called at anypoint even if the thread is running
     public synchronized void stopThread() {
-        isRunning = false;
+        isRunning = false; // stop while loop from executing anymore
         System.out.println("Thread Stopping!, Waiting for next cylce...");
-    }
+    } 
 
     public synchronized void startThread() {
-        isRunning = true;
+        isRunning = true; // start thread by allowing while loop to run 
         System.out.println("Thread Started!");
     }
 

@@ -17,18 +17,18 @@ public class Cell extends Actor {
     public int f, h, g;
     public Cell previous = null; // Each Cell contains a preivous cell in its path, which contains a preivous cell and so on. 
     //Boolean wall;
-    Cell(int i, int j) {
+    public Cell(int i, int j) {
         this.i = i;
         this.j = j;
         init();
-        Arrays.fill(Walls, Boolean.TRUE);
+        Arrays.fill(Walls, Boolean.TRUE); // intilaze the array as all true 
     }
 
-    Cell(int i, int j, boolean[] walls) {
+    public Cell(int i, int j, boolean[] walls) {
         this.i = i;
         this.j = j;
         init();
-        Walls = walls;
+        Walls = walls; // set the array to the one loaded in for custom levels
     }
 
     private void init() {
@@ -68,43 +68,31 @@ public class Cell extends Actor {
     }
 
     public void simulateLines() {
-        world.getBackground().setColor(Color.BLACK);
-        int[] locations = new int[] { // pre load offsets, faster to do it in a for loop rather than if statements
-                x,
-                y,
-                x + size,
-                y,
-                x + size,
-                y,
-                x + size,
-                y + size,
-                x + size,
-                y + size,
-                x,
-                y + size,
-                x,
-                y + size,
-                x,
-                y
-            };
-        for (int i = 0; i < Walls.length; i++) {
-            int offset = i * 4;
+        world.getBackground().setColor(Color.BLACK);// pre load offsets, faster to do it in a for loop rather than if statements
+        int[][] locations = new int[][] {
+                {x, y, x + size,y}, 
+                {x + size, y, x + size, y + size},
+                {x + size, y + size, x, y + size}, 
+                {x, y + size,x, y}
+        };
+        for (int i = 0; i < Walls.length; i++) { // for every wall, draw a line behind it, since the walls are chonrological from top, right, bottom, to left, there locations are always the same
             if (Walls[i]) {
-                world.getBackground().drawLine(locations[offset], locations[offset + 1], locations[offset + 2], locations[offset + 3]);
+                int offset = 0;
+                world.getBackground().drawLine(locations[i][offset], locations[i][offset+1], locations[i][offset+2], locations[i][offset+3]);
             } 
         }
         //Check if wall should be drawn, if side value is true
     }
 
     public void showNow(Color color) {
-        world.getBackground().setColor(color);
+        world.getBackground().setColor(color); // draw a coloured square within the boundarys of this cell, mainly for debugging or map loading visualation
         world.getBackground().fillRect(x + 2, y + 2, size - 2, size - 2);
     }
 
-    public void checkWalls() {
-        if (!checkedWalls) {
-            removeMiddleWalls();
-            setStartSpace();
+    public void checkWalls() { // for the middle cell (goal) 
+        if (!checkedWalls) { 
+            removeMiddleWalls(); // remove surrounding walls
+            setStartSpace(); // just get this cell to set the start space since not all of them can do it
             checkedWalls = true;
         }
     }
@@ -115,16 +103,16 @@ public class Cell extends Actor {
     }
 
     private void setStartSpace() {
-        if (world.getClass().equals(MyWorld.class)) {
+        if (world.getClass().equals(MyWorld.class)) { // only remove start space if we are in the regular world, not the level editor
             for (int i = 0; i < 2; i++) {
-                world.grid.get(i).removeAllWalls();
+                world.grid.get(i).removeAllWalls(); // the first 2 walls and thier bottom neighbours get rid of it
                 world.grid.get(i + world.cols).removeAllWalls();
             }
         }
     }
 
     private void removeAllWalls() {
-        Arrays.fill(Walls, Boolean.FALSE);
+        Arrays.fill(Walls, Boolean.FALSE); // set every wall in the walls array to false 
     }
 
     private int getIndex(int i, int j) {

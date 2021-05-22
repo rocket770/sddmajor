@@ -35,7 +35,7 @@ public class Pointer extends Actor {
     private void followMouse() {
         if (mouse != null) {
             try {
-                mx = mouse.getX();
+                mx = mouse.getX(); // follow mouse at all times
                 my = mouse.getY();
                 setLocation(mx, my);
             } catch (Exception e) {

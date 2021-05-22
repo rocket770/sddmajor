@@ -59,9 +59,9 @@ public class Button extends Actor {
         this.color = color;
         this.text = text;
         this.type = type;
-        world.getBackground().setColor(color);
+        world.getBackground().setColor(color); // draw button
         world.getBackground().fillRect(x, y, dimensions * 3, dimensions);
-        t = new Text(this.text);
+        t = new Text(this.text); // draw button text
         world.addObject(t, x + dimensions * SCALE_OFFSET / 2, y + dimensions * 2 / 5);
         updateText();
     }
