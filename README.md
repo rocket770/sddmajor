@@ -14,6 +14,11 @@ Key/Cool Features
 This demonstrates everything we learnt in the course in OOP java besides interfaces becuase I found using pure abstraction was easier for me at the time. 
 
 This requires greenfoot to be downloaded https://www.greenfoot.org/download), once installed simply doulbe click the project.greenfoot file. 
+Before you press 'Enter World', press the 'Settings' button in the menu and then the 'Set Recc' button to use the better evolution settings, the computer wont really learn with the default ones. 
+**Especially the Speed setting, having it at 20 will make it extremely slow, just set it to 100 :)**
+If you import one of the pre-saved maps, you may need to alt+tab into the file exploer pop up, this is an issue with greenfoot. 
+
+
 
 **<h>IMPORTANT</h>**
 
