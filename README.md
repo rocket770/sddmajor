@@ -11,6 +11,7 @@ Key/Cool Features
 - A Depth First Search maze Generator
 - In-game settings that can be changed in real time
 - A* Maze Solving Alogorithm 
+  - Path can be toggled on and off wiht in-game settings
 - User Manual :)
 
 This demonstrates everything we learnt in the course in OOP java besides interfaces becuase I found using pure abstraction was easier for me at the time. 
