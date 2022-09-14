@@ -1,6 +1,7 @@
 # sddmajor
 
-This was a project done for my Software Major in year 12. It is a programming written in Java using the Greenfoot IDE where the computer will generate a random maze, that is then solved and used for a set of 'species' to simulate genetic evoluation. The user is given menus and settings allowing for complete customization of evolution paramters, maze size, a customer maze editor, where files can be saved and imported later on with a custom file parser. The species goal is to solve the maze by reaching the green square in the middle. It uses the most optimal path to learn (shown by the numbers) and once it has been able to reach the goal, it will try to improve itself by getting there in less moves. The smaller the maze, the easier. 
+This was a project done for my Software Major in year 12. It is a programming written in Java using the Greenfoot IDE where the computer will generate a random maze, that is then solved and used for a set of 'species' to simulate genetic evoluation. The user is given menus and settings allowing for complete customization of evolution paramters, maze size, a customer maze editor, where files can be saved and imported later on with a custom file parser.
+The species goal is to solve the maze by reaching the green square in the middle. It uses the most optimal path to learn (shown by the numbers) and once it has been able to reach the goal, it will try to improve itself by getting there in less moves. The bigger the maze size is, the easier. (Maze Size referers to the size of the walls)
 The code is not perfect, and there are a lot of flaws and even some sections that are just poorly coded. I started this project 2 years ago and was fairly new to java. 
 
 
