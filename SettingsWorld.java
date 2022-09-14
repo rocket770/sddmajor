@@ -22,7 +22,7 @@ public class SettingsWorld extends World
     {// Create a new world with 600x600 cells with a cell size of 1x1 pixels.
         super(600, 600, 1);
         addObject(new Title("SettingsTitle.gif"), getWidth()/2, 125); // just title screen
-        Button pop = new Button(this, Color.ORANGE, 110, 185, "Population", "Var", 350, 50); // add all the buttons, sotirng them in an array is just nicer becuase thier location doesnt matter
+        Button pop = new Button(this, Color.ORANGE, 110, 185, "Population", "Var", 500, 50); // add all the buttons, sotirng them in an array is just nicer becuase thier location doesnt matter
         buttons[0] = pop;
         Button map = new Button(this, Color.ORANGE, 110, 285, "Map Size", "Var", 75, 25);
         buttons[1] = map;
