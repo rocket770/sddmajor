@@ -17,7 +17,7 @@ Key/Cool Features
 This demonstrates everything we learnt in the course in OOP java besides interfaces becuase I found using pure abstraction was easier for me at the time. 
 
 
-
+All Questions about the project should be answered inside the User Manual which can be opened by pressing the 'Help' button in the menu screen.
 
 
 **<h>IMPORTANT</h>**
