@@ -14,7 +14,9 @@ Key/Cool Features
 This demonstrates everything we learnt in the course in OOP java besides interfaces becuase I found using pure abstraction was easier for me at the time. 
 
 This requires greenfoot to be downloaded https://www.greenfoot.org/download), once installed simply doulbe click the project.greenfoot file. 
-<h>IMPORTANT</h>
+
+**<h>IMPORTANT</h>**
+
 Please note the Greenfoot IDE is not at all threadsafe, and my implementation is quite janky because of that. Do not use the IDE's 'act' or 'reset' buttons, use my own exit buttons within the 'world'. 
 Ensure you are in the menu screen when greenfoot is closed. For some reason I didnt know that daemon threads existed when I coded this lol.
 Yes, some of the code (Especially the buttons if I remember) is a little spaghetti, I wasn't super experinced in conventions at time. 
